@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ga.gradtech">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
 
 
         <meta-data
@@ -22,6 +25,11 @@
             android:value= "e521a05da3ebc754aa82f258de36a177ec064fa3"
             />
 
+=======
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value= "e521a05da3ebc754aa82f258de36a177ec064fa3" />
+>>>>>>> 1052fc805a89876a9ce29579de6b0621a7d0ab84
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
