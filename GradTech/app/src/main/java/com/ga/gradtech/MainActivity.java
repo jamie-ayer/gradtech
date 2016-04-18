@@ -10,15 +10,30 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
+<<<<<<< HEAD
     private List<Card> cards;
     private RecyclerView rv;
+=======
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = ApiKeys.twitter_key;
+    private static final String TWITTER_SECRET = ApiKeys.twitter_secret;
+
+
+    @Bind(R.id.rv)
+    RecyclerView recyclerView;
+>>>>>>> 3a82aacb92b47f0fe9f7083e192b17a0bd334987
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
