@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ga.gradtech">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,15 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-
-        <activity android:name=".CardViewActivity"></activity>
-
-=======
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value= "e521a05da3ebc754aa82f258de36a177ec064fa3" />
->>>>>>> 3a82aacb92b47f0fe9f7083e192b17a0bd334987
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
