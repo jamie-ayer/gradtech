@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="twitterapikey">e521a05da3ebc754aa82f258de36a177ec064fa3</string>
-<<<<<<< HEAD
 
 
-=======
     <string name="meetupapikey">706d2b34573816656477f315c673d7</string>
->>>>>>> 1052fc805a89876a9ce29579de6b0621a7d0ab84
 </resources>
