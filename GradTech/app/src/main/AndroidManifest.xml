@@ -13,24 +13,16 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value= "e521a05da3ebc754aa82f258de36a177ec064fa3"
             />
-
-=======
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value= "e521a05da3ebc754aa82f258de36a177ec064fa3" />
->>>>>>> 1052fc805a89876a9ce29579de6b0621a7d0ab84
     </application>
-
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
