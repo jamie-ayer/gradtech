@@ -15,15 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
 
-        <activity android:name=".CardViewActivity"></activity>
 
-=======
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value= "e521a05da3ebc754aa82f258de36a177ec064fa3" />
->>>>>>> 3a82aacb92b47f0fe9f7083e192b17a0bd334987
+            android:value= "e521a05da3ebc754aa82f258de36a177ec064fa3"
+            />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
