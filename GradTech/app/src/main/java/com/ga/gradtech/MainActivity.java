@@ -18,11 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Card> cards;
     private RecyclerView rv;
-<<<<<<< HEAD
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = ApiKeys.TWITTER_KEY;
-    private static final String TWITTER_SECRET = ApiKeys.TWITTER_SECRET;
-=======
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = ApiKeys.TWITTER_KEY;
@@ -31,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.rv)
     RecyclerView recyclerView;
->>>>>>> 1052fc805a89876a9ce29579de6b0621a7d0ab84
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
