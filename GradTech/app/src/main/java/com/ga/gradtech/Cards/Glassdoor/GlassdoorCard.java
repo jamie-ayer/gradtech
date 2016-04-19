@@ -1,4 +1,4 @@
-package com.ga.gradtech.Cards;
+package com.ga.gradtech.Cards.Glassdoor;
 
 /**
  * Created by JamieAyer on 4/18/16.

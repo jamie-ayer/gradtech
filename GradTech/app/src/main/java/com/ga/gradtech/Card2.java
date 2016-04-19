@@ -9,7 +9,7 @@ import android.widget.TextView;
  * Created by JamieAyer on 4/18/16.
  */
 
-public class Card extends RecyclerView.ViewHolder {
+public class Card2 extends RecyclerView.ViewHolder {
 
     private TextView mCompanyName;
     private TextView mLocation;
@@ -39,10 +39,10 @@ public class Card extends RecyclerView.ViewHolder {
         this.photoId = photoId;
     }
 
-    public Card(View view) {
+    public Card2(View view) {
         super(view);
-        mCompanyName = (TextView)view.findViewById(R.id.company_name);
-        mLocation = (TextView)view.findViewById(R.id.company_location);
-        photoId = (ImageView)view.findViewById(R.id.company_photo);
+        mCompanyName = (TextView)view.findViewById(R.id.company_name2);
+        mLocation = (TextView)view.findViewById(R.id.company_location2);
+        photoId = (ImageView)view.findViewById(R.id.company_photo2);
     }
 }
