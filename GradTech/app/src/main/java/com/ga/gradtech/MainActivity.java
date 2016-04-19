@@ -11,6 +11,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import com.ga.gradtech.Cards.FacebookCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Object> getSampleArrayList() {
         ArrayList<Object> items = new ArrayList<>();
         //Facebook Card
-        items.add(new Card());
+        items.add(new FacebookCard());
         //Twitter Card
         items.add(new Card2());
         items.add(new Card());
