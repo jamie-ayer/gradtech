@@ -11,7 +11,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import com.ga.gradtech.Cards.FacebookCard;
+import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;

@@ -1,4 +1,4 @@
-package com.ga.gradtech.Cards;
+package com.ga.gradtech.Cards.Facebook;
 
 import com.ga.gradtech.Card;
 
