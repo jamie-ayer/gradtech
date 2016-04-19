@@ -1,5 +1,6 @@
 package com.ga.gradtech;
 
+import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,9 +43,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8;
 
     List<Object> cards;
+    Activity mainActivity;
 
-    RVAdapter(List<Object> cards) {
-
+    RVAdapter(List<Object> cards, Activity activity) {
+        this.mainActivity = activity;
         this.cards = cards;
     }
 
@@ -57,35 +59,35 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         switch (viewType) {
             case FACEBOOK:
                 View v1 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
-                viewHolder = new Card(v1);
+                viewHolder = new CardViewHolder(v1); ///WHERE THE VIEW HOLDER FIRST COMES INTO PLAY
                 break;
             case TWITTER:
-                View v2 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new Card2(v2);
+                View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
+                viewHolder = new CardViewHolder(v2);
                 break;
             case TECHCRUNCH:
                 View v3 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new Card2(v3);
+                viewHolder = new CardViewHolder(v3);
                 break;
             case TRELLO:
                 View v4 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new Card2(v4);
+                viewHolder = new CardViewHolder(v4);
                 break;
             case GITHUB:
                 View v5 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new Card2(v5);
+                viewHolder = new CardViewHolder(v5);
                 break;
             case GLASSDOOR:
                 View v6 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new Card2(v6);
+                viewHolder = new CardViewHolder(v6);
                 break;
             case LINKEDIN:
                 View v7 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new Card2(v7);
+                viewHolder = new CardViewHolder(v7);
                 break;
             case YELP:
                 View v8 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new Card2(v8);
+                viewHolder = new CardViewHolder(v8);
                 break;
             default:
                 View v = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
@@ -104,36 +106,36 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
             case FACEBOOK:
-                Card vh1 = (Card) viewHolder;
-                configureViewHolder1(vh1, position);
+                CardViewHolder vh1 = (CardViewHolder) viewHolder;
+                configureFacebookViewHolder1(vh1, position);
                 break;
             case TWITTER:
-                Card2 vh2 = (Card2) viewHolder;
-                configureViewHolder2(vh2);
+                CardViewHolder vh2 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh2, position);
                 break;
             case TECHCRUNCH:
-                Card2 vh3 = (Card2) viewHolder;
-                configureViewHolder2(vh3);
+                CardViewHolder vh3 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh3, position);
                 break;
             case TRELLO:
-                Card2 vh4 = (Card2) viewHolder;
-                configureViewHolder2(vh4);
+                CardViewHolder vh4 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh4, position);
                 break;
             case GITHUB:
-                Card2 vh5 = (Card2) viewHolder;
-                configureViewHolder2(vh5);
+                CardViewHolder vh5 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh5, position);
                 break;
             case GLASSDOOR:
-                Card2 vh6 = (Card2) viewHolder;
-                configureViewHolder2(vh6);
+                CardViewHolder vh6 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh6, position);
                 break;
             case LINKEDIN:
-                Card2 vh7 = (Card2) viewHolder;
-                configureViewHolder2(vh7);
+                CardViewHolder vh7 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh7, position);
                 break;
             case YELP:
-                Card2 vh8 = (Card2) viewHolder;
-                configureViewHolder2(vh8);
+                CardViewHolder vh8 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh8, position);
                 break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
@@ -147,19 +149,21 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     }
 
-    private void configureViewHolder1(Card vh1, int position) {
+    private void configureFacebookViewHolder1(CardViewHolder vh1, int position) {
         Card card = (Card) cards.get(position);
-        if (card != null) {
-            vh1.getmCompanyName().setText("Facebook");
-            vh1.getmLocation().setText("Somewhere");
-            vh1.getPhotoId().setImageResource(R.drawable.twitter_icon);
-        }
+
+        vh1.mCompanyName.setText("Facebook");
+        vh1.mCompanyLocation.setText("Somewhere");
+        vh1.mCompanyIcon.setImageResource(R.drawable.facebook_icon);
+
     }
 
-    private void configureViewHolder2(Card2 vh2) {
-        vh2.getmCompanyName();
-        vh2.getmLocation();
-        vh2.getPhotoId().setImageResource(R.drawable.twitter_icon);
+    private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
+        Card2 card = (Card2) cards.get(position);
+
+        vh2.mCompanyName.setText("Twitter");
+        vh2.mCompanyLocation.setText("Somewhere");
+        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
 
     @Override

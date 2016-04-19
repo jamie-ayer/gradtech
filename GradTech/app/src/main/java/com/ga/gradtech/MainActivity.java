@@ -44,25 +44,27 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Object> getSampleArrayList() {
         ArrayList<Object> items = new ArrayList<>();
-        items.add(new Card(getLayoutInflater().inflate(R.layout.card_view_layout, null)));
-        items.add(new Card2(getLayoutInflater().inflate(R.layout.card_view_layout_2, null)));
-        items.add(new Card2(getLayoutInflater().inflate(R.layout.card_view_layout_2, null)));
-        items.add(new Card2(getLayoutInflater().inflate(R.layout.card_view_layout_2, null)));
-        items.add(new Card2(getLayoutInflater().inflate(R.layout.card_view_layout_2, null)));
-        items.add(new Card2(getLayoutInflater().inflate(R.layout.card_view_layout_2, null)));
-        items.add(new Card2(getLayoutInflater().inflate(R.layout.card_view_layout_2, null)));
-        items.add(new Card2(getLayoutInflater().inflate(R.layout.card_view_layout_2, null)));
+        //Facebook Card
+        items.add(new Card());
+        //Twitter Card
+        items.add(new Card2());
+        items.add(new Card());
+        items.add(new Card());
+        items.add(new Card());
+        items.add(new Card());
+        items.add(new Card());
+
 
         return items;
     }
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(cards);
+        RVAdapter adapter = new RVAdapter(cards, this);
         recyclerView.setAdapter(adapter);
     }
 
     private void bindDataToAdapter() {
-        recyclerView.setAdapter(new RVAdapter(getSampleArrayList()));
+        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this));
     }
 
     private void setLayoutManager() {
