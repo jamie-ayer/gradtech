@@ -15,11 +15,16 @@ import butterknife.ButterKnife;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.ga.gradtech.Cards.Calander.CalendarCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
+import com.ga.gradtech.Cards.SoundCloud.Config;
+import com.ga.gradtech.Cards.SoundCloud.SoundCloudCard;
+import com.ga.gradtech.Cards.SoundCloud.Track;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         items.add(new FacebookCard());
         //Twitter Card
         items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
+        items.add(new SoundCloudCard());
+        items.add(new CalendarCard());
         items.add(new Card2());
         items.add(new Card2());
         items.add(new Card2());

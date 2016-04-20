@@ -1,8 +1,6 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,27 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
+import com.ga.gradtech.Cards.Calander.CalendarCard;
+import com.ga.gradtech.Cards.Calander.CalenderCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
+import com.ga.gradtech.Cards.SoundCloud.SCService;
+import com.ga.gradtech.Cards.SoundCloud.SoundCloud;
+import com.ga.gradtech.Cards.SoundCloud.SoundCloudCard;
+import com.ga.gradtech.Cards.SoundCloud.SoundCloudCardViewHolder;
+import com.ga.gradtech.Cards.SoundCloud.SoundCloudConfigurer;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -59,7 +51,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
-    private final int FACEBOOK = 0, TWITTER = 1, SOUNDCLOUD = 2, TRELLO = 3, GITHUB = 4;
+    private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, SOUNDCLOUD = 3, CALENDAR = 4;
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
 
     List<Object> cards;
@@ -69,6 +61,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.mainActivity = activity;
         this.cards = cards;
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -85,17 +78,17 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v2);
                 break;
-            case SOUNDCLOUD:
+            case MEETUP:
                 View v3 = inflater.inflate(R.layout.card_sound_cloud_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v3);
                 break;
-            case TRELLO:
-                View v4 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new CardViewHolder(v4);
+            case SOUNDCLOUD:
+                View v4 = inflater.inflate(R.layout.card_sound_cloud_layout, viewGroup, false);
+                viewHolder = new SoundCloudCardViewHolder(v4);
                 break;
-            case GITHUB:
-                View v5 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new CardViewHolder(v5);
+            case CALENDAR:
+                View v5 = inflater.inflate(R.layout.calender_card_layout, viewGroup, false);
+                viewHolder = new CalenderCardViewHolder(v5);
                 break;
             case GLASSDOOR:
                 View v6 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
@@ -144,17 +137,17 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 CardViewHolder vh2 = (CardViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh2, position);
                 break;
-            case SOUNDCLOUD:
+            case MEETUP:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh3, position);
                 break;
-            case TRELLO:
-                CardViewHolder vh4 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh4, position);
+            case SOUNDCLOUD:
+                SoundCloudCardViewHolder vh4 = (SoundCloudCardViewHolder) viewHolder;
+                configureSoundCloudViewHolder(vh4);
                 break;
-            case GITHUB:
-                CardViewHolder vh5 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh5, position);
+            case CALENDAR:
+                CalenderCardViewHolder vh5 = (CalenderCardViewHolder) viewHolder;
+                configureCalendarViewHolder(vh5);
                 break;
             case GLASSDOOR:
                 CardViewHolder vh6 = (CardViewHolder) viewHolder;
@@ -195,6 +188,18 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 //        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
 
+    private void configureSoundCloudViewHolder(SoundCloudCardViewHolder vh) {
+        SoundCloudConfigurer SC = new SoundCloudConfigurer(vh);
+        SC.initSoundCloud();
+
+        //SCService sc = SoundCloud.getService();
+
+    }
+
+    private void configureCalendarViewHolder(CalenderCardViewHolder vh) {
+
+    }
+
     @Override
     public int getItemCount() {
         return cards.size();
@@ -209,6 +214,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             return TWITTER;
         }else if (cards.get(position) instanceof NotePadCard){
             return NOTEPAD;
+        } else if (cards.get(position) instanceof SoundCloudCard) {
+            return SOUNDCLOUD;
+        } else if (cards.get(position) instanceof CalendarCard) {
+            return CALENDAR;
         }
         return super.getItemViewType(position);
     }
