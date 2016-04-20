@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.rv)
     RecyclerView recyclerView;
 
+    //This is for testing only
+    Button goToTestActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
         initializeAdapter();
 
         bindDataToAdapter();
+
+        //This is for testing only
+        goToTestActivity = (Button) findViewById(R.id.goToTestActivity);
+        goToTestActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, )
+            }
+        });
 
     }
 
