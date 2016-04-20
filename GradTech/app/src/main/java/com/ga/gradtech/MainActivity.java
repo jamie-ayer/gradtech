@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.ga.gradtech.Cards.Calendar.CalendarCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.twitter.sdk.android.Twitter;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Card2());
         items.add(new Card2());
         items.add(new NotePadCard());
+        items.add(new CalendarCard());
 
 
         return items;

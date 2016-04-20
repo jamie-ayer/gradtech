@@ -1,5 +1,6 @@
 package com.ga.gradtech.Cards.Calendar;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,7 +11,7 @@ import com.ga.gradtech.R;
 /**
  * Created by samsiu on 4/20/16.
  */
-public class CalendarViewHolder {
+public class CalendarCardViewHolder extends RecyclerView.ViewHolder{
 
     public EditText mCalendarTitleEditText;
     public EditText mCalendarDescriptionEditText;
@@ -22,7 +23,8 @@ public class CalendarViewHolder {
     public ListView mCalendarListView;
 
 
-    public CalendarViewHolder(View itemView) {
+    public CalendarCardViewHolder(View itemView) {
+        super(itemView);
         this.mCalendarTitleEditText = (EditText)itemView.findViewById(R.id.card_calendar_title_editText);
         this.mCalendarDescriptionEditText = (EditText)itemView.findViewById(R.id.card_calendar_description_editText);
         this.mCalendarLocationEditText = (EditText)itemView.findViewById(R.id.card_calendar_location_editText);

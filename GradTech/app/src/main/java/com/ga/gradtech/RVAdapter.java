@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ga.gradtech.Cards.Calendar.CalendarCardViewHolder;
+import com.ga.gradtech.Cards.Calendar.CalendarViewHolderConfigurer;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
@@ -56,7 +58,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     private final int FACEBOOK = 0, TWITTER = 1, TECHCRUNCH = 2, TRELLO = 3, GITHUB = 4;
-    private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
+    private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9, CALENDAR = 10;
 
     List<Object> cards;
     Activity mainActivity;
@@ -108,6 +110,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case NOTEPAD:
                 View v9 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
                 viewHolder = new NotePadCardViewHolder(v9);
+                break;
+            case CALENDAR:
+                View v10 = inflater.inflate(R.layout.card_calendar_layout, viewGroup, false);
+                viewHolder = new CalendarCardViewHolder(v10);
                 break;
             default:
                 View v = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
@@ -170,6 +176,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 notePadConfigurer.initNotePad();
                 notePadConfigurer.setNotePadEditButtonListener();
                 notePadConfigurer.setNotePadSaveButtonListener();
+                break;
+            case CALENDAR:
+                CalendarCardViewHolder vh10 = (CalendarCardViewHolder) viewHolder;
+                CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh10, position, mainActivity);
                 break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
