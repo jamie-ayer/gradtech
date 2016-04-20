@@ -50,4 +50,7 @@ dependencies {
     }
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'net.smartam.leeloo:oauth2-common:0.1'
+    compile 'net.smartam.leeloo:oauth2-client:0.1'
 }
