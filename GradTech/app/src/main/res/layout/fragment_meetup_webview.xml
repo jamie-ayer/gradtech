@@ -3,4 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <WebView
+        android:id="@+id/meetup_webView_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </WebView>
+
 </LinearLayout>
