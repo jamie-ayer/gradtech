@@ -1,6 +1,7 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,9 @@ import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookFeedObject;
+import com.ga.gradtech.Cards.NotePad.NotePadCard;
+import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
+import com.ga.gradtech.Cards.NotePad.NotepadSQLiteHelper;
 import com.google.gson.Gson;
 
 
@@ -65,7 +69,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     private final int FACEBOOK = 0, TWITTER = 1, TECHCRUNCH = 2, TRELLO = 3, GITHUB = 4;
-    private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8;
+    private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
 
     List<Object> cards;
     Activity mainActivity;
@@ -114,6 +118,9 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 View v8 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
                 viewHolder = new CardViewHolder(v8);
                 break;
+            case NOTEPAD:
+                View v9 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
+                viewHolder = new NotePadCardViewHolder(v9);
             default:
                 View v = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
                 viewHolder = new CardViewHolder(v);
@@ -162,6 +169,9 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 CardViewHolder vh8 = (CardViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh8, position);
                 break;
+            case NOTEPAD:
+                NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
+                configureNotePadViewHolder(vh9, position);
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
                 configureDefaultViewHolder(vh, position);
@@ -265,6 +275,17 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         vh2.mCompanyLocation.setText("Somewhere");
         vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
+
+
+    private void configureNotePadViewHolder(final NotePadCardViewHolder vh9, int position){
+        NotePadCard card = (NotePadCard) cards.get(position);
+
+
+
+
+
+    }
+
 
     @Override
     public int getItemCount() {
