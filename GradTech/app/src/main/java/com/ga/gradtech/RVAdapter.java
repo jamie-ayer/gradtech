@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -23,6 +27,8 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
+import com.ga.gradtech.Cards.Facebook.FacebookFeedObject;
+import com.google.gson.Gson;
 
 
 import java.util.Arrays;
@@ -34,6 +40,8 @@ import java.util.List;
  */
 
 public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+    private static String TAG = RVAdapter.class.getCanonicalName();
 
     /**
      * PlaceHolder for now
@@ -168,8 +176,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private void configureFacebookViewHolder1(final FacebookCardViewHolder vh1, int position) {
         FacebookCard card = (FacebookCard) cards.get(position);
-
-
+        
         boolean loggedIn = isFacebookLoggedIn();
         if(!loggedIn){
             Collection<String> permissions = Arrays.asList("public_profile",
@@ -184,10 +191,12 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                             Toast toast = Toast.makeText(mainActivity.getApplicationContext(), "SuccessfulLogin", Toast.LENGTH_SHORT);
                             toast.show();
                         }
+
                         @Override
                         public void onCancel() {
                             // App code
                         }
+
                         @Override
                         public void onError(FacebookException exception) {
                             // App code
@@ -195,8 +204,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     }
             );
         }
-
-
 
         final ShareDialog shareDialog = new ShareDialog(mainActivity);
 
@@ -216,9 +223,34 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             });
         }
 
+        if(vh1.mFbGetFeedButton != null){
+            vh1.mFbGetFeedButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new GraphRequest(
+                            AccessToken.getCurrentAccessToken(),
+                            "/me/feed",
+                            null,
+                            HttpMethod.GET,
+                            new GraphRequest.Callback() {
+                                public void onCompleted(GraphResponse response) {
+                                    Gson gson = new Gson();
+                                    String fbFeedJson = response.getJSONObject().toString();
+                                    FacebookFeedObject fbFeed = gson.fromJson(fbFeedJson, FacebookFeedObject.class);
 
+                                    Log.d(TAG, "onCompleted: " + response.getJSONObject().toString());
 
-
+                                    for(FacebookFeedObject.FbData data : fbFeed.getData()){
+                                        vh1.mFbFeedTextView.setText(data.getMessage() +
+                                                "\n" +
+                                                vh1.mFbFeedTextView.getText().toString());
+                                    }
+                                }
+                            }
+                    ).executeAsync();
+                }
+            });
+        }
     }
 
     public boolean isFacebookLoggedIn(){
