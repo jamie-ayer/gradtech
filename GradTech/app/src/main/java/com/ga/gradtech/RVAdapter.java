@@ -25,11 +25,10 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
-import com.ga.gradtech.Cards.Facebook.FacebookFeedObject;
+import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
-import com.ga.gradtech.Cards.NotePad.NotepadSQLiteHelper;
-import com.google.gson.Gson;
+import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -87,7 +86,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 viewHolder = new CardViewHolder(v2);
                 break;
             case SOUNDCLOUD:
-                View v3 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
+                View v3 = inflater.inflate(R.layout.card_sound_cloud_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v3);
                 break;
             case TRELLO:
@@ -131,8 +130,15 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
             case FACEBOOK:
+                Log.d(TAG, "onBindViewHolder: ===>>> inOnBindViewHolder");
                 FacebookCardViewHolder vh1 = (FacebookCardViewHolder) viewHolder;
-                configureFacebookViewHolder1(vh1, position);
+                FacebookViewHolderConfigurer fbConfigurer = new FacebookViewHolderConfigurer(vh1, position, mainActivity);
+                if(!fbConfigurer.isFacebookLoggedIn()) {
+                    Log.d(TAG, "onBindViewHolder: ====>>> Facebook logged in");
+                    fbConfigurer.initFacebookLogin();
+                }
+                fbConfigurer.facebookShare();
+                fbConfigurer.facebookGetFeed();
                 break;
             case TWITTER:
                 CardViewHolder vh2 = (CardViewHolder) viewHolder;
@@ -164,7 +170,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 break;
             case NOTEPAD:
                 NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
-                configureNotePadViewHolder(vh9, position);
+                NotepadViewHolderConfigurer notePadConfigurer = new NotepadViewHolderConfigurer(vh9, position, mainActivity);
+                notePadConfigurer.initNotePad();
+                notePadConfigurer.setNotePadEditButtonListener();
+                notePadConfigurer.setNotePadSaveButtonListener();
                 break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
@@ -178,90 +187,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     }
 
-    private void configureFacebookViewHolder1(final FacebookCardViewHolder vh1, int position) {
-//        FacebookCard card = (FacebookCard) cards.get(position);
-
-        boolean loggedIn = isFacebookLoggedIn();
-        if(!loggedIn){
-            Collection<String> permissions = Arrays.asList("public_profile",
-                    "user_friends",
-                    "user_status",
-                    "user_posts");
-            LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
-            LoginManager.getInstance().registerCallback(MainActivity.callbackManager,
-                    new FacebookCallback<LoginResult>() {
-                        @Override
-                        public void onSuccess(LoginResult loginResult) {
-                            Toast toast = Toast.makeText(mainActivity.getApplicationContext(), "SuccessfulLogin", Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
-
-                        @Override
-                        public void onCancel() {
-                            // App code
-                        }
-
-                        @Override
-                        public void onError(FacebookException exception) {
-                            // App code
-                        }
-                    }
-            );
-        }
-
-        final ShareDialog shareDialog = new ShareDialog(mainActivity);
-
-        if(vh1.mFbShareButton != null){
-            vh1.mFbShareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (ShareDialog.canShow(ShareLinkContent.class)) {
-                        ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentTitle("Testing")
-                                .setContentDescription("This is my test share from app")
-                                .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                                .build();
-                        shareDialog.show(content);
-                    }
-                }
-            });
-        }
-
-        if(vh1.mFbGetFeedButton != null){
-            vh1.mFbGetFeedButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me/feed",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    Gson gson = new Gson();
-                                    String fbFeedJson = response.getJSONObject().toString();
-                                    FacebookFeedObject fbFeed = gson.fromJson(fbFeedJson, FacebookFeedObject.class);
-
-                                    Log.d(TAG, "onCompleted: " + response.getJSONObject().toString());
-
-                                    for(FacebookFeedObject.FbData data : fbFeed.getData()){
-                                        vh1.mFbFeedTextView.setText(data.getMessage() +
-                                                "\n" +
-                                                vh1.mFbFeedTextView.getText().toString());
-                                    }
-                                }
-                            }
-                    ).executeAsync();
-                }
-            });
-        }
-    }
-
-    public boolean isFacebookLoggedIn(){
-        return AccessToken.getCurrentAccessToken() != null;
-    }
-
-
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
         Card2 card = (Card2) cards.get(position);
 //
@@ -269,64 +194,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 //        vh2.mCompanyLocation.setText("Somewhere");
 //        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
-
-
-    private void configureNotePadViewHolder(final NotePadCardViewHolder vh9, int position){
-   //     NotePadCard card = (NotePadCard) cards.get(position);
-
-        final NotepadSQLiteHelper db = new NotepadSQLiteHelper(mainActivity);
-        //db.insertNotepadItem(1, "FirstNote", "This is my first test note.");
-
-        Cursor cursor = NotepadSQLiteHelper.getInstance(mainActivity).getNotepadItem();
-        cursor.moveToFirst();
-        String description = cursor.getString(cursor.getColumnIndex(NotepadSQLiteHelper.COL_NOTEPAD_DESCRIPTION));
-        Log.d(TAG, String.format("onCreate: description: %s ", description));
-
-        vh9.mCurrentText.setText(description);
-
-        vh9.mEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int editTextVisibility = vh9.mEditText.getVisibility();
-                Log.d(TAG, "onClick: ==>>> Visibility " + editTextVisibility);
-
-                if (editTextVisibility == 4) { // INVISIBLE
-                    //String curText = currentText.getText().toString();
-                    Cursor cursor = NotepadSQLiteHelper.getInstance(mainActivity).getNotepadItem();
-                    cursor.moveToFirst();
-                    String description = cursor.getString(cursor.getColumnIndex(NotepadSQLiteHelper.COL_NOTEPAD_DESCRIPTION));
-
-                    Log.d(TAG, "onClick: Edit Clicked ===>>> INVISIBLE 4 - Bring to visible " + description);
-                    vh9.mEditText.setText(description);
-                    cursor.close();
-                    db.close();
-                } else if (editTextVisibility == 0) { // VISIBLE
-                    vh9.mEditText.setText(vh9.mEditText.getText().toString());
-                    Log.d(TAG, "onClick: =====>>>>>  VISIBLE 0");
-                }
-
-                vh9.mCurrentText.setVisibility(View.INVISIBLE);
-                vh9.mEditText.setVisibility(View.VISIBLE);
-            }
-        });
-
-        vh9.mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String edText = vh9.mEditText.getText().toString();
-                Log.d(TAG, "onClick: ===>>>> SaveButton " + edText);
-                vh9.mCurrentText.setText(edText);
-                db.updateNotepadeItem(1, "FirstNote", edText);
-                vh9.mCurrentText.setVisibility(View.VISIBLE);
-                vh9.mEditText.setVisibility(View.INVISIBLE);
-                db.close();
-
-            }
-        });
-
-        cursor.close();
-    }
-
 
     @Override
     public int getItemCount() {
@@ -343,10 +210,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }else if (cards.get(position) instanceof NotePadCard){
             return NOTEPAD;
         }
-
         return super.getItemViewType(position);
     }
-
-
 }
 
