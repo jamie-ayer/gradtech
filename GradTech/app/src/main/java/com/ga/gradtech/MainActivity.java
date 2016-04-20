@@ -1,5 +1,6 @@
 package com.ga.gradtech;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +12,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.ga.gradtech.Cards.Facebook.FacebookCard;
+import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static CallbackManager callbackManager;
 
     private List<Object> cards;
 
@@ -29,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
+
+        callbackManager = CallbackManager.Factory.create();
 
         ButterKnife.bind(this);
 
@@ -40,19 +50,21 @@ public class MainActivity extends AppCompatActivity {
         initializeAdapter();
 
         bindDataToAdapter();
+
     }
 
     private ArrayList<Object> getSampleArrayList() {
         ArrayList<Object> items = new ArrayList<>();
         //Facebook Card
-        items.add(new Card());
+        items.add(new FacebookCard());
         //Twitter Card
         items.add(new Card2());
-        items.add(new Card());
-        items.add(new Card());
-        items.add(new Card());
-        items.add(new Card());
-        items.add(new Card());
+        items.add(new Card2());
+        items.add(new Card2());
+        items.add(new Card2());
+        items.add(new Card2());
+        items.add(new Card2());
+        items.add(new NotePadCard());
 
 
         return items;
@@ -73,4 +85,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 }
