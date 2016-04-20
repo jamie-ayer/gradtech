@@ -1,5 +1,6 @@
 package com.ga.gradtech.Cards.Meetup;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -54,8 +55,12 @@ public class MeetupLoginFragment extends Fragment {
 
             if (code != null){
                 new MeetupRetrieveAccessTokenTask().execute(uri);
+                Log.i(TAG, "The redirect uri contained the code " + code);
+//                setResult(RESULT_OK, getIntent());
+            } else if (error != null) {
+                Log.e(TAG, "The redirect uri contained error");
+//                setResult(RESULT_CANCELLED, getIntent());
             }
-
             return false;
         }
     }
