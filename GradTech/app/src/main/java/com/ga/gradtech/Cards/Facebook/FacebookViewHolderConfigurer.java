@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
@@ -17,8 +18,11 @@ import com.facebook.login.LoginResult;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.MainActivity;
+import com.ga.gradtech.R;
+import com.ga.gradtech.RVAdapter;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -27,6 +31,7 @@ import java.util.Collection;
  */
 public class FacebookViewHolderConfigurer {
     private static final String TAG = FacebookViewHolderConfigurer.class.getCanonicalName();
+
 
     FacebookCardViewHolder vh1;
     int position;
@@ -42,32 +47,57 @@ public class FacebookViewHolderConfigurer {
         return AccessToken.getCurrentAccessToken() != null;
     }
 
+    public void setFbLoginButtonVisibility(){
+        if(isFacebookLoggedIn()){
+            vh1.mFbLoginButton.setVisibility(View.GONE);
+        }else{
+            vh1.mFbLoginButton.setVisibility(View.VISIBLE);
+        }
+    }
 
-    public void initFacebookLogin(){
-        Collection<String> permissions = Arrays.asList("public_profile",
-                "user_friends",
-                "user_status",
-                "user_posts");
-        LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
-        LoginManager.getInstance().registerCallback(MainActivity.callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Toast toast = Toast.makeText(mainActivity.getApplicationContext(), "SuccessfulLogin", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+    public void setFbListViewVisibility(){
+        if(isFacebookLoggedIn()){
+            vh1.mFbFeedListView.setVisibility(View.VISIBLE);
+        }else{
+            vh1.mFbFeedListView.setVisibility(View.GONE);
+        }
+    }
 
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
+    public void initFbLogin(){
+        vh1.mFbLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ===>>> Facebook Button Clicked");
+                Collection<String> permissions = Arrays.asList("public_profile",
+                        "user_friends",
+                        "user_status",
+                        "user_posts");
+                //LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
+                LoginManager.getInstance().registerCallback(MainActivity.callbackManager,
+                        new FacebookCallback<LoginResult>() {
+                            @Override
+                            public void onSuccess(LoginResult loginResult) {
+                                Log.d(TAG, "onSuccess: ====>>> FBLogin Successful");
+                                setFbListViewVisibility();
+                                setFbLoginButtonVisibility();
+                                getFbFeed();
+                                Toast toast = Toast.makeText(mainActivity.getApplicationContext(), "Successful FB Login", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
 
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                }
-        );
+                            @Override
+                            public void onCancel() {
+                                Log.d(TAG, "onCancel: ===>>> FBLogin Cancel");
+                            }
+
+                            @Override
+                            public void onError(FacebookException exception) {
+                                Log.d(TAG, "onError: ======>>>> FBlogin Error");
+                            }
+                        }
+                );
+            }
+        });
     }
 
     public void facebookShare(){
@@ -89,34 +119,26 @@ public class FacebookViewHolderConfigurer {
         }
     }
 
-    public void facebookGetFeed() {
-        if (vh1.mFbGetFeedButton != null) {
-            vh1.mFbGetFeedButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me/feed",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    Gson gson = new Gson();
-                                    String fbFeedJson = response.getJSONObject().toString();
-                                    FacebookFeedObject fbFeed = gson.fromJson(fbFeedJson, FacebookFeedObject.class);
+    public void getFbFeed() {
+        if(isFacebookLoggedIn()){
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me/feed",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            Gson gson = new Gson();
+                            String fbFeedJson = response.getJSONObject().toString();
+                            FacebookFeedObject fbFeed = gson.fromJson(fbFeedJson, FacebookFeedObject.class);
 
-                                    Log.d(TAG, "onCompleted: " + response.getJSONObject().toString());
+                            Log.d(TAG, "onCompleted: " + fbFeed.getData().toString());
 
-                                    for (FacebookFeedObject.FbData data : fbFeed.getData()) {
-                                        vh1.mFbFeedTextView.setText(data.getMessage() +
-                                                "\n" +
-                                                vh1.mFbFeedTextView.getText().toString());
-                                    }
-                                }
-                            }
-                    ).executeAsync();
-                }
-            });
+                            FacebookFeedAdapter fbAdapter = new FacebookFeedAdapter(mainActivity, (ArrayList)fbFeed.getData());
+                            vh1.mFbFeedListView.setAdapter(fbAdapter);
+                        }
+                    }
+            ).executeAsync();
         }
     }
 }

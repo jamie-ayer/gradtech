@@ -12,11 +12,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/card_fb_textView"
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp" />
+
+            <ListView
+                android:id="@+id/fb_feed_listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></ListView>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/card_facebook_share_title_ediText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Facebook TESTING"/>
+            android:hint="Title"/>
+
+        <EditText
+            android:id="@+id/card_facebook_share_description_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"/>
+
+        <EditText
+            android:id="@+id/card_facebook_share_url_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="URL"/>
 
         <Button
             android:id="@+id/card_fb_share_button"
@@ -29,15 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Feed"/>
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/fb_login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:visibility="visible"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp" />
 
     </LinearLayout>
 

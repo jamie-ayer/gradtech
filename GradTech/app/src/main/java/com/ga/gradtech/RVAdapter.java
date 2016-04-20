@@ -1,19 +1,16 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.facebook.CallbackManager;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
@@ -21,9 +18,6 @@ import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
 
-
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -68,7 +62,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
@@ -129,12 +122,15 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 Log.d(TAG, "onBindViewHolder: ===>>> inOnBindViewHolder");
                 FacebookCardViewHolder vh1 = (FacebookCardViewHolder) viewHolder;
                 FacebookViewHolderConfigurer fbConfigurer = new FacebookViewHolderConfigurer(vh1, position, mainActivity);
+                fbConfigurer.setFbLoginButtonVisibility();
+                fbConfigurer.setFbListViewVisibility();
+
                 if(!fbConfigurer.isFacebookLoggedIn()){
-                    Log.d(TAG, "onBindViewHolder: ====>>> Facebook logged in");
-                    fbConfigurer.initFacebookLogin();
+                    Log.d(TAG, "onBindViewHolder: ====>>> Facebook Not logged in");
+                    fbConfigurer.initFbLogin();
                 }
                 fbConfigurer.facebookShare();
-                fbConfigurer.facebookGetFeed();
+                fbConfigurer.getFbFeed();
                 break;
             case TWITTER:
                 CardViewHolder vh2 = (CardViewHolder) viewHolder;
