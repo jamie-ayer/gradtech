@@ -82,7 +82,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 viewHolder = new CardViewHolder(v2);
                 break;
             case MEETUP:
-                View v3 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
+                View v3 = inflater.inflate(R.layout.card_meetup_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v3);
                 break;
             case TRELLO:
