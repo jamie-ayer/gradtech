@@ -121,6 +121,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case NOTEPAD:
                 View v9 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
                 viewHolder = new NotePadCardViewHolder(v9);
+                break;
             default:
                 View v = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
                 viewHolder = new CardViewHolder(v);
@@ -172,6 +173,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case NOTEPAD:
                 NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
                 configureNotePadViewHolder(vh9, position);
+                break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
                 configureDefaultViewHolder(vh, position);
@@ -185,7 +187,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     private void configureFacebookViewHolder1(final FacebookCardViewHolder vh1, int position) {
-        FacebookCard card = (FacebookCard) cards.get(position);
+//        FacebookCard card = (FacebookCard) cards.get(position);
 
         boolean loggedIn = isFacebookLoggedIn();
         if(!loggedIn){
@@ -278,12 +280,59 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 
     private void configureNotePadViewHolder(final NotePadCardViewHolder vh9, int position){
-        NotePadCard card = (NotePadCard) cards.get(position);
+   //     NotePadCard card = (NotePadCard) cards.get(position);
 
+        final NotepadSQLiteHelper db = new NotepadSQLiteHelper(mainActivity);
+        //db.insertNotepadItem(1, "FirstNote", "This is my first test note.");
 
+        Cursor cursor = NotepadSQLiteHelper.getInstance(mainActivity).getNotepadItem();
+        cursor.moveToFirst();
+        String description = cursor.getString(cursor.getColumnIndex(NotepadSQLiteHelper.COL_NOTEPAD_DESCRIPTION));
+        Log.d(TAG, String.format("onCreate: description: %s ", description));
 
+        vh9.mCurrentText.setText(description);
 
+        vh9.mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int editTextVisibility = vh9.mEditText.getVisibility();
+                Log.d(TAG, "onClick: ==>>> Visibility " + editTextVisibility);
 
+                if (editTextVisibility == 4) { // INVISIBLE
+                    //String curText = currentText.getText().toString();
+                    Cursor cursor = NotepadSQLiteHelper.getInstance(mainActivity).getNotepadItem();
+                    cursor.moveToFirst();
+                    String description = cursor.getString(cursor.getColumnIndex(NotepadSQLiteHelper.COL_NOTEPAD_DESCRIPTION));
+
+                    Log.d(TAG, "onClick: Edit Clicked ===>>> INVISIBLE 4 - Bring to visible " + description);
+                    vh9.mEditText.setText(description);
+                    cursor.close();
+                    db.close();
+                } else if (editTextVisibility == 0) { // VISIBLE
+                    vh9.mEditText.setText(vh9.mEditText.getText().toString());
+                    Log.d(TAG, "onClick: =====>>>>>  VISIBLE 0");
+                }
+
+                vh9.mCurrentText.setVisibility(View.INVISIBLE);
+                vh9.mEditText.setVisibility(View.VISIBLE);
+            }
+        });
+
+        vh9.mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String edText = vh9.mEditText.getText().toString();
+                Log.d(TAG, "onClick: ===>>>> SaveButton " + edText);
+                vh9.mCurrentText.setText(edText);
+                db.updateNotepadeItem(1, "FirstNote", edText);
+                vh9.mCurrentText.setVisibility(View.VISIBLE);
+                vh9.mEditText.setVisibility(View.INVISIBLE);
+                db.close();
+
+            }
+        });
+
+        cursor.close();
     }
 
 
@@ -295,11 +344,14 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemViewType(int position) {
 
-        if (cards.get(position) instanceof Card) {
+        if (cards.get(position) instanceof FacebookCard) {
             return FACEBOOK;
         } else if (cards.get(position) instanceof Card2) {
             return TWITTER;
+        }else if (cards.get(position) instanceof NotePadCard){
+            return NOTEPAD;
         }
+
         return super.getItemViewType(position);
     }
 

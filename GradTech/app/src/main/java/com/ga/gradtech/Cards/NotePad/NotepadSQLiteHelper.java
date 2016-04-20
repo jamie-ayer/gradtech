@@ -22,14 +22,14 @@ public class NotepadSQLiteHelper extends SQLiteOpenHelper {
     protected static final String NOTEPAD_TABLE_NAME = "NOTEPAD";
 
     // Column Names of the NOTEPAD table
-    protected static final String COL_NOTEPAD_ID = "_id";
-    protected static final String COL_NOTEPAD_ITEM = "ITEM_NAME";
-    protected static final String COL_NOTEPAD_DESCRIPTION = "DESCRIPTION";
+    public static final String COL_NOTEPAD_ID = "_id";
+    public static final String COL_NOTEPAD_ITEM = "ITEM_NAME";
+    public static final String COL_NOTEPAD_DESCRIPTION = "DESCRIPTION";
 
-    protected static final String[] NOTEPAD_COLUMNS = {COL_NOTEPAD_ID, COL_NOTEPAD_ITEM, COL_NOTEPAD_DESCRIPTION};
+    public static final String[] NOTEPAD_COLUMNS = {COL_NOTEPAD_ID, COL_NOTEPAD_ITEM, COL_NOTEPAD_DESCRIPTION};
 
     // Create Table
-    private static final String CREATE_NOTEPAD_TABLE =
+    public static final String CREATE_NOTEPAD_TABLE =
             "CREATE TABLE " + NOTEPAD_TABLE_NAME +
                     "(" +
                     COL_NOTEPAD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -37,13 +37,13 @@ public class NotepadSQLiteHelper extends SQLiteOpenHelper {
                     COL_NOTEPAD_DESCRIPTION + " TEXT )";
 
 
-    protected NotepadSQLiteHelper(Context context) {
+    public NotepadSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    private static NotepadSQLiteHelper instance;
+    public static NotepadSQLiteHelper instance;
 
-    protected static NotepadSQLiteHelper getInstance(Context context){
+    public static NotepadSQLiteHelper getInstance(Context context){
         if(instance == null){
             instance = new NotepadSQLiteHelper(context);
         }
@@ -61,7 +61,7 @@ public class NotepadSQLiteHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    protected Cursor getNotepadItem(){
+    public Cursor getNotepadItem(){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(NOTEPAD_TABLE_NAME, // a. table
@@ -75,7 +75,7 @@ public class NotepadSQLiteHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    protected void insertNotepadItem(int id, String item, String description){
+    public void insertNotepadItem(int id, String item, String description){
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -86,7 +86,7 @@ public class NotepadSQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    protected void updateNotepadeItem(int id, String item, String description){
+    public void updateNotepadeItem(int id, String item, String description){
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -95,7 +95,7 @@ public class NotepadSQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    protected void deleteNotepadItem(int id){
+    public void deleteNotepadItem(int id){
         SQLiteDatabase db = getReadableDatabase();
 
         String selection = "id = ?";
