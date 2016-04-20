@@ -53,24 +53,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
-//    public static class FacebookCardViewHolder extends RecyclerView.ViewHolder {
-//        LoginButton mFbLoginButton;
-//        TextView mFbFeedTextView;
-//        Button mFbShareButton;
-//        Button mFbGetFeedButton;
-//
-//        FacebookCardViewHolder(View itemView){
-//            super(itemView);
-//            this.mFbLoginButton = (LoginButton)itemView.findViewById(R.id.fb_login_button);
-//            this.mFbFeedTextView = (TextView)itemView.findViewById(R.id.card_fb_textView);
-//            this.mFbShareButton = (Button)itemView.findViewById(R.id.card_fb_share_button);
-//            this.mFbGetFeedButton = (Button)itemView.findViewById(R.id.card_fb_get_feed_button);
-//
-//        }
-//    }
-//
-
-
     private final int FACEBOOK = 0, TWITTER = 1, TECHCRUNCH = 2, TRELLO = 3, GITHUB = 4;
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8;
 
@@ -185,8 +167,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         FacebookCard card = (FacebookCard) cards.get(position);
 
 
-        CallbackManager callbackManager = CallbackManager.Factory.create();
-
         boolean loggedIn = isFacebookLoggedIn();
         if(!loggedIn){
             Collection<String> permissions = Arrays.asList("public_profile",
@@ -194,7 +174,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     "user_status",
                     "user_posts");
             LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
-            LoginManager.getInstance().registerCallback(callbackManager,
+            LoginManager.getInstance().registerCallback(MainActivity.callbackManager,
                     new FacebookCallback<LoginResult>() {
                         @Override
                         public void onSuccess(LoginResult loginResult) {
@@ -217,9 +197,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 
 
-//        vh1.mCompanyName.setText("Facebook");
-//        vh1.mCompanyLocation.setText("Somewhere");
-//        vh1.mCompanyIcon.setImageResource(R.drawable.facebook_icon);
+
 
     }
 
@@ -252,4 +230,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return super.getItemViewType(position);
     }
 
+
 }
+
