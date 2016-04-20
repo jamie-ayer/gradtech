@@ -9,13 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
@@ -23,7 +21,6 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
@@ -33,7 +30,6 @@ import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadSQLiteHelper;
 import com.google.gson.Gson;
-
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -60,15 +56,11 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         CardViewHolder(View itemView) {
             super(itemView);
 
-            mCardView = (CardView)itemView.findViewById(R.id.cv);
-            mCompanyName = (TextView)itemView.findViewById(R.id.company_name);
-            mCompanyLocation = (TextView)itemView.findViewById(R.id.company_location);
-            mCompanyIcon = (ImageView)itemView.findViewById(R.id.company_photo);
 
         }
     }
 
-    private final int FACEBOOK = 0, TWITTER = 1, TECHCRUNCH = 2, TRELLO = 3, GITHUB = 4;
+    private final int FACEBOOK = 0, TWITTER = 1, SOUNDCLOUD = 2, TRELLO = 3, GITHUB = 4;
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
 
     List<Object> cards;
@@ -88,13 +80,13 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         switch (viewType) {
             case FACEBOOK:
                 View v1 = inflater.inflate(R.layout.card_facebook_layout, viewGroup, false);
-                viewHolder = new FacebookCardViewHolder(v1); ///WHERE THE VIEW HOLDER FIRST COMES INTO PLAY
+                viewHolder = new FacebookCardViewHolder(v1);
                 break;
             case TWITTER:
                 View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v2);
                 break;
-            case TECHCRUNCH:
+            case SOUNDCLOUD:
                 View v3 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
                 viewHolder = new CardViewHolder(v3);
                 break;
@@ -146,7 +138,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 CardViewHolder vh2 = (CardViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh2, position);
                 break;
-            case TECHCRUNCH:
+            case SOUNDCLOUD:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh3, position);
                 break;
@@ -272,10 +264,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
         Card2 card = (Card2) cards.get(position);
-
-        vh2.mCompanyName.setText("Twitter");
-        vh2.mCompanyLocation.setText("Somewhere");
-        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
+//
+//        vh2.mCompanyName.setText("Twitter");
+//        vh2.mCompanyLocation.setText("Somewhere");
+//        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
 
 
