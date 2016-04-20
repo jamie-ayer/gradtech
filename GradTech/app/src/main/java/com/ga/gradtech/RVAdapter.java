@@ -6,9 +6,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.ga.gradtech.Cards.Facebook.FacebookCard;
+import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
+
+
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,6 +53,23 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
+//    public static class FacebookCardViewHolder extends RecyclerView.ViewHolder {
+//        LoginButton mFbLoginButton;
+//        TextView mFbFeedTextView;
+//        Button mFbShareButton;
+//        Button mFbGetFeedButton;
+//
+//        FacebookCardViewHolder(View itemView){
+//            super(itemView);
+//            this.mFbLoginButton = (LoginButton)itemView.findViewById(R.id.fb_login_button);
+//            this.mFbFeedTextView = (TextView)itemView.findViewById(R.id.card_fb_textView);
+//            this.mFbShareButton = (Button)itemView.findViewById(R.id.card_fb_share_button);
+//            this.mFbGetFeedButton = (Button)itemView.findViewById(R.id.card_fb_get_feed_button);
+//
+//        }
+//    }
+//
+
 
     private final int FACEBOOK = 0, TWITTER = 1, TECHCRUNCH = 2, TRELLO = 3, GITHUB = 4;
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8;
@@ -58,8 +90,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         switch (viewType) {
             case FACEBOOK:
-                View v1 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
-                viewHolder = new CardViewHolder(v1); ///WHERE THE VIEW HOLDER FIRST COMES INTO PLAY
+                View v1 = inflater.inflate(R.layout.card_facebook_layout, viewGroup, false);
+                viewHolder = new FacebookCardViewHolder(v1); ///WHERE THE VIEW HOLDER FIRST COMES INTO PLAY
                 break;
             case TWITTER:
                 View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
@@ -106,7 +138,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
             case FACEBOOK:
-                CardViewHolder vh1 = (CardViewHolder) viewHolder;
+                FacebookCardViewHolder vh1 = (FacebookCardViewHolder) viewHolder;
                 configureFacebookViewHolder1(vh1, position);
                 break;
             case TWITTER:
@@ -149,14 +181,52 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     }
 
-    private void configureFacebookViewHolder1(CardViewHolder vh1, int position) {
-        Card card = (Card) cards.get(position);
+    private void configureFacebookViewHolder1(final FacebookCardViewHolder vh1, int position) {
+        FacebookCard card = (FacebookCard) cards.get(position);
 
-        vh1.mCompanyName.setText("Facebook");
-        vh1.mCompanyLocation.setText("Somewhere");
-        vh1.mCompanyIcon.setImageResource(R.drawable.facebook_icon);
+
+        CallbackManager callbackManager = CallbackManager.Factory.create();
+
+        boolean loggedIn = isFacebookLoggedIn();
+        if(!loggedIn){
+            Collection<String> permissions = Arrays.asList("public_profile",
+                    "user_friends",
+                    "user_status",
+                    "user_posts");
+            LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            Toast toast = Toast.makeText(mainActivity.getApplicationContext(), "SuccessfulLogin", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        @Override
+                        public void onCancel() {
+                            // App code
+                        }
+                        @Override
+                        public void onError(FacebookException exception) {
+                            // App code
+                        }
+                    }
+            );
+        }
+
+
+
+
+
+//        vh1.mCompanyName.setText("Facebook");
+//        vh1.mCompanyLocation.setText("Somewhere");
+//        vh1.mCompanyIcon.setImageResource(R.drawable.facebook_icon);
 
     }
+
+    public boolean isFacebookLoggedIn(){
+        return AccessToken.getCurrentAccessToken() != null;
+    }
+
 
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
         Card2 card = (Card2) cards.get(position);

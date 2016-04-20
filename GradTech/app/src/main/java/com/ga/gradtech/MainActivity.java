@@ -11,6 +11,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import com.facebook.FacebookSdk;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
@@ -49,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
         items.add(new FacebookCard());
         //Twitter Card
         items.add(new Card2());
-        items.add(new Card());
-        items.add(new Card());
-        items.add(new Card());
-        items.add(new Card());
-        items.add(new Card());
+        items.add(new Card2());
+        items.add(new Card2());
+        items.add(new Card2());
+        items.add(new Card2());
+        items.add(new Card2());
 
 
         return items;
