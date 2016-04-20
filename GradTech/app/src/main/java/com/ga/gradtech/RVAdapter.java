@@ -208,7 +208,5 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
         return super.getItemViewType(position);
     }
-
-
 }
 

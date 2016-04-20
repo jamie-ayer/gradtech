@@ -13,7 +13,6 @@ import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 public class NotepadViewHolderConfigurer {
     private static final String TAG = NotepadViewHolderConfigurer.class.getCanonicalName();
 
-
     NotePadCardViewHolder vh9;
     int position;
     Activity mainActivity;
@@ -25,12 +24,19 @@ public class NotepadViewHolderConfigurer {
     }
 
     public void initNotePad(){
-        //db.insertNotepadItem(1, "FirstNote", "This is my first test note.");
+        NotepadSQLiteHelper db = new NotepadSQLiteHelper(mainActivity);
         Cursor cursor = NotepadSQLiteHelper.getInstance(mainActivity).getNotepadItem();
         cursor.moveToFirst();
-        String description = cursor.getString(cursor.getColumnIndex(NotepadSQLiteHelper.COL_NOTEPAD_DESCRIPTION));
-        Log.d(TAG, String.format("onCreate: description: %s ", description));
-        vh9.mCurrentText.setText(description);
+        if(cursor.getCount() == 0){
+            Log.d(TAG, "initNotePad: TABLE IS EMPTY <<<<<=========");
+            String initText = "My Notes";
+            db.insertNotepadItem(1, "FirstNote", initText);
+            vh9.mEditText.setText(initText);
+        }else{
+            String description = cursor.getString(cursor.getColumnIndex(NotepadSQLiteHelper.COL_NOTEPAD_DESCRIPTION));
+            Log.d(TAG, String.format("onCreate: description: %s ", description));
+            vh9.mCurrentText.setText(description);
+        }
         cursor.close();
     }
 
