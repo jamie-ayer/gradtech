@@ -54,10 +54,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, SOUNDCLOUD = 3, CALENDAR = 4;
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
 
-    List<Object> cards;
+    int cards;
     Activity mainActivity;
 
-    RVAdapter(List<Object> cards, Activity activity) {
+    RVAdapter(int cards, Activity activity) {
         this.mainActivity = activity;
         this.cards = cards;
     }
@@ -181,7 +181,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
-        Card2 card = (Card2) cards.get(position);
+//        Card2 card = (Card2) cards.get(position);
 //
 //        vh2.mCompanyName.setText("Twitter");
 //        vh2.mCompanyLocation.setText("Somewhere");
@@ -191,6 +191,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private void configureSoundCloudViewHolder(SoundCloudCardViewHolder vh) {
         SoundCloudConfigurer SC = new SoundCloudConfigurer(vh);
         SC.initSoundCloud();
+
+
 
         //SCService sc = SoundCloud.getService();
 
@@ -202,21 +204,21 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return cards.size();
+        return cards;
     }
 
     @Override
     public int getItemViewType(int position) {
 
-        if (cards.get(position) instanceof FacebookCard) {
+        if (position == 0) {
             return FACEBOOK;
-        } else if (cards.get(position) instanceof Card2) {
+        } else if (position == 1) {
             return TWITTER;
-        }else if (cards.get(position) instanceof NotePadCard){
+        }else if (position == 2){
             return NOTEPAD;
-        } else if (cards.get(position) instanceof SoundCloudCard) {
+        } else if (position == 3) {
             return SOUNDCLOUD;
-        } else if (cards.get(position) instanceof CalendarCard) {
+        } else if (position == 4) {
             return CALENDAR;
         }
         return super.getItemViewType(position);

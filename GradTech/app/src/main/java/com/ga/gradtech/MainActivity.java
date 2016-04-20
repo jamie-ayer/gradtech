@@ -59,35 +59,20 @@ public class MainActivity extends AppCompatActivity {
 
         initializeAdapter();
 
-        bindDataToAdapter();
+        //bindDataToAdapter();
 
     }
 
-    private ArrayList<Object> getSampleArrayList() {
-        ArrayList<Object> items = new ArrayList<>();
-        //Facebook Card
-        items.add(new FacebookCard());
-        //Twitter Card
-        items.add(new Card2());
-        items.add(new SoundCloudCard());
-        items.add(new CalendarCard());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new NotePadCard());
 
-
-        return items;
-    }
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(cards, this);
+        RVAdapter adapter = new RVAdapter(5, this);
         recyclerView.setAdapter(adapter);
     }
 
-    private void bindDataToAdapter() {
-        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this));
-    }
+//    private void bindDataToAdapter() {
+//        recyclerView.setAdapter(new RVAdapter(5, this));
+//    }
 
     private void setLayoutManager() {
         LinearLayoutManager llm = new LinearLayoutManager(this);
