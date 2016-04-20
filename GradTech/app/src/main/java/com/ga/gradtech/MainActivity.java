@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getCanonicalName();
 
     public static CallbackManager callbackManager;
 
@@ -41,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
 
+        Log.d(TAG, "onCreate: ==>>> Before callbackManager");
         callbackManager = CallbackManager.Factory.create();
+        Log.d(TAG, "onCreate: =====>>> After Callback Manager");
 
         ButterKnife.bind(this);
 
