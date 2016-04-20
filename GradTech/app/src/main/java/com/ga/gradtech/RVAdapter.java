@@ -176,7 +176,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private void configureFacebookViewHolder1(final FacebookCardViewHolder vh1, int position) {
         FacebookCard card = (FacebookCard) cards.get(position);
-        
+
         boolean loggedIn = isFacebookLoggedIn();
         if(!loggedIn){
             Collection<String> permissions = Arrays.asList("public_profile",
