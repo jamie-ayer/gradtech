@@ -55,7 +55,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
-    private final int FACEBOOK = 0, TWITTER = 1, TECHCRUNCH = 2, TRELLO = 3, GITHUB = 4;
+    private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, TRELLO = 3, GITHUB = 4;
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
 
     List<Object> cards;
@@ -81,7 +81,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v2);
                 break;
-            case TECHCRUNCH:
+            case MEETUP:
                 View v3 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
                 viewHolder = new CardViewHolder(v3);
                 break;
@@ -140,9 +140,9 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 CardViewHolder vh2 = (CardViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh2, position);
                 break;
-            case TECHCRUNCH:
+            case MEETUP:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh3, position);
+                configureMeetupViewHolder2(vh3, position);
                 break;
             case TRELLO:
                 CardViewHolder vh4 = (CardViewHolder) viewHolder;
@@ -189,6 +189,12 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         vh2.mCompanyName.setText("Twitter");
         vh2.mCompanyLocation.setText("Somewhere");
         vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
+    }
+
+    private void configureMeetupViewHolder2(CardViewHolder vh2, int position) {
+        Card2 card = (Card2) cards.get(position);
+
+        //vh2.mCompanyName.setText("Meetup");
     }
 
     @Override
