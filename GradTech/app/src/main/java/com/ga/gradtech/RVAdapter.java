@@ -1,6 +1,7 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 
@@ -195,6 +198,23 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 
 
+        final ShareDialog shareDialog = new ShareDialog(mainActivity);
+
+        if(vh1.mFbShareButton != null){
+            vh1.mFbShareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+                        ShareLinkContent content = new ShareLinkContent.Builder()
+                                .setContentTitle("Testing")
+                                .setContentDescription("This is my test share from app")
+                                .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                                .build();
+                        shareDialog.show(content);
+                    }
+                }
+            });
+        }
 
 
 
