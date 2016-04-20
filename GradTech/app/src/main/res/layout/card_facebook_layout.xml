@@ -16,7 +16,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="150dp">
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/fb_login_button"
@@ -34,17 +34,27 @@
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/card_facebook_share_title_ediText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"/>
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/card_facebook_share_description_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"/>
+            <EditText
+                android:id="@+id/card_facebook_share_title_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Title"/>
+
+            <EditText
+                android:id="@+id/card_facebook_share_description_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Description"/>
+
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/card_facebook_share_url_editText"
@@ -52,17 +62,27 @@
             android:layout_height="wrap_content"
             android:hint="URL"/>
 
-        <Button
-            android:id="@+id/card_fb_share_button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Share"/>
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/card_fb_get_feed_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Feed"/>
+            <Button
+                android:id="@+id/card_fb_get_feed_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Update Feed"/>
+
+            <Button
+                android:id="@+id/card_fb_share_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Share"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

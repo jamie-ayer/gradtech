@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.CallbackManager;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
@@ -129,7 +128,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     Log.d(TAG, "onBindViewHolder: ====>>> Facebook Not logged in");
                     fbConfigurer.initFbLogin();
                 }
-                fbConfigurer.facebookShare();
+                fbConfigurer.setFbPostShareButtonListener();
+                fbConfigurer.setFbUpdateFeedButtonListener();
                 fbConfigurer.getFbFeed();
                 break;
             case TWITTER:

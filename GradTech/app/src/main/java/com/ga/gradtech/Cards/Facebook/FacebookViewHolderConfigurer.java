@@ -15,6 +15,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.MainActivity;
@@ -100,23 +101,54 @@ public class FacebookViewHolderConfigurer {
         });
     }
 
-    public void facebookShare(){
+    public void setFbPostShareButtonListener(){
         final ShareDialog shareDialog = new ShareDialog(mainActivity);
         if(vh1.mFbShareButton != null){
             vh1.mFbShareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String title = vh1.mFbShareTitleEditText.getText().toString();
+                    String description = vh1.mFbShareDescriptionEditText.getText().toString();
+                    String url = vh1.mFbShareUrlEditText.getText().toString();
                     if (ShareDialog.canShow(ShareLinkContent.class)) {
                         ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentTitle("Testing")
-                                .setContentDescription("This is my test share from app")
-                                .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                                .setContentTitle(title)
+                                .setContentDescription(description)
+                                .setContentUrl(Uri.parse(url))
                                 .build();
                         shareDialog.show(content);
+                        shareDialog.registerCallback(MainActivity.callbackManager, new FacebookCallback<Sharer.Result>() {
+                            @Override
+                            public void onSuccess(Sharer.Result result) {
+                                getFbFeed();
+                                vh1.mFbShareTitleEditText.setText("");
+                                vh1.mFbShareDescriptionEditText.setText("");
+                                vh1.mFbShareUrlEditText.setText("");
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                getFbFeed();
+                            }
+
+                            @Override
+                            public void onError(FacebookException error) {
+                                getFbFeed();
+                            }
+                        });
                     }
                 }
             });
         }
+    }
+
+    public void setFbUpdateFeedButtonListener(){
+        vh1.mFbGetFeedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFbFeed();
+            }
+        });
     }
 
     public void getFbFeed() {
