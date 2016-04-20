@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
+import com.ga.gradtech.Cards.Meetup.MeetupLoginFragment;
+import com.ga.gradtech.Cards.Meetup.MeetupResultsFragment;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
@@ -33,6 +35,8 @@ import java.util.List;
 public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static String TAG = RVAdapter.class.getCanonicalName();
+    MeetupLoginFragment meetupLoginFragment;
+    MeetupResultsFragment meetupResultsFragment;
 
     /**
      * PlaceHolder for now
@@ -143,6 +147,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case MEETUP:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
                 configureMeetupViewHolder2(vh3, position);
+
                 break;
             case TRELLO:
                 CardViewHolder vh4 = (CardViewHolder) viewHolder;
@@ -193,6 +198,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private void configureMeetupViewHolder2(CardViewHolder vh2, int position) {
         Card2 card = (Card2) cards.get(position);
+
+
 
         //vh2.mCompanyName.setText("Meetup");
     }

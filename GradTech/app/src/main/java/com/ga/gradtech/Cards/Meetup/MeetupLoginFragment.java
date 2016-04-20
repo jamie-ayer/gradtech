@@ -36,14 +36,27 @@ public class MeetupLoginFragment extends Fragment {
     public final String AUTH_URL = getString(R.string.meetup_authurl);
     public final String TOKEN_URL = getString(R.string.meetup_tokenurl);
 
-    WebView webView;
+    WebView loginWebView;
     String accessToken;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_meetup_webview, container, false);
+        loginWebView = (WebView) v.findViewById(R.id.meetup_webView_id);//new WebView(getContext());
+        loginWebView.setWebViewClient(new MyWebViewClient());
+        loginWebView.getSettings().setJavaScriptEnabled(true);
+        OAuthClientRequest request = null;
+        try {
+            request = OAuthClientRequest.authorizationLocation(
+                    AUTH_URL).setClientId(
+                    ApiKeys.MEETUP_CONSUMER_KEY).setRedirectURI(
+                    ApiKeys.MEETUP_REDIRECT_URI).buildQueryMessage();
+        } catch (OAuthSystemException e) {
+            Log.d(TAG, "OAuth request failed", e);
+            e.printStackTrace();
+        }
+        loginWebView.loadUrl(request.getLocationUri() + "&response_type=code&set_mobile=on");
+        return v;
     }
 
     private class MyWebViewClient extends WebViewClient{
@@ -66,7 +79,6 @@ public class MeetupLoginFragment extends Fragment {
     }
 
     private class MeetupRetrieveAccessTokenTask extends AsyncTask<Uri, Void, Void>{
-
         @Override
         protected Void doInBackground(Uri... params) {
             Uri uri = params[0];
@@ -95,30 +107,15 @@ public class MeetupLoginFragment extends Fragment {
 
             } catch (OAuthProblemException e) {
                 Log.e(TAG, "Oauth System Exception - Couldn't get access token" + e.getMessage());
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getContext(), "OAuth Problem Exception - Couldn't get access token", Toast.LENGTH_LONG).show();
-                    }
-                };
+//                Runnable runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(getContext(), "OAuth Problem Exception - Couldn't get access token", Toast.LENGTH_LONG).show();
+//                    }
+//                };
                 e.printStackTrace();
             }
             return null;
         }
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-
-
-        return v;
-    }
-
-
-
-
-
-
-
 }
