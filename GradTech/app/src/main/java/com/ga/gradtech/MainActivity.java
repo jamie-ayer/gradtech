@@ -67,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         initializeAdapter();
 
-        bindDataToAdapter();
-
-
     }
 
     private ArrayList<Object> getSampleArrayList() {
@@ -90,14 +87,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void bindDataToAdapter() {
-        recyclerView.setAdapter(new RVAdapter(5,this, fragmentManagerTwitter));
-    }
-
-
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(5,this, fragmentManagerTwitter);
+        adapter = new RVAdapter(5,this, fragmentManagerTwitter);
         recyclerView.setAdapter(adapter);
     }
 
@@ -113,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
         // only call this when request code is for twitter.
-        adapter.getTwitterFragment().onActivityResult(requestCode, resultCode, data);
 
+        if (adapter != null && adapter.getTwitterFragment() != null){
+            adapter.getTwitterFragment().onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

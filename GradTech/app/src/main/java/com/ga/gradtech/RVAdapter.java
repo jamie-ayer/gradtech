@@ -37,9 +37,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static String TAG = RVAdapter.class.getCanonicalName();
 
-    private final TwitterFragment fragment = new TwitterFragment();
-
-
     /**
      * PlaceHolder for now
      */
@@ -200,23 +197,11 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void configureTwitterViewHolder2(TwitterViewHolder vh2, int position) {
-
-
-        // card = (Card2) cards.get(position);
-
-//        vh2.mCompanyName.setText("Twitter");
-//        vh2.mCompanyLocation.setText("Somewhere");
-//        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
-//
-//        FragmentTransaction fragmentTransaction = fragmentManagerTwitter.beginTransaction();
-//
-//        fragmentTransaction.add(R.id.twitter_card_parent_layout, fragment);
-//        fragmentTransaction.commit();
     }
 
 
     public TwitterFragment getTwitterFragment() {
-        return fragment;
+        return (TwitterFragment) fragmentManagerTwitter.findFragmentById(R.id.twitter_fragment_id);
     }
 
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {

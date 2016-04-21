@@ -42,6 +42,8 @@ public class TwitterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.twitter_fragment_layout, container, false);
 
+        setRetainInstance(true);
+
         tweet = (Button) v.findViewById(R.id.tweet);
         tweet.setVisibility(View.INVISIBLE);
         twitter_listview = (ListView) v.findViewById(R.id.twitter_list_view);
@@ -68,6 +70,8 @@ public class TwitterFragment extends Fragment {
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
             }
+
+
         });
 
         tweet.setOnClickListener(new View.OnClickListener() {
@@ -101,10 +105,9 @@ public class TwitterFragment extends Fragment {
             Log.i("TwitterFragment", "getting twitter data ");
             loginButton.onActivityResult(requestCode, resultCode, data);
         }
-
-
-
     }
+
+
 
     @Override
     public void onAttach(Context context) {

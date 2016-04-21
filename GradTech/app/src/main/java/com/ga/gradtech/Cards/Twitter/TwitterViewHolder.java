@@ -1,5 +1,6 @@
 package com.ga.gradtech.Cards.Twitter;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ public class TwitterViewHolder extends RecyclerView.ViewHolder {
     public TwitterLoginButton twitter_login_button;
     public Button tweet;
     public ListView list_view;
+    public Fragment fragment;
 
     public TwitterViewHolder(View itemView) {
         super(itemView);
