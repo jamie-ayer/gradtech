@@ -1,6 +1,7 @@
 package com.ga.gradtech;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     //This is for testing only
     Button goToTestActivity;
 
+    FragmentManager fragmentManagerTwitter = getSupportFragmentManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
+
+
 
         Log.d(TAG, "onCreate: ==>>> Before callbackManager");
         callbackManager = CallbackManager.Factory.create();
@@ -91,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(cards, this);
+        RVAdapter adapter = new RVAdapter(cards, this, fragmentManagerTwitter);
         recyclerView.setAdapter(adapter);
     }
 
     private void bindDataToAdapter() {
-        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this));
+        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this, fragmentManagerTwitter));
     }
 
     private void setLayoutManager() {

@@ -44,9 +44,9 @@ public class TwitterFragment extends Fragment {
         View v = inflater.inflate(R.layout.twitter_card_layout, container, false);
 
         tweet = (Button) v.findViewById(R.id.tweet);
-        tweet.setVisibility(View.INVISIBLE);
+        tweet.setVisibility(v.INVISIBLE);
         listview = (ListView) v.findViewById(R.id.list_view);
-        listview.setVisibility(View.INVISIBLE);
+        listview.setVisibility(v.INVISIBLE);
 
         loginButton = (TwitterLoginButton) v.findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new com.twitter.sdk.android.core.Callback<TwitterSession>() {
@@ -55,6 +55,10 @@ public class TwitterFragment extends Fragment {
                 TwitterSession session = result.data;
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show(); // getContext might not be right
+
+                loginButton.setVisibility(View.INVISIBLE);
+                tweet.setVisibility(View.VISIBLE);
+                listview.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -62,10 +66,6 @@ public class TwitterFragment extends Fragment {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
             }
         });
-
-        loginButton.setVisibility(View.GONE);
-        tweet.setVisibility(View.VISIBLE);
-        listview.setVisibility(View.VISIBLE);
 
         tweet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,6 @@ public class TwitterFragment extends Fragment {
         });
 
 
-
         final UserTimeline userTimeline = new UserTimeline.Builder()
                 .screenName("fabric")
                 .build();
@@ -86,9 +85,6 @@ public class TwitterFragment extends Fragment {
                 .setTimeline(userTimeline)
                 .build();
         listview.setAdapter(adapter);
-
-
-
 
         return v;
     }

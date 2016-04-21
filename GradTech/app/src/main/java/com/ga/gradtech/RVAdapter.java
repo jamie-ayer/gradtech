@@ -3,6 +3,7 @@ package com.ga.gradtech;
 import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,10 +61,12 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     List<Object> cards;
     Activity mainActivity;
+    FragmentManager fragmentManagerTwitter;
 
-    RVAdapter(List<Object> cards, Activity activity) {
+    RVAdapter(List<Object> cards, Activity activity, FragmentManager fragmentManager2) {
         this.mainActivity = activity;
         this.cards = cards;
+        this.fragmentManagerTwitter = fragmentManager2;
     }
 
     @Override
