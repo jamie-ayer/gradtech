@@ -20,6 +20,7 @@ public class CalendarCardViewHolder extends RecyclerView.ViewHolder{
     public Button mCalendarDeleteEventsButton;
     public Button mCalendarUpdateEventsButton;
     public Button mCalendarGetEventsButton;
+    public Button mCalenderShareEventsButton;
     public ListView mCalendarListView;
 
 
@@ -32,6 +33,7 @@ public class CalendarCardViewHolder extends RecyclerView.ViewHolder{
         this.mCalendarDeleteEventsButton = (Button)itemView.findViewById(R.id.card_calendar_delete_event_button);
         this.mCalendarUpdateEventsButton = (Button)itemView.findViewById(R.id.card_calendar_update_event_button);
         this.mCalendarGetEventsButton = (Button)itemView.findViewById(R.id.card_calendar_get_events_button);
+        this.mCalenderShareEventsButton = (Button)itemView.findViewById(R.id.card_calendar_share_events_button);
         this.mCalendarListView = (ListView)itemView.findViewById(R.id.card_calendar_listView);
     }
 }

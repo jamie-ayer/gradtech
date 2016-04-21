@@ -6,51 +6,76 @@
     app:cardCornerRadius="4dp"
     android:elevation="9dp">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/card_calendar_title_editText"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/card_calendar_title_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Title"/>
+
+            <EditText
+                android:id="@+id/card_calendar_location_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Location"/>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/card_calendar_description_editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Description"/>
 
-        <EditText
-            android:id="@+id/card_calendar_location_editText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/card_calendar_add_event_button"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add event" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/card_calendar_delete_event_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete event"/>
+            <Button
+                android:id="@+id/card_calendar_add_event_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add event" />
 
-        <Button
-            android:id="@+id/card_calendar_update_event_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Update event"
-            android:layout_below="@+id/delete_event"/>
+            <Button
+                android:id="@+id/card_calendar_delete_event_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete event"/>
 
-        <Button
-            android:id="@+id/card_calendar_get_events_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show events" />
+            <Button
+                android:id="@+id/card_calendar_update_event_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update event"
+                android:layout_below="@+id/delete_event"/>
+
+            <Button
+                android:id="@+id/card_calendar_get_events_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show events" />
+
+            <Button
+                android:id="@+id/card_calendar_share_events_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share"/>
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/card_calendar_listView"

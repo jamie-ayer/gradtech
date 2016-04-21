@@ -3,12 +3,14 @@ package com.ga.gradtech.Cards.Calendar;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
 
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 
@@ -34,6 +36,25 @@ public class CalendarViewHolderConfigurer {
         this.position = position;
         this.mainActivity = mainActivity;
     }
+
+
+    public void setShareCalendarButtonListener(){
+        vh10.mCalenderShareEventsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = vh10.mCalendarTitleEditText.getText().toString();
+                String location = vh10.mCalendarLocationEditText.getText().toString();
+                String description = vh10.mCalendarDescriptionEditText.getText().toString();
+                Log.d(TAG, "onClick: SHARE BUTTON CLICKEC ++++>>>");
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, description);
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, title + ": " + location);
+                mainActivity.startActivity(Intent.createChooser(intent, "Share to"));
+            }
+        });
+    }
+
 
 
     // The method returns all the calendars associated with your email. The property ID is a

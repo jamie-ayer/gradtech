@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ga.gradtech.Cards.Calendar.CalendarCard;
 import com.ga.gradtech.Cards.Calendar.CalendarCardViewHolder;
 import com.ga.gradtech.Cards.Calendar.CalendarViewHolderConfigurer;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
@@ -180,6 +181,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case CALENDAR:
                 CalendarCardViewHolder vh10 = (CalendarCardViewHolder) viewHolder;
                 CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh10, position, mainActivity);
+                calendarConfigurer.setShareCalendarButtonListener();
                 break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
@@ -215,6 +217,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             return TWITTER;
         }else if (cards.get(position) instanceof NotePadCard){
             return NOTEPAD;
+        }else if (cards.get(position) instanceof CalendarCard){
+            return CALENDAR;
         }
         return super.getItemViewType(position);
     }
