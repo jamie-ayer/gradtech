@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.ga.gradtech.Cards.Twitter.TwitterSignInFragment;
+import com.ga.gradtech.Cards.Twitter.TwitterFragment;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -17,8 +17,8 @@ public class TestActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        TwitterSignInFragment fragment = new TwitterSignInFragment();
-        fragmentTransaction.add(R.id.twitter_card_layout, fragment);
+        TwitterFragment fragment = new TwitterFragment();
+        fragmentTransaction.add(R.id.twitter_card_parent_layout, fragment);
         fragmentTransaction.commit();
 
     }
