@@ -1,6 +1,7 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +25,7 @@ import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
 import com.ga.gradtech.Cards.Twitter.TwitterFragment;
 import com.ga.gradtech.Cards.Twitter.TwitterViewHolder;
+import com.ga.gradtech.Cards.Twitter.TwitterViewHolderConfigurer;
 
 
 import java.util.Arrays;
@@ -144,7 +146,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 break;
             case TWITTER:
                 TwitterViewHolder vh2 = (TwitterViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh2, position);
+                 configureTwitterViewHolder2(vh2, position);
                 break;
             case TECHCRUNCH:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
@@ -189,7 +191,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     }
 
-    private void configureTwitterViewHolder2(CardViewHolder vh2, int position, FragmentManager fragmentManagerTwitter) {
+    private void configureTwitterViewHolder2(TwitterViewHolder vh2, int position) {
+
 
         FragmentTransaction fragmentTransaction = fragmentManagerTwitter.beginTransaction();
 
@@ -197,11 +200,12 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         fragmentTransaction.add(R.id.twitter_card_parent_layout, fragment);
         fragmentTransaction.commit();
 
+
         Card2 card = (Card2) cards.get(position);
 
-        vh2.mCompanyName.setText("Twitter");
-        vh2.mCompanyLocation.setText("Somewhere");
-        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
+//        vh2.mCompanyName.setText("Twitter");
+//        vh2.mCompanyLocation.setText("Somewhere");
+//        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
 
     @Override

@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     //This is for testing only
-    Button goToTestActivity;
 
     FragmentManager fragmentManagerTwitter = getSupportFragmentManager();
 
@@ -66,15 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         bindDataToAdapter();
 
-        //This is for testing only
-        goToTestActivity = (Button) findViewById(R.id.goToTestActivity);
-        goToTestActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TestActivity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
@@ -84,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         items.add(new FacebookCard());
         //Twitter Card
         items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
+//        items.add(new Card2());
+//        items.add(new Card2());
+//        items.add(new Card2());
+//        items.add(new Card2());
+//        items.add(new Card2());
         items.add(new NotePadCard());
 
 

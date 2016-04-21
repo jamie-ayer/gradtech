@@ -17,12 +17,14 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
  */
 public class TwitterViewHolder extends RecyclerView.ViewHolder {
 
+    public FrameLayout frameLayout;
     public TwitterLoginButton twitter_login_button;
     public Button tweet;
     public ListView list_view;
 
     public TwitterViewHolder(View itemView) {
         super(itemView);
+        this.frameLayout = (FrameLayout) itemView.findViewById(R.id.twitter_card_parent_layout);
         this.twitter_login_button = (TwitterLoginButton) itemView.findViewById(R.id.twitter_login_button);
         this.tweet = (Button) itemView.findViewById(R.id.tweet);
         this.list_view = (ListView) itemView.findViewById(R.id.twitter_list_view);

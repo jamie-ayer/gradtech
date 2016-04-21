@@ -25,6 +25,8 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
 
 import java.io.File;
 
+import javax.security.auth.login.LoginException;
+
 /**
  * Created by JacobDexter-Milling on 4/20/16.
  */
@@ -44,7 +46,7 @@ public class TwitterFragment extends Fragment {
 
         tweet = (Button) v.findViewById(R.id.tweet);
         tweet.setVisibility(v.INVISIBLE);
-        twitter_listview = (ListView) v.findViewById(R.id.list_view);
+        twitter_listview = (ListView) v.findViewById(R.id.twitter_list_view);
         twitter_listview.setVisibility(v.INVISIBLE);
 
         loginButton = (TwitterLoginButton) v.findViewById(R.id.twitter_login_button);
@@ -53,6 +55,7 @@ public class TwitterFragment extends Fragment {
             public void success(Result<TwitterSession> result) {
                 TwitterSession session = result.data;
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
+                Log.i("TwitterFragment", "Signed in");
                 Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show(); // getContext might not be right
 
                 loginButton.setVisibility(View.INVISIBLE);
@@ -93,6 +96,7 @@ public class TwitterFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
+        Log.i("TwitterFragment", "getting twitter data ");
         loginButton.onActivityResult(requestCode, resultCode, data);
     }
 

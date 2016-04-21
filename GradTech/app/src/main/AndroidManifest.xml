@@ -40,7 +40,6 @@
             android:name="io.fabric.ApiKey"
             android:value="e521a05da3ebc754aa82f258de36a177ec064fa3" />
 
-        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>
