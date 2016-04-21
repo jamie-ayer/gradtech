@@ -1,8 +1,6 @@
 package com.ga.gradtech;
 
 import android.support.v7.app.AppCompatActivity;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
@@ -11,24 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
 import com.ga.gradtech.Cards.Meetup.MeetupCard;
-import com.ga.gradtech.Cards.Meetup.MeetupLoginFragment;
-import com.ga.gradtech.Cards.Meetup.MeetupResultsFragment;
-import com.ga.gradtech.Cards.NotePad.NotePadCard;
+import com.ga.gradtech.Cards.Meetup.Fragment.MeetupLoginFragment;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
 
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**

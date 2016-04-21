@@ -1,4 +1,4 @@
-package com.ga.gradtech.Cards.Meetup;
+package com.ga.gradtech.Cards.Meetup.Fragment;
 
 import android.content.Context;
 import android.net.Uri;
