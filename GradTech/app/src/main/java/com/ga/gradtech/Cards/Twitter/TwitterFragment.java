@@ -25,8 +25,6 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
 
 import java.io.File;
 
-import javax.security.auth.login.LoginException;
-
 /**
  * Created by JacobDexter-Milling on 4/20/16.
  */
@@ -42,12 +40,12 @@ public class TwitterFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.twitter_card_layout, container, false);
+        View v = inflater.inflate(R.layout.twitter_fragment_layout, container, false);
 
         tweet = (Button) v.findViewById(R.id.tweet);
-        tweet.setVisibility(v.INVISIBLE);
+        tweet.setVisibility(View.INVISIBLE);
         twitter_listview = (ListView) v.findViewById(R.id.twitter_list_view);
-        twitter_listview.setVisibility(v.INVISIBLE);
+        twitter_listview.setVisibility(View.INVISIBLE);
 
         loginButton = (TwitterLoginButton) v.findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new com.twitter.sdk.android.core.Callback<TwitterSession>() {
@@ -61,6 +59,9 @@ public class TwitterFragment extends Fragment {
                 loginButton.setVisibility(View.INVISIBLE);
                 tweet.setVisibility(View.VISIBLE);
                 twitter_listview.setVisibility(View.VISIBLE);
+
+                // check if you're truly logged in or not.
+                // hide login button and show list view + tweet button + grab tweets from interwebs
             }
 
             @Override
@@ -96,8 +97,13 @@ public class TwitterFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
-        Log.i("TwitterFragment", "getting twitter data ");
-        loginButton.onActivityResult(requestCode, resultCode, data);
+        if (loginButton != null){
+            Log.i("TwitterFragment", "getting twitter data ");
+            loginButton.onActivityResult(requestCode, resultCode, data);
+        }
+
+
+
     }
 
     @Override

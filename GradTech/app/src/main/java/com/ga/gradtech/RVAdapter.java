@@ -1,9 +1,6 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
@@ -12,10 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
@@ -25,11 +20,8 @@ import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
 import com.ga.gradtech.Cards.Twitter.TwitterFragment;
 import com.ga.gradtech.Cards.Twitter.TwitterViewHolder;
-import com.ga.gradtech.Cards.Twitter.TwitterViewHolderConfigurer;
 
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,6 +31,10 @@ import java.util.List;
 public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static String TAG = RVAdapter.class.getCanonicalName();
+
+    private final TwitterFragment fragment = new TwitterFragment();
+
+
 
     /**
      * PlaceHolder for now
@@ -72,6 +68,9 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.mainActivity = activity;
         this.cards = cards;
         this.fragmentManagerTwitter = fragmentManager2;
+
+
+
     }
 
     @Override
@@ -194,11 +193,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private void configureTwitterViewHolder2(TwitterViewHolder vh2, int position) {
 
 
-        FragmentTransaction fragmentTransaction = fragmentManagerTwitter.beginTransaction();
-
-        TwitterFragment fragment = new TwitterFragment();
-        fragmentTransaction.add(R.id.twitter_card_parent_layout, fragment);
-        fragmentTransaction.commit();
 
 
         Card2 card = (Card2) cards.get(position);
@@ -206,6 +200,16 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 //        vh2.mCompanyName.setText("Twitter");
 //        vh2.mCompanyLocation.setText("Somewhere");
 //        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
+//
+//        FragmentTransaction fragmentTransaction = fragmentManagerTwitter.beginTransaction();
+//
+//        fragmentTransaction.add(R.id.twitter_card_parent_layout, fragment);
+//        fragmentTransaction.commit();
+    }
+
+
+    public TwitterFragment getTwitterFragment() {
+        return fragment;
     }
 
     @Override

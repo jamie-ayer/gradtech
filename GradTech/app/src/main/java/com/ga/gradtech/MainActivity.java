@@ -1,14 +1,14 @@
 package com.ga.gradtech;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,11 @@ import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     private static final String TAG = MainActivity.class.getCanonicalName();
 
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     //This is for testing only
 
     FragmentManager fragmentManagerTwitter = getSupportFragmentManager();
+    RVAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
-
 
 
         Log.d(TAG, "onCreate: ==>>> Before callbackManager");
@@ -85,8 +87,10 @@ public class MainActivity extends AppCompatActivity {
         return items;
     }
 
-    private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(cards, this, fragmentManagerTwitter);
+
+
+    private void initializeAdapter() {
+        adapter = new RVAdapter(cards, this, fragmentManagerTwitter);
         recyclerView.setAdapter(adapter);
     }
 
@@ -105,5 +109,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // only call this when request code is for twitter.
+        adapter.getTwitterFragment().onActivityResult(requestCode, resultCode, data);
+
     }
 }
