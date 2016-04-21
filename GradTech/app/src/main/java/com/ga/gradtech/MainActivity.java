@@ -10,29 +10,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
+import java.util.ArrayList;
+
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends FragmentActivity {
+
+
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getCanonicalName();
-
     public static CallbackManager callbackManager;
 
-    private List<Object> cards;
+
 
     private static final String TWITTER_KEY = ApiKeys.TWITTER_KEY;
     private static final String TWITTER_SECRET = ApiKeys.TWITTER_SECRET;
@@ -88,14 +90,15 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-
-    private void initializeAdapter() {
-        adapter = new RVAdapter(cards, this, fragmentManagerTwitter);
-        recyclerView.setAdapter(adapter);
+    private void bindDataToAdapter() {
+        recyclerView.setAdapter(new RVAdapter(5,this, fragmentManagerTwitter));
     }
 
-    private void bindDataToAdapter() {
-        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this, fragmentManagerTwitter));
+
+
+    private void initializeAdapter(){
+        RVAdapter adapter = new RVAdapter(5,this, fragmentManagerTwitter);
+        recyclerView.setAdapter(adapter);
     }
 
     private void setLayoutManager() {
@@ -103,7 +106,6 @@ public class MainActivity extends FragmentActivity {
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

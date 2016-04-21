@@ -16,6 +16,7 @@ public class NotePadCardViewHolder extends RecyclerView.ViewHolder {
     public TextView mEditText;
     public Button mSaveButton;
     public Button mEditButton;
+    public Button mDeleteButton;
 
     public NotePadCardViewHolder(View itemView) {
         super(itemView);
@@ -23,5 +24,6 @@ public class NotePadCardViewHolder extends RecyclerView.ViewHolder {
         this.mEditText = (TextView)itemView.findViewById(R.id.card_notepad_editText);
         this.mSaveButton = (Button)itemView.findViewById(R.id.card_notepad_saveButton);
         this.mEditButton = (Button)itemView.findViewById(R.id.card_notepad_edit_button);
+        this.mDeleteButton = (Button)itemView.findViewById(R.id.card_notepad_clear_button);
     }
 }
