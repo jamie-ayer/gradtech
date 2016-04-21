@@ -1,12 +1,17 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.ga.gradtech.Cards.Calander.CalenderCardViewHolder;
@@ -16,16 +21,19 @@ import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
 
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
+import com.ga.gradtech.Cards.Twitter.TwitterFragment;
+import com.ga.gradtech.Cards.Twitter.TwitterViewHolder;
 
 import com.ga.gradtech.Cards.SoundCloud.SoundCloudCardViewHolder;
 import com.ga.gradtech.Cards.SoundCloud.SoundCloudConfigurer;
 
+import java.util.List;
 
 /**
  * Created by JamieAyer on 4/18/16.
  */
 
-public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static String TAG = RVAdapter.class.getCanonicalName();
 
@@ -46,10 +54,12 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     int cards;
     Activity mainActivity;
+    FragmentManager fragmentManagerTwitter;
 
-    RVAdapter(int cards, Activity activity) {
+    RVAdapter(int cards, Activity activity, FragmentManager fragmentManager2) {
         this.mainActivity = activity;
         this.cards = cards;
+        this.fragmentManagerTwitter = fragmentManager2;
     }
 
 
@@ -64,8 +74,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 viewHolder = new FacebookCardViewHolder(v1);
                 break;
             case TWITTER:
-                View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
-                viewHolder = new CardViewHolder(v2);
+                View v2 = inflater.inflate(R.layout.twitter_card_layout, viewGroup, false);
+                viewHolder = new TwitterViewHolder(v2);
                 break;
             case MEETUP:
                 View v3 = inflater.inflate(R.layout.card_sound_cloud_layout, viewGroup, false);
@@ -79,18 +89,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 View v5 = inflater.inflate(R.layout.calender_card_layout, viewGroup, false);
                 viewHolder = new CalenderCardViewHolder(v5);
                 break;
-//            case GLASSDOOR:
-//                View v6 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-//                viewHolder = new CardViewHolder(v6);
-//                break;
-//            case LINKEDIN:
-//                View v7 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-//                viewHolder = new CardViewHolder(v7);
-//                break;
-//            case YELP:
-//                View v8 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-//                viewHolder = new CardViewHolder(v8);
-//                break;
             case NOTEPAD:
                 View v9 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
                 viewHolder = new NotePadCardViewHolder(v9);
@@ -131,7 +129,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
                 break;
             case TWITTER:
-                CardViewHolder vh2 = (CardViewHolder) viewHolder;
+                TwitterViewHolder vh2 = (TwitterViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh2, position);
                 break;
             case MEETUP:
@@ -158,13 +156,21 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 CardViewHolder vh = (CardViewHolder) viewHolder;
                 configureDefaultViewHolder(vh, position);
                 break;
-                }
         }
+    }
 
 
     private void configureDefaultViewHolder(CardViewHolder vh, int position) {
 
 
+    }
+
+    private void configureTwitterViewHolder2(TwitterViewHolder vh2, int position) {
+    }
+
+
+    public TwitterFragment getTwitterFragment() {
+        return (TwitterFragment) fragmentManagerTwitter.findFragmentById(R.id.twitter_fragment_id);
     }
 
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
@@ -193,7 +199,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             return FACEBOOK;
         } else if (position == 1) {
             return TWITTER;
-        }else if (position == 2) {
+        } else if (position == 2) {
             return NOTEPAD;
         } else if (position == 3) {
             return SOUNDCLOUD;
