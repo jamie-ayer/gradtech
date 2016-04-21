@@ -69,23 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Object> getSampleArrayList() {
-        ArrayList<Object> items = new ArrayList<>();
-        //Facebook Card
-        items.add(new FacebookCard());
-        //Twitter Card
-        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-        items.add(new NotePadCard());
-
-
-        return items;
-    }
-
 
 
     private void initializeAdapter(){
@@ -110,4 +93,5 @@ public class MainActivity extends AppCompatActivity {
             adapter.getTwitterFragment().onActivityResult(requestCode, resultCode, data);
         }
     }
+
 }

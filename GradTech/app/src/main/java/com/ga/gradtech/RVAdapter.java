@@ -89,18 +89,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View v5 = inflater.inflate(R.layout.calender_card_layout, viewGroup, false);
                 viewHolder = new CalenderCardViewHolder(v5);
                 break;
-//            case GLASSDOOR:
-//                View v6 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-//                viewHolder = new CardViewHolder(v6);
-//                break;
-//            case LINKEDIN:
-//                View v7 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-//                viewHolder = new CardViewHolder(v7);
-//                break;
-//            case YELP:
-//                View v8 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-//                viewHolder = new CardViewHolder(v8);
-//                break;
             case NOTEPAD:
                 View v9 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
                 viewHolder = new NotePadCardViewHolder(v9);
@@ -144,29 +132,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 TwitterViewHolder vh2 = (TwitterViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh2, position);
                 break;
-////            case MEETUP:
-////                CardViewHolder vh3 = (CardViewHolder) viewHolder;
-//                //configureTwitterViewHolder2(vh3, position);
-//                break;
-//                case TRELLO:
-//                    CardViewHolder vh4 = (CardViewHolder) viewHolder;
-//                    //configureTwitterViewHolder2(vh4, position);
-//                    break;
-//                case GITHUB:
-//                    CardViewHolder vh5 = (CardViewHolder) viewHolder;
-            //configureTwitterViewHolder2(vh5, position);
-            //break;
-            case GLASSDOOR:
-                CardViewHolder vh6 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh6, position);
+            case MEETUP:
+                CardViewHolder vh3 = (CardViewHolder) viewHolder;
+                configureTwitterViewHolder2(vh3, position);
                 break;
-            case LINKEDIN:
-                CardViewHolder vh7 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh7, position);
-                break;
-            case YELP:
-                CardViewHolder vh8 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh8, position);
             case SOUNDCLOUD:
                 SoundCloudCardViewHolder vh4 = (SoundCloudCardViewHolder) viewHolder;
                 configureSoundCloudViewHolder(vh4);
@@ -183,10 +152,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 notePadConfigurer.setNotePadSaveButtonListener();
                 notePadConfigurer.setNotePadClearButtonListener();
                 break;
-//            default:
-//                CardViewHolder vh = (CardViewHolder) viewHolder;
-//                configureDefaultViewHolder(vh, position);
-//                break;
+            default:
+                CardViewHolder vh = (CardViewHolder) viewHolder;
+                configureDefaultViewHolder(vh, position);
+                break;
         }
     }
 
