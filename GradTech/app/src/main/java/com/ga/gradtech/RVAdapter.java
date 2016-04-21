@@ -166,6 +166,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 notePadConfigurer.initNotePad();
                 notePadConfigurer.setNotePadEditButtonListener();
                 notePadConfigurer.setNotePadSaveButtonListener();
+                notePadConfigurer.setNotePadClearButtonListener();
                 break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
