@@ -7,19 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.ga.gradtech.Cards.Facebook.FacebookCard;
-import com.ga.gradtech.Cards.NotePad.NotePadCard;
+
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     public static CallbackManager callbackManager;
 
 
-    private List<Object> cards;
 
     private static final String TWITTER_KEY = ApiKeys.TWITTER_KEY;
     private static final String TWITTER_SECRET = ApiKeys.TWITTER_SECRET;
@@ -54,34 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
         initializeAdapter();
 
-        bindDataToAdapter();
-
-    }
-
-    private ArrayList<Object> getSampleArrayList() {
-        ArrayList<Object> items = new ArrayList<>();
-        //Facebook Card
-        items.add(new FacebookCard());
-        //Twitter Card
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new Card2());
-        items.add(new NotePadCard());
-
-
-        return items;
     }
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(cards, this);
+        RVAdapter adapter = new RVAdapter(5, this);
         recyclerView.setAdapter(adapter);
-    }
-
-    private void bindDataToAdapter() {
-        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this));
     }
 
     private void setLayoutManager() {
@@ -89,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -2,6 +2,7 @@ package com.ga.gradtech.Cards.Facebook;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
