@@ -1,6 +1,7 @@
 package com.ga.gradtech;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import butterknife.ButterKnife;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
+import com.ga.gradtech.Cards.Meetup.MeetupCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -25,6 +27,7 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getCanonicalName();
+    FragmentManager meetupFragmentManager;
 
     public static CallbackManager callbackManager;
 
@@ -56,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         bindDataToAdapter();
 
+        meetupFragmentManager = getSupportFragmentManager();
+
     }
 
     private ArrayList<Object> getSampleArrayList() {
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new FacebookCard());
         //Twitter Card
         items.add(new Card2());
-        items.add(new Card2());
+        items.add(new MeetupCard());
         items.add(new Card2());
         items.add(new Card2());
         items.add(new Card2());
@@ -76,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(cards, this);
+        RVAdapter adapter = new RVAdapter(cards, this, meetupFragmentManager);
         recyclerView.setAdapter(adapter);
     }
 
     private void bindDataToAdapter() {
-        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this));
+        recyclerView.setAdapter(new RVAdapter(getSampleArrayList(), this, meetupFragmentManager));
     }
 
     private void setLayoutManager() {

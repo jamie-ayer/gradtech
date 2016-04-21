@@ -1,8 +1,10 @@
 package com.ga.gradtech;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
+import com.ga.gradtech.Cards.Meetup.MeetupCard;
 import com.ga.gradtech.Cards.Meetup.MeetupLoginFragment;
 import com.ga.gradtech.Cards.Meetup.MeetupResultsFragment;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
@@ -35,8 +38,6 @@ import java.util.List;
 public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static String TAG = RVAdapter.class.getCanonicalName();
-    MeetupLoginFragment meetupLoginFragment;
-    MeetupResultsFragment meetupResultsFragment;
 
     /**
      * PlaceHolder for now
@@ -63,18 +64,27 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
 
     List<Object> cards;
-    Activity mainActivity;
+    AppCompatActivity mainActivity;
+    FragmentManager meetupFragmentManager;
 
-    RVAdapter(List<Object> cards, Activity activity) {
+    RVAdapter(List<Object> cards, AppCompatActivity activity, FragmentManager fragmentManager1) {
         this.mainActivity = activity;
         this.cards = cards;
+        this.meetupFragmentManager = fragmentManager1;
     }
 
+    /**
+     *
+     * @param viewGroup
+     * @param viewType
+     * @return
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+
 
         switch (viewType) {
             case FACEBOOK:
@@ -121,11 +131,20 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return viewHolder;
     }
 
+    /**
+     *
+     * @param recyclerView
+     */
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    /**
+     *
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
@@ -147,27 +166,26 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case MEETUP:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
                 configureMeetupViewHolder2(vh3, position);
-
                 break;
             case TRELLO:
                 CardViewHolder vh4 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh4, position);
+                //configureTwitterViewHolder2(vh4, position);
                 break;
             case GITHUB:
                 CardViewHolder vh5 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh5, position);
+                //configureTwitterViewHolder2(vh5, position);
                 break;
             case GLASSDOOR:
                 CardViewHolder vh6 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh6, position);
+                //configureTwitterViewHolder2(vh6, position);
                 break;
             case LINKEDIN:
                 CardViewHolder vh7 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh7, position);
+                //configureTwitterViewHolder2(vh7, position);
                 break;
             case YELP:
                 CardViewHolder vh8 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh8, position);
+                //configureTwitterViewHolder2(vh8, position);
                 break;
             case NOTEPAD:
                 NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
@@ -183,11 +201,19 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
+    /**
+     *
+     * @param vh
+     * @param position
+     */
     private void configureDefaultViewHolder(CardViewHolder vh, int position) {
-
-
     }
 
+    /**
+     *
+     * @param vh2
+     * @param position
+     */
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
         Card2 card = (Card2) cards.get(position);
 
@@ -196,30 +222,60 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
 
-    private void configureMeetupViewHolder2(CardViewHolder vh2, int position) {
-        Card2 card = (Card2) cards.get(position);
+    /**
+     *
+     * @param vh3
+     * @param position
+     */
+    private void configureMeetupViewHolder2(CardViewHolder vh3, int position) {
+        Log.d(TAG, "configureMeetupViewHolder2: inside damn holder");
+        MeetupCard card = (MeetupCard) cards.get(position);
+
+        MeetupLoginFragment meetupLoginFragment = new MeetupLoginFragment();
+        FragmentTransaction fragmentTransaction = mainActivity.getSupportFragmentManager().beginTransaction();
+        //fragmentTransaction.add(R.id.meetup_container_id, meetupLoginFragment);
+        fragmentTransaction.add(R.id.meetup_container_id, meetupLoginFragment);
+
+        fragmentTransaction.commit();
 
 
+        /*
+        MeetupResultsFragment meetupResultsFragment = new MeetupResultsFragment();
 
-        //vh2.mCompanyName.setText("Meetup");
+        */
+
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return cards.size();
     }
 
+    /**
+     *
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
 
+        return position;
+        /*
         if (cards.get(position) instanceof FacebookCard) {
             return FACEBOOK;
         } else if (cards.get(position) instanceof Card2) {
             return TWITTER;
         }else if (cards.get(position) instanceof NotePadCard){
             return NOTEPAD;
+        } else if (cards.get(position) instanceof MeetupCard){
+            return MEETUP;
         }
         return super.getItemViewType(position);
+        */
     }
 }
 

@@ -1,8 +1,6 @@
 package com.ga.gradtech.Cards.Meetup;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,9 +31,9 @@ import net.smartam.leeloo.common.message.types.GrantType;
  */
 public class MeetupLoginFragment extends Fragment {
     private final String TAG = getClass().getName();
-    public final String AUTH_URL = getString(R.string.meetup_authurl);
-    public final String TOKEN_URL = getString(R.string.meetup_tokenurl);
-
+    public final String AUTH_URL = "https://secure.meetup.com/oauth2/authorize";
+    public final String TOKEN_URL = "https://secure.meetup.com/oauth2/access";
+    OnSuccessfulLoginListener mListener;
     WebView loginWebView;
     String accessToken;
 
@@ -118,4 +116,20 @@ public class MeetupLoginFragment extends Fragment {
             return null;
         }
     }
+
+    public interface OnSuccessfulLoginListener{
+        void onSuccessfulLoginListener(String tokenAccess);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnSuccessfulLoginListener) getActivity();
+        } catch (ClassCastException e){
+            Log.e(TAG, "Must implement OnSuccessfulLoginListener");
+        }
+    }
+
+
 }
