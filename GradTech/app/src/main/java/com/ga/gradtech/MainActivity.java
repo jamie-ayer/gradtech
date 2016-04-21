@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,8 +23,9 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getCanonicalName();
-
     public static CallbackManager callbackManager;
+
+
 
     private static final String TWITTER_KEY = ApiKeys.TWITTER_KEY;
     private static final String TWITTER_SECRET = ApiKeys.TWITTER_SECRET;

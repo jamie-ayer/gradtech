@@ -1,11 +1,13 @@
 package com.ga.gradtech;
 
 import android.app.Activity;
+
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 import com.ga.gradtech.Cards.Calander.CalenderCardViewHolder;
 
@@ -17,6 +19,7 @@ import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
 
 import com.ga.gradtech.Cards.SoundCloud.SoundCloudCardViewHolder;
 import com.ga.gradtech.Cards.SoundCloud.SoundCloudConfigurer;
+
 
 /**
  * Created by JamieAyer on 4/18/16.
@@ -52,7 +55,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
@@ -108,17 +110,25 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        switch (viewHolder.getItemViewType()) {
+        switch (position) {
             case FACEBOOK:
                 Log.d(TAG, "onBindViewHolder: ===>>> inOnBindViewHolder");
                 FacebookCardViewHolder vh1 = (FacebookCardViewHolder) viewHolder;
                 FacebookViewHolderConfigurer fbConfigurer = new FacebookViewHolderConfigurer(vh1, position, mainActivity);
-                if(!fbConfigurer.isFacebookLoggedIn()) {
+                if (!fbConfigurer.isFacebookLoggedIn()) {
                     Log.d(TAG, "onBindViewHolder: ====>>> Facebook logged in");
-                    fbConfigurer.initFacebookLogin();
+                    fbConfigurer.initFbLogin();
+                    fbConfigurer.setFbLoginButtonVisibility();
+                    fbConfigurer.setFbListViewVisibility();
+
+                    if (!fbConfigurer.isFacebookLoggedIn()) {
+                        Log.d(TAG, "onBindViewHolder: ====>>> Facebook Not logged in");
+                        fbConfigurer.initFbLogin();
+                    }
+                    fbConfigurer.setFbPostShareButtonListener();
+                    fbConfigurer.setFbUpdateFeedButtonListener();
+                    fbConfigurer.getFbFeed();
                 }
-                fbConfigurer.facebookShare();
-                fbConfigurer.facebookGetFeed();
                 break;
             case TWITTER:
                 CardViewHolder vh2 = (CardViewHolder) viewHolder;
@@ -136,31 +146,21 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 CalenderCardViewHolder vh5 = (CalenderCardViewHolder) viewHolder;
                 configureCalendarViewHolder(vh5);
                 break;
-//            case GLASSDOOR:
-//                CardViewHolder vh6 = (CardViewHolder) viewHolder;
-//                configureTwitterViewHolder2(vh6, position);
-//                break;
-//            case LINKEDIN:
-//                CardViewHolder vh7 = (CardViewHolder) viewHolder;
-//                configureTwitterViewHolder2(vh7, position);
-//                break;
-//            case YELP:
-//                CardViewHolder vh8 = (CardViewHolder) viewHolder;
-//                configureTwitterViewHolder2(vh8, position);
-//                break;
             case NOTEPAD:
                 NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
                 NotepadViewHolderConfigurer notePadConfigurer = new NotepadViewHolderConfigurer(vh9, position, mainActivity);
                 notePadConfigurer.initNotePad();
                 notePadConfigurer.setNotePadEditButtonListener();
                 notePadConfigurer.setNotePadSaveButtonListener();
+                notePadConfigurer.setNotePadClearButtonListener();
                 break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
                 configureDefaultViewHolder(vh, position);
                 break;
+                }
         }
-    }
+
 
     private void configureDefaultViewHolder(CardViewHolder vh, int position) {
 
