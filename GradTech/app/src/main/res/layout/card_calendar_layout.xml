@@ -43,6 +43,13 @@
                 android:layout_weight="1"
                 android:hint="Date"/>
 
+            <EditText
+                android:id="@+id/card_calendar_time_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="HH:MM"/>
+
         </LinearLayout>
 
         <EditText

@@ -12,6 +12,7 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 
@@ -53,6 +54,16 @@ public class CalendarViewHolderConfigurer {
         this.vh10 = vh10;
         this.position = position;
         this.mainActivity = mainActivity;
+    }
+
+
+    public void setCalendarTouchListener(){
+        vh10.mCalendarCaledarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                vh10.mCalendarDateEditText.setText(month + "/" + dayOfMonth + "/" + year);
+            }
+        });
     }
 
 
