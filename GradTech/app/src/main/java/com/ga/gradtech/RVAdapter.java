@@ -169,23 +169,23 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 break;
             case TRELLO:
                 CardViewHolder vh4 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh4, position);
+                configureTwitterViewHolder2(vh4, position);
                 break;
             case GITHUB:
                 CardViewHolder vh5 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh5, position);
+                configureTwitterViewHolder2(vh5, position);
                 break;
             case GLASSDOOR:
                 CardViewHolder vh6 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh6, position);
+                configureTwitterViewHolder2(vh6, position);
                 break;
             case LINKEDIN:
                 CardViewHolder vh7 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh7, position);
+                configureTwitterViewHolder2(vh7, position);
                 break;
             case YELP:
                 CardViewHolder vh8 = (CardViewHolder) viewHolder;
-                //configureTwitterViewHolder2(vh8, position);
+                configureTwitterViewHolder2(vh8, position);
                 break;
             case NOTEPAD:
                 NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
@@ -233,9 +233,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         MeetupLoginFragment meetupLoginFragment = new MeetupLoginFragment();
         FragmentTransaction fragmentTransaction = mainActivity.getSupportFragmentManager().beginTransaction();
-        //fragmentTransaction.add(R.id.meetup_container_id, meetupLoginFragment);
         fragmentTransaction.add(R.id.meetup_container_id, meetupLoginFragment);
-
         fragmentTransaction.commit();
 
 

@@ -105,12 +105,6 @@ public class MeetupLoginFragment extends Fragment {
 
             } catch (OAuthProblemException e) {
                 Log.e(TAG, "Oauth System Exception - Couldn't get access token" + e.getMessage());
-//                Runnable runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(getContext(), "OAuth Problem Exception - Couldn't get access token", Toast.LENGTH_LONG).show();
-//                    }
-//                };
                 e.printStackTrace();
             }
             return null;
@@ -118,7 +112,7 @@ public class MeetupLoginFragment extends Fragment {
     }
 
     public interface OnSuccessfulLoginListener{
-        void onSuccessfulLoginListener(String tokenAccess);
+        void onSuccessfulLogin(String tokenAccess);
     }
 
     @Override

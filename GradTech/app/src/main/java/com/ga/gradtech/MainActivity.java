@@ -2,6 +2,7 @@ package com.ga.gradtech;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,13 +19,15 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Meetup.MeetupCard;
+import com.ga.gradtech.Cards.Meetup.MeetupLoginFragment;
+import com.ga.gradtech.Cards.Meetup.MeetupResultsFragment;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MeetupLoginFragment.OnSuccessfulLoginListener{
 
     private static final String TAG = MainActivity.class.getCanonicalName();
     FragmentManager meetupFragmentManager;
@@ -100,5 +103,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSuccessfulLogin(String tokenAccess) {
+        MeetupResultsFragment meetupResultsFragment = new MeetupResultsFragment();
+        FragmentTransaction fragmentTransaction = meetupFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.meetup_container_id, meetupResultsFragment);
+        fragmentTransaction.commit();
     }
 }
