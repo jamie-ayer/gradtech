@@ -25,8 +25,8 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getCanonicalName();
-
     public static CallbackManager callbackManager;
+
 
     private List<Object> cards;
 
