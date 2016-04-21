@@ -111,5 +111,7 @@ public class MainActivity extends AppCompatActivity implements MeetupLoginFragme
         FragmentTransaction fragmentTransaction = meetupFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.meetup_container_id, meetupResultsFragment);
         fragmentTransaction.commit();
+
+        meetupResultsFragment.setAccessToken(tokenAccess);
     }
 }

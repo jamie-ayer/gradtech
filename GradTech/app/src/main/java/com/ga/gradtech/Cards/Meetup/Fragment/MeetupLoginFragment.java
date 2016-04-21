@@ -54,6 +54,15 @@ public class MeetupLoginFragment extends Fragment {
             e.printStackTrace();
         }
         loginWebView.loadUrl(request.getLocationUri() + "&response_type=code&set_mobile=on");
+        if (accessToken != null){
+            mListener.onSuccessfulLogin(accessToken);
+            Log.i(TAG, "The access token is " + accessToken);
+        } else {
+            String crapToken = "crap";
+            mListener.onSuccessfulLogin(crapToken);
+            Log.i(TAG, "The access token is " + crapToken);
+        }
+
         return v;
     }
 
@@ -124,6 +133,9 @@ public class MeetupLoginFragment extends Fragment {
             Log.e(TAG, "Must implement OnSuccessfulLoginListener");
         }
     }
+
+
+
 
 
 }
