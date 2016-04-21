@@ -15,6 +15,7 @@ import android.webkit.WebViewFragment;
 import android.widget.Toast;
 
 import com.ga.gradtech.ApiKeys;
+import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
 import com.ga.gradtech.R;
 import com.ga.gradtech.RVAdapter;
 
@@ -36,12 +37,14 @@ public class MeetupLoginFragment extends Fragment {
     OnSuccessfulLoginListener mListener;
     WebView loginWebView;
     String accessToken;
+    MyWebViewClient myWebViewClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_meetup_webview, container, false);
         loginWebView = (WebView) v.findViewById(R.id.meetup_webView_id);//new WebView(getContext());
-        loginWebView.setWebViewClient(new MyWebViewClient());
+        myWebViewClient = new MyWebViewClient();
+        loginWebView.setWebViewClient(myWebViewClient);
         loginWebView.getSettings().setJavaScriptEnabled(true);
         OAuthClientRequest request = null;
         try {
@@ -54,19 +57,25 @@ public class MeetupLoginFragment extends Fragment {
             e.printStackTrace();
         }
         loginWebView.loadUrl(request.getLocationUri() + "&response_type=code&set_mobile=on");
-        if (accessToken != null){
-            mListener.onSuccessfulLogin(accessToken);
-            Log.i(TAG, "The access token is " + accessToken);
-        } else {
-            String crapToken = "crap";
-            mListener.onSuccessfulLogin(crapToken);
-            Log.i(TAG, "The access token is " + crapToken);
-        }
+        myWebViewClient.onPageFinished(loginWebView, ApiKeys.MEETUP_REDIRECT_URI + "&client_id=" + accessToken + "&response_type=code&set_mobile=on");
 
         return v;
     }
 
     private class MyWebViewClient extends WebViewClient{
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            if (accessToken != null){
+                mListener.onSuccessfulLogin(accessToken);
+                Log.i(TAG, "The access token is " + accessToken);
+            } else {
+                String crapToken = "crap";
+//                mListener.onSuccessfulLogin(crapToken);
+                Log.i(TAG, "The access token is " + crapToken);
+            }
+        }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Uri uri = Uri.parse(url);
@@ -81,6 +90,8 @@ public class MeetupLoginFragment extends Fragment {
                 Log.e(TAG, "The redirect uri contained error");
 //                setResult(RESULT_CANCELLED, getIntent());
             }
+
+
             return false;
         }
     }
@@ -120,9 +131,9 @@ public class MeetupLoginFragment extends Fragment {
         }
     }
 
-    public interface OnSuccessfulLoginListener{
-        void onSuccessfulLogin(String tokenAccess);
-    }
+//    public interface OnSuccessfulLoginListener{
+//        void onSuccessfulLogin(String tokenAccess);
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -133,9 +144,6 @@ public class MeetupLoginFragment extends Fragment {
             Log.e(TAG, "Must implement OnSuccessfulLoginListener");
         }
     }
-
-
-
 
 
 }

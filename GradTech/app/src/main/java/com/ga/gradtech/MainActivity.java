@@ -21,13 +21,14 @@ import com.ga.gradtech.Cards.Facebook.FacebookCard;
 import com.ga.gradtech.Cards.Meetup.MeetupCard;
 import com.ga.gradtech.Cards.Meetup.Fragment.MeetupLoginFragment;
 import com.ga.gradtech.Cards.Meetup.Fragment.MeetupResultsFragment;
+import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity implements MeetupLoginFragment.OnSuccessfulLoginListener{
+public class MainActivity extends AppCompatActivity implements OnSuccessfulLoginListener{
 
     private static final String TAG = MainActivity.class.getCanonicalName();
     FragmentManager meetupFragmentManager;
@@ -110,8 +111,7 @@ public class MainActivity extends AppCompatActivity implements MeetupLoginFragme
         MeetupResultsFragment meetupResultsFragment = new MeetupResultsFragment();
         FragmentTransaction fragmentTransaction = meetupFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.meetup_container_id, meetupResultsFragment);
-        fragmentTransaction.commit();
-
+        fragmentTransaction.commitAllowingStateLoss();
         meetupResultsFragment.setAccessToken(tokenAccess);
     }
 }

@@ -19,6 +19,8 @@ import com.ga.gradtech.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.security.auth.login.LoginException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,19 +54,18 @@ public class MeetupResultsFragment extends Fragment{
 
         //may need to remove / in base URL
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.meetup.com/")
+                .baseUrl("https://api.meetup.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         service = retrofit.create(MeetupAPIService.class);
-
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.list_item_meetup, container, false);
+        View v = inflater.inflate(R.layout.fragment_meetup_results, container, false);
+        listView = (ListView) v.findViewById(R.id.meetup_resultsFragment_listView_id);
         if (accessToken.equals("crap")){
             Toast.makeText(getContext(), "Not logged in", Toast.LENGTH_SHORT).show();
         }
@@ -72,12 +73,19 @@ public class MeetupResultsFragment extends Fragment{
         activityFeedCall.enqueue(new Callback<ActivityFeed>() {
             @Override
             public void onResponse(Call<ActivityFeed> call, Response<ActivityFeed> response) {
-                Log.e(TAG, "Thank Jesus Christ, it works! The array has a length of " + response.body().getResults().length);
-                activityFeedArrayList = new ArrayList(Arrays.asList(response.body()));
-                meetupAdapter = new MeetupAdapter(getContext(), activityFeedArrayList);
-                listView.setAdapter(meetupAdapter);
+                ActivityFeed activityFeedData = response.body();
+                Log.e(TAG, "Thank Jesus Christ, it works! The array has a length of " + activityFeedData.getResults().length);
+                activityFeedArrayList = new ArrayList(Arrays.asList(activityFeedData.getResults()));
+                if (activityFeedArrayList != null){
+                    meetupAdapter = new MeetupAdapter(getContext(), activityFeedArrayList);
+                    listView.setAdapter(meetupAdapter);
+                } else{
+                    activityFeedArrayList = new ArrayList();
+                    Log.i(TAG, "activityFeedArrayList is empty");
+//            meetupAdapter = new MeetupAdapter(getContext(), activityFeedArrayList);
+//            listView.setAdapter(meetupAdapter);
+                }
             }
-
             @Override
             public void onFailure(Call<ActivityFeed> call, Throwable t) {
                 Log.e(TAG, "FML. Fail " + t.getMessage());
@@ -85,5 +93,4 @@ public class MeetupResultsFragment extends Fragment{
         });
         return v;
     }
-
 }

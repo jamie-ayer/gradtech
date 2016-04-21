@@ -16,6 +16,7 @@ import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
 import com.ga.gradtech.Cards.Meetup.MeetupCard;
 import com.ga.gradtech.Cards.Meetup.Fragment.MeetupLoginFragment;
+import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
 
@@ -208,9 +209,9 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
         Card2 card = (Card2) cards.get(position);
 
-        vh2.mCompanyName.setText("Twitter");
-        vh2.mCompanyLocation.setText("Somewhere");
-        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
+//        vh2.mCompanyName.setText("Twitter");
+//        vh2.mCompanyLocation.setText("Somewhere");
+//        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
     }
 
     /**
@@ -226,6 +227,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         FragmentTransaction fragmentTransaction = mainActivity.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.meetup_container_id, meetupLoginFragment);
         fragmentTransaction.commit();
+
+
 
 
         /*
