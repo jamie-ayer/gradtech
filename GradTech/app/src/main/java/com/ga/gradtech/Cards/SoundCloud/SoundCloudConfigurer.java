@@ -31,8 +31,7 @@ public class SoundCloudConfigurer {
 
     private MediaPlayer mMediaPlayer;
 
-    SoundCloudCardViewHolder viewHolder;
-
+    private SoundCloudCardViewHolder viewHolder;
 
     private List<Track> mListItems;
     private SCTrackAdapter mAdapter;
