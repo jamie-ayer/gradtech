@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
 import com.ga.gradtech.Cards.NotePad.NotePadCard;
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
+import com.ga.gradtech.Cards.Twitter.TwitterFragment;
+import com.ga.gradtech.Cards.Twitter.TwitterViewHolder;
 
 
 import java.util.Arrays;
@@ -81,8 +84,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 viewHolder = new FacebookCardViewHolder(v1); ///WHERE THE VIEW HOLDER FIRST COMES INTO PLAY
                 break;
             case TWITTER:
-                View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
-                viewHolder = new CardViewHolder(v2);
+                View v2 = inflater.inflate(R.layout.twitter_card_layout, viewGroup, false);
+                viewHolder = new TwitterViewHolder(v2);
                 break;
             case TECHCRUNCH:
                 View v3 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
@@ -140,32 +143,32 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 fbConfigurer.facebookGetFeed();
                 break;
             case TWITTER:
-                CardViewHolder vh2 = (CardViewHolder) viewHolder;
+                TwitterViewHolder vh2 = (TwitterViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh2, position);
                 break;
             case TECHCRUNCH:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh3, position);
+                //configureTwitterViewHolder2(vh3, position);
                 break;
             case TRELLO:
                 CardViewHolder vh4 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh4, position);
+                //configureTwitterViewHolder2(vh4, position);
                 break;
             case GITHUB:
                 CardViewHolder vh5 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh5, position);
+                //configureTwitterViewHolder2(vh5, position);
                 break;
             case GLASSDOOR:
                 CardViewHolder vh6 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh6, position);
+                //configureTwitterViewHolder2(vh6, position);
                 break;
             case LINKEDIN:
                 CardViewHolder vh7 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh7, position);
+                //configureTwitterViewHolder2(vh7, position);
                 break;
             case YELP:
                 CardViewHolder vh8 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh8, position);
+                //configureTwitterViewHolder2(vh8, position);
                 break;
             case NOTEPAD:
                 NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
@@ -186,7 +189,14 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     }
 
-    private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
+    private void configureTwitterViewHolder2(CardViewHolder vh2, int position, FragmentManager fragmentManagerTwitter) {
+
+        FragmentTransaction fragmentTransaction = fragmentManagerTwitter.beginTransaction();
+
+        TwitterFragment fragment = new TwitterFragment();
+        fragmentTransaction.add(R.id.twitter_card_parent_layout, fragment);
+        fragmentTransaction.commit();
+
         Card2 card = (Card2) cards.get(position);
 
         vh2.mCompanyName.setText("Twitter");

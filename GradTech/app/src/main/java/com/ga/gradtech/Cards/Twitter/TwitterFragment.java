@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.ga.gradtech.MainActivity;
 import com.ga.gradtech.R;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -36,7 +35,7 @@ public class TwitterFragment extends Fragment {
     File myImageFile = new File(String.valueOf(R.drawable.tigger));
     final Uri myImageUri = Uri.fromFile(myImageFile);
 
-    ListView listview;
+    ListView twitter_listview;
 
     @Nullable
     @Override
@@ -45,8 +44,8 @@ public class TwitterFragment extends Fragment {
 
         tweet = (Button) v.findViewById(R.id.tweet);
         tweet.setVisibility(v.INVISIBLE);
-        listview = (ListView) v.findViewById(R.id.list_view);
-        listview.setVisibility(v.INVISIBLE);
+        twitter_listview = (ListView) v.findViewById(R.id.list_view);
+        twitter_listview.setVisibility(v.INVISIBLE);
 
         loginButton = (TwitterLoginButton) v.findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new com.twitter.sdk.android.core.Callback<TwitterSession>() {
@@ -58,7 +57,7 @@ public class TwitterFragment extends Fragment {
 
                 loginButton.setVisibility(View.INVISIBLE);
                 tweet.setVisibility(View.VISIBLE);
-                listview.setVisibility(View.VISIBLE);
+                twitter_listview.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -84,7 +83,7 @@ public class TwitterFragment extends Fragment {
         final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getContext()) // getContext might be wrong
                 .setTimeline(userTimeline)
                 .build();
-        listview.setAdapter(adapter);
+        twitter_listview.setAdapter(adapter);
 
         return v;
     }
