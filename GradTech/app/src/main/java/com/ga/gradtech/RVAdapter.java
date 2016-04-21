@@ -181,7 +181,14 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             case CALENDAR:
                 CalendarCardViewHolder vh10 = (CalendarCardViewHolder) viewHolder;
                 CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh10, position, mainActivity);
+
+
+                calendarConfigurer.updateEvent();
                 calendarConfigurer.setShareCalendarButtonListener();
+                calendarConfigurer.setAddEventButtonListener();
+                calendarConfigurer.setShowEventButtonListener();
+
+
                 break;
             default:
                 CardViewHolder vh = (CardViewHolder) viewHolder;
