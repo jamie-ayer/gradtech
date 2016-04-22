@@ -21,7 +21,7 @@ import com.facebook.FacebookSdk;
 
 
 import com.ga.gradtech.Cards.Meetup.Fragment.MeetupResultsFragment;
-import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
+import com.ga.gradtech.Cards.Meetup.Interface.OnSuccessfulLoginListener;
 
 
 import com.twitter.sdk.android.Twitter;

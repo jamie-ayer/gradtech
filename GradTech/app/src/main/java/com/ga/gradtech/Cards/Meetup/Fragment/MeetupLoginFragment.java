@@ -11,13 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewFragment;
-import android.widget.Toast;
 
 import com.ga.gradtech.ApiKeys;
-import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
+import com.ga.gradtech.Cards.Meetup.Interface.OnSuccessfulLoginListener;
 import com.ga.gradtech.R;
-import com.ga.gradtech.RVAdapter;
 
 import net.smartam.leeloo.client.OAuthClient;
 import net.smartam.leeloo.client.URLConnectionClient;
