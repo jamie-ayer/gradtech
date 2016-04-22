@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GradTech</string>
+    <string name="meetup_authurl">https://secure.meetup.com/oauth2/authorize</string>
+    <string name="meetup_tokenurl">https://secure.meetup.com/oauth2/access</string>
 </resources>

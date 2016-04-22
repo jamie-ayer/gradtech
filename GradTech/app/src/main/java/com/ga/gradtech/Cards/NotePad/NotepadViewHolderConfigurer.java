@@ -85,4 +85,20 @@ public class NotepadViewHolderConfigurer {
             }
         });
     }
+
+    public void setNotePadClearButtonListener() {
+        vh9.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //NotepadSQLiteHelper db = new NotepadSQLiteHelper(mainActivity);
+                String edText = "";
+                Log.d(TAG, "onClick: ===>>>> ClearButton " + edText);
+                vh9.mEditText.setText(edText);
+//                db.updateNotepadeItem(1, "FirstNote", edText);
+//                vh9.mCurrentText.setVisibility(View.VISIBLE);
+//                vh9.mEditText.setVisibility(View.INVISIBLE);
+//                db.close();
+            }
+        });
+    }
 }
