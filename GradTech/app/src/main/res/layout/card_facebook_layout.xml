@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="500dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
     android:elevation="9dp">
@@ -11,6 +11,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:text="Facebook Feed"/>
 
 
         <LinearLayout
@@ -53,35 +60,27 @@
                 android:layout_weight="1"
                 android:hint="Description"/>
 
-        </LinearLayout>
-
-
-        <EditText
-            android:id="@+id/card_facebook_share_url_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="URL"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/card_fb_get_feed_button"
+            <EditText
+                android:id="@+id/card_facebook_share_url_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Update Feed"/>
+                android:hint="Link"/>
 
             <Button
                 android:id="@+id/card_fb_share_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Share"/>
+                android:text="Post"/>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/card_fb_get_feed_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Feed"/>
 
 
     </LinearLayout>

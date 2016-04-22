@@ -33,8 +33,6 @@ public class FacebookFeedAdapter extends ArrayAdapter<FacebookFeedObject.FbData>
         FacebookFeedObject.FbData feedItem = data.get(position);
         String feedMessage = feedItem.getMessage();
 
-        Log.d(TAG, "getView: =======>>>>>>>" + feedMessage);
-
         feedItemTextView.setText(feedMessage);
 
         return fbFeedItemView;

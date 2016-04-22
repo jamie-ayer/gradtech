@@ -2,13 +2,11 @@ package com.ga.gradtech.Cards.Facebook;
 
 import android.app.Activity;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
@@ -20,8 +18,6 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.MainActivity;
-import com.ga.gradtech.R;
-import com.ga.gradtech.RVAdapter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -35,14 +31,24 @@ public class FacebookViewHolderConfigurer {
     private static final String TAG = FacebookViewHolderConfigurer.class.getCanonicalName();
 
 
+    String mPostId;
+
     FacebookCardViewHolder vh1;
-    int position;
     Activity mainActivity;
 
-    public FacebookViewHolderConfigurer(FacebookCardViewHolder vh1, int position, Activity mainActivity) {
+    public FacebookViewHolderConfigurer(FacebookCardViewHolder vh1, Activity mainActivity) {
         this.vh1 = vh1;
-        this.position = position;
         this.mainActivity = mainActivity;
+    }
+
+    public void initFacebookCardView(){
+        setFbLoginButtonVisibility();
+        setFbListViewVisibility();
+        setFbShareViewVisibility();
+
+        setFbPostShareButtonListener();
+        setFbUpdateFeedButtonListener();
+        getFbFeed();
     }
 
     public boolean isFacebookLoggedIn(){
@@ -65,7 +71,23 @@ public class FacebookViewHolderConfigurer {
         }
     }
 
-    public void initFbLogin(){
+    public void setFbShareViewVisibility(){
+        if(isFacebookLoggedIn()){
+            vh1.mFbShareButton.setVisibility(View.VISIBLE);
+            vh1.mFbShareDescriptionEditText.setVisibility(View.VISIBLE);
+            vh1.mFbShareTitleEditText.setVisibility(View.VISIBLE);
+            vh1.mFbShareUrlEditText.setVisibility(View.VISIBLE);
+            vh1.mFbGetFeedButton.setVisibility(View.VISIBLE);
+        }else{
+            vh1.mFbShareButton.setVisibility(View.GONE);
+            vh1.mFbShareDescriptionEditText.setVisibility(View.GONE);
+            vh1.mFbShareTitleEditText.setVisibility(View.GONE);
+            vh1.mFbShareUrlEditText.setVisibility(View.GONE);
+            vh1.mFbGetFeedButton.setVisibility(View.GONE);
+        }
+    }
+
+    public void initFbLoginButton(){
         vh1.mFbLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,9 +102,8 @@ public class FacebookViewHolderConfigurer {
                             @Override
                             public void onSuccess(LoginResult loginResult) {
                                 Log.d(TAG, "onSuccess: ====>>> FBLogin Successful");
-                                setFbListViewVisibility();
-                                setFbLoginButtonVisibility();
-                                getFbFeed();
+                                initFacebookCardView();
+
                                 Toast toast = Toast.makeText(mainActivity.getApplicationContext(), "Successful FB Login", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
@@ -103,6 +124,7 @@ public class FacebookViewHolderConfigurer {
     }
 
     public void setFbPostShareButtonListener(){
+        Log.d(TAG, "setFbPostShareButtonListener: ShareButtonClicked");
         final ShareDialog shareDialog = new ShareDialog(mainActivity);
         if(vh1.mFbShareButton != null){
             vh1.mFbShareButton.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +169,9 @@ public class FacebookViewHolderConfigurer {
         vh1.mFbGetFeedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: UpdateFeedClicked");
                 getFbFeed();
+                //getFbPost();
             }
         });
     }
@@ -165,8 +189,14 @@ public class FacebookViewHolderConfigurer {
                             String fbFeedJson = response.getJSONObject().toString();
                             FacebookFeedObject fbFeed = gson.fromJson(fbFeedJson, FacebookFeedObject.class);
 
+                            Log.d(TAG, "onCompleted: FeedJson " + fbFeedJson);
                             Log.d(TAG, "onCompleted: " + fbFeed.getData().toString());
 
+
+                            mPostId = fbFeed.getData().get(0).getId();
+
+
+                            Log.d(TAG, "onCompleted: ID<><><><" + mPostId);
                             FacebookFeedAdapter fbAdapter = new FacebookFeedAdapter(mainActivity, (ArrayList)fbFeed.getData());
                             vh1.mFbFeedListView.setAdapter(fbAdapter);
                         }
@@ -174,4 +204,23 @@ public class FacebookViewHolderConfigurer {
             ).executeAsync();
         }
     }
+
+    public void getFbPost(){
+        mPostId = "111114815960703_117726661966185";
+        //mPostId = "111114815960703_117550011983850";
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/"+mPostId,
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        String fbPostJson = response.getJSONObject().toString();
+                        Log.d(TAG, "onCompleted: //////" + fbPostJson);
+                    }
+                }
+        ).executeAsync();
+
+    }
+
 }
