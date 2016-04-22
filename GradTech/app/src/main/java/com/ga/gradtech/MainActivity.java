@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
         MeetupResultsFragment meetupResultsFragment = new MeetupResultsFragment();
         FragmentTransaction fragmentTransaction = meetupFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.meetup_container_id, meetupResultsFragment);
-        fragmentTransaction.commitAllowingStateLoss();
+        fragmentTransaction.commitAllowingStateLoss(); //was fragmentTransaction.commit()
         meetupResultsFragment.setAccessToken(tokenAccess);
     }
 }
