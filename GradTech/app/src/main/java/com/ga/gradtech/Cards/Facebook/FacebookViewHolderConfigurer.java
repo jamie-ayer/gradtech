@@ -2,6 +2,7 @@ package com.ga.gradtech.Cards.Facebook;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -42,12 +43,14 @@ public class FacebookViewHolderConfigurer {
     }
 
     public void initFacebookCardView(){
+        Log.d(TAG, "initFacebookCardView: ==>>> Initializing Facebook");
         setFbLoginButtonVisibility();
         setFbListViewVisibility();
         setFbShareViewVisibility();
 
         setFbPostShareButtonListener();
         setFbUpdateFeedButtonListener();
+        setFbUpdatePageFeedButtonListener();
         getFbFeed();
     }
 
@@ -73,12 +76,14 @@ public class FacebookViewHolderConfigurer {
 
     public void setFbShareViewVisibility(){
         if(isFacebookLoggedIn()){
+            vh1.mFbPageHeaderTextView.setVisibility(View.VISIBLE);
             vh1.mFbShareButton.setVisibility(View.VISIBLE);
             vh1.mFbShareDescriptionEditText.setVisibility(View.VISIBLE);
             vh1.mFbShareTitleEditText.setVisibility(View.VISIBLE);
             vh1.mFbShareUrlEditText.setVisibility(View.VISIBLE);
             vh1.mFbGetFeedButton.setVisibility(View.VISIBLE);
         }else{
+            vh1.mFbPageHeaderTextView.setVisibility(View.GONE);
             vh1.mFbShareButton.setVisibility(View.GONE);
             vh1.mFbShareDescriptionEditText.setVisibility(View.GONE);
             vh1.mFbShareTitleEditText.setVisibility(View.GONE);
@@ -95,7 +100,9 @@ public class FacebookViewHolderConfigurer {
                 Collection<String> permissions = Arrays.asList("public_profile",
                         "user_friends",
                         "user_status",
-                        "user_posts");
+                        "user_posts",
+                        "user_managed_groups",
+                        "publish_actions");
                 //LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
                 LoginManager.getInstance().registerCallback(MainActivity.callbackManager,
                         new FacebookCallback<LoginResult>() {
@@ -170,8 +177,19 @@ public class FacebookViewHolderConfigurer {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: UpdateFeedClicked");
+                vh1.mFbPageHeaderTextView.setText("Facebook Feed");
                 getFbFeed();
                 //getFbPost();
+            }
+        });
+    }
+
+    public void setFbUpdatePageFeedButtonListener(){
+        vh1.mFbGetPageFeedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vh1.mFbPageHeaderTextView.setText("Android Page");
+                getFbPageFeed();
             }
         });
     }
@@ -223,4 +241,54 @@ public class FacebookViewHolderConfigurer {
 
     }
 
+
+    public void getFbPageFeed(){
+        String mPageId = "649188628486342"; // Official Page
+        //String mPageId = "155608091155587";
+        /* make the API call */
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/"+mPageId+"/posts",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Gson gson = new Gson();
+                        String fbSearchJson = response.getJSONObject().toString();
+                        FacebookPageObject fbPage = gson.fromJson(fbSearchJson, FacebookPageObject.class);
+
+                        Log.d(TAG, "onCompleted: SearchJson " + fbSearchJson);
+                        Log.d(TAG, "onCompleted: " + fbPage.getData().toString());
+
+
+                        mPostId = fbPage.getData().get(0).getId();
+
+
+                        Log.d(TAG, "onCompleted: ID<><><><" + mPostId);
+                        FacebookPageAdapter fbAdapter = new FacebookPageAdapter(mainActivity, (ArrayList)fbPage.getData());
+                        vh1.mFbFeedListView.setAdapter(fbAdapter);
+                    }
+                }
+        ).executeAsync();
+
+//
+//        Bundle params = new Bundle();
+//        params.putString("q", mSearchTerm);
+//        /* make the API call */
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/search?",
+//                params,
+//                HttpMethod.GET,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//
+//                    }
+//                }
+//        ).executeAsync();
+
+    }
+
+
 }
+

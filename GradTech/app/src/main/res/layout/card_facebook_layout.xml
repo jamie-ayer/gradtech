@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/card_fb_page_header_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -26,7 +27,7 @@
             android:layout_height="150dp">
 
             <com.facebook.login.widget.LoginButton
-                android:id="@+id/fb_login_button"
+                android:id="@+id/card_fb_login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -35,7 +36,7 @@
                 android:layout_marginBottom="30dp" />
 
             <ListView
-                android:id="@+id/fb_feed_listView"
+                android:id="@+id/card_fb_feed_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></ListView>
 
@@ -76,11 +77,27 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/card_fb_get_feed_button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update Feed"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/card_fb_get_feed_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="My Wall"/>
+
+            <Button
+                android:id="@+id/card_fb_get_page_feed_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Android Page"/>
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
