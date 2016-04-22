@@ -39,6 +39,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e521a05da3ebc754aa82f258de36a177ec064fa3" />
+        <!--<receiver android:name=".Cards.SoundCloud.SoundCloudConfigurer$SwitchButtonListener" />-->
 
     </application>
 

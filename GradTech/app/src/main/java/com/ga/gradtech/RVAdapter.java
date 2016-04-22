@@ -191,7 +191,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void configureSoundCloudViewHolder(SoundCloudCardViewHolder vh) {
         SoundCloudConfigurer SC = new SoundCloudConfigurer(vh);
-        SC.initSoundCloud();
+        SC.initSoundCloud(mainActivity);
 
     }
 
