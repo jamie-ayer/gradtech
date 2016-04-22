@@ -9,6 +9,7 @@ public class Event {
     String event_url;
     String name;
     long time;
+    Group group;
 
     public Venue getVenue() {
         return venue;
@@ -48,5 +49,13 @@ public class Event {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

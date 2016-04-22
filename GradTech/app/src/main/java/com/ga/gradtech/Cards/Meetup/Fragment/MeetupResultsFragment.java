@@ -11,15 +11,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-import com.ga.gradtech.Cards.Meetup.MeetupAPIService;
+import com.ga.gradtech.Cards.Meetup.Interface.MeetupAPIService;
 import com.ga.gradtech.Cards.Meetup.MeetupAdapter;
 import com.ga.gradtech.Cards.Meetup.Model.ActivityFeed;
 import com.ga.gradtech.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
