@@ -56,9 +56,9 @@ public class MeetupLoginFragment extends Fragment {
         }
         loginWebView.loadUrl(request.getLocationUri() + "&response_type=code&set_mobile=on");
         myWebViewClient.onPageFinished(loginWebView, ApiKeys.MEETUP_REDIRECT_URI + "&client_id=" + accessToken + "&response_type=code&set_mobile=on");
-
         return v;
     }
+
 
     private class MyWebViewClient extends WebViewClient{
         @Override
@@ -73,6 +73,7 @@ public class MeetupLoginFragment extends Fragment {
             }
         }
 
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Uri uri = Uri.parse(url);
@@ -84,8 +85,6 @@ public class MeetupLoginFragment extends Fragment {
             } else if (error != null) {
                 Log.e(TAG, "The redirect uri contained error");
             }
-
-
             return false;
         }
     }

@@ -129,7 +129,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TWITTER:
                 TwitterViewHolder vh2 = (TwitterViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh2, position);
+                //configureTwitterViewHolder2(vh2, position);
                 break;
             case MEETUP:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
@@ -170,13 +170,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void configureDefaultViewHolder(CardViewHolder vh, int position) {
     }
 
-    /**
-     *
-     * @param vh2
-     * @param position
-     */
-    private void configureTwitterViewHolder2(TwitterViewHolder vh2, int position) {
-    }
+
 
 
     public TwitterFragment getTwitterFragment() {
