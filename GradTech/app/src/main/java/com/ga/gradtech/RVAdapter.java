@@ -123,23 +123,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (position) {
             case FACEBOOK:
-                Log.d(TAG, "onBindViewHolder: ===>>> inOnBindViewHolder");
                 FacebookCardViewHolder vh1 = (FacebookCardViewHolder) viewHolder;
-                FacebookViewHolderConfigurer fbConfigurer = new FacebookViewHolderConfigurer(vh1, position, mainActivity);
-                if (!fbConfigurer.isFacebookLoggedIn()) {
-                    Log.d(TAG, "onBindViewHolder: ====>>> Facebook logged in");
-                    fbConfigurer.initFbLogin();
-                    fbConfigurer.setFbLoginButtonVisibility();
-                    fbConfigurer.setFbListViewVisibility();
-
-                    if (!fbConfigurer.isFacebookLoggedIn()) {
-                        Log.d(TAG, "onBindViewHolder: ====>>> Facebook Not logged in");
-                        fbConfigurer.initFbLogin();
-                    }
-                    fbConfigurer.setFbPostShareButtonListener();
-                    fbConfigurer.setFbUpdateFeedButtonListener();
-                    fbConfigurer.getFbFeed();
-                }
+                configureFacebookViewHolder(vh1);
                 break;
             case TWITTER:
                 TwitterViewHolder vh2 = (TwitterViewHolder) viewHolder;
@@ -158,12 +143,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 configureCalendarViewHolder(vh5);
                 break;
             case NOTEPAD:
-                NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
-                NotepadViewHolderConfigurer notePadConfigurer = new NotepadViewHolderConfigurer(vh9, position, mainActivity);
-                notePadConfigurer.initNotePad();
-                notePadConfigurer.setNotePadEditButtonListener();
-                notePadConfigurer.setNotePadSaveButtonListener();
-                notePadConfigurer.setNotePadClearButtonListener();
+                NotePadCardViewHolder vh6 = (NotePadCardViewHolder) viewHolder;
+                configureNotePadViewHolder(vh6);
                 break;
 //            default:
 //                CardViewHolder vh = (CardViewHolder) viewHolder;
@@ -213,6 +194,22 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         SC.initSoundCloud();
 
     }
+
+    private void configureFacebookViewHolder(FacebookCardViewHolder vh1){
+        FacebookViewHolderConfigurer fbConfigurer = new FacebookViewHolderConfigurer(vh1, mainActivity);
+        Log.d(TAG, "onBindViewHolder: ====>>> Facebook logged in");
+        fbConfigurer.initFacebookCardView();
+        if (!fbConfigurer.isFacebookLoggedIn()) {
+            Log.d(TAG, "onBindViewHolder: ====>>> Facebook Not logged in");
+            fbConfigurer.initFbLoginButton();
+        }
+    }
+
+    private void configureNotePadViewHolder(NotePadCardViewHolder vh6){
+        NotepadViewHolderConfigurer notePadConfigurer = new NotepadViewHolderConfigurer(vh6, mainActivity);
+        notePadConfigurer.initNotePad();
+    }
+
 
     private void configureCalendarViewHolder(CalenderCardViewHolder vh) {
 
