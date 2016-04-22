@@ -1,12 +1,26 @@
 package com.ga.gradtech.Cards.SoundCloud;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 
 import com.ga.gradtech.MainActivity;
 import com.ga.gradtech.RVAdapter;
@@ -38,12 +52,17 @@ public class SoundCloudConfigurer {
 
     private ListView mListView;
 
+    private Context mContext;
+
     public SoundCloudConfigurer(SoundCloudCardViewHolder viewHolder) {
         this.viewHolder = viewHolder;
         this.mListView = viewHolder.mListView;
     }
 
-    public void initSoundCloud() {
+    public void initSoundCloud(Context context) {
+
+        mContext = context;
+        mContext.registerReceiver(new SwitchButtonListener(), new IntentFilter("com.example.test.ACTION_PLAY"));
 
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -86,8 +105,9 @@ public class SoundCloudConfigurer {
 
                 if (mMediaPlayer.isPlaying()) {
                     mMediaPlayer.stop();
-                    mMediaPlayer.reset();
                 }
+
+                mMediaPlayer.reset();
 
                 try {
                     mMediaPlayer.setDataSource(track.getStreamURL() + "?client_id=" + Config.CLIENT_ID);
@@ -144,10 +164,60 @@ public class SoundCloudConfigurer {
     private void togglePlayPause() {
         if (mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
+            startNotification();
             viewHolder.mPlayerControl.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+            //viewHolder.mNotificationButton.setImageResource(R.drawable.ic_play_arrow_white_24dp);
         } else {
             mMediaPlayer.start();
+            startNotification();
             viewHolder.mPlayerControl.setImageResource(R.drawable.ic_pause_white_24dp);
+            //viewHolder.mNotificationButton.setImageResource(R.drawable.ic_pause_white_24dp);
         }
     }
+
+    private void startNotification(){
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager notificationManager =
+                (NotificationManager) mContext.getSystemService(ns);
+
+        Notification notification = new Notification(R.drawable.github_icon, null,
+                System.currentTimeMillis());
+
+        RemoteViews notificationView = new RemoteViews(mContext.getPackageName(),
+                R.layout.notification_mediaplayer);
+
+        notificationView.setTextViewText(R.id.song_name, viewHolder.mSelectedTrackTitle.getText().toString());
+
+        //the intent that is started when the notification is clicked (works)
+        Intent notificationIntent = new Intent(mContext, MainActivity.class);
+        PendingIntent pendingNotificationIntent = PendingIntent.getActivity(mContext, 0,
+                notificationIntent, 0);
+
+        notification.contentView = notificationView;
+        notification.contentIntent = pendingNotificationIntent;
+        notification.flags |= Notification.FLAG_NO_CLEAR;
+
+        //this is the intent that is supposed to be called when the
+        //button is clicked
+        Intent switchIntent = new Intent("com.example.test.ACTION_PLAY");
+        PendingIntent pendingSwitchIntent = PendingIntent.getBroadcast(mContext, 0,
+                switchIntent, 0);
+
+        notificationView.setOnClickPendingIntent(R.id.play_pause_button,
+                pendingSwitchIntent);
+
+        notificationManager.notify(1, notification);
+    }
+
+    public class SwitchButtonListener extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("Here", "I am here");
+            //MediaPlayer mediaPlayer;
+            //flashLight = new FlashOnOff();
+            togglePlayPause();
+        }
+    }
+
 }

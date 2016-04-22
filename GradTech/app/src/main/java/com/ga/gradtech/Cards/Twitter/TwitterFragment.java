@@ -117,7 +117,8 @@ public class TwitterFragment extends Fragment {
             loginButton.onActivityResult(requestCode, resultCode, data);
         }
     }
-    
+
+
     public void keepTwitterSignedIn(){
             Log.i("MainActivity", "Kept Twitter Signed IN");
             loginButton.setVisibility(View.INVISIBLE);
