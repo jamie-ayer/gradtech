@@ -18,7 +18,31 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="14sp"
+            android:visibility="gone"
             android:text="Facebook Feed"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/card_fb_get_feed_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="My Wall"/>
+
+            <Button
+                android:id="@+id/card_fb_get_page_feed_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Android Page"/>
+
+        </LinearLayout>
+
 
 
         <LinearLayout
@@ -73,31 +97,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:text="Post"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/card_fb_get_feed_button"
+            <com.facebook.share.widget.ShareButton
+                android:id="@+id/card_fb_shareWidget_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="My Wall"/>
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="Share"/>
 
-            <Button
-                android:id="@+id/card_fb_get_page_feed_button"
+            <com.facebook.share.widget.SendButton
+                android:id="@+id/card_fb_send_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Android Page"/>
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="Send"/>
+
 
         </LinearLayout>
-
 
 
     </LinearLayout>

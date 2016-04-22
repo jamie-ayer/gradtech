@@ -51,6 +51,7 @@ public class FacebookViewHolderConfigurer {
         setFbPostShareButtonListener();
         setFbUpdateFeedButtonListener();
         setFbUpdatePageFeedButtonListener();
+        setFbPostShareWidgetButtonListener();
         getFbFeed();
     }
 
@@ -76,15 +77,15 @@ public class FacebookViewHolderConfigurer {
 
     public void setFbShareViewVisibility(){
         if(isFacebookLoggedIn()){
-            vh1.mFbPageHeaderTextView.setVisibility(View.VISIBLE);
-            vh1.mFbShareButton.setVisibility(View.VISIBLE);
+            //vh1.mFbPageHeaderTextView.setVisibility(View.VISIBLE);
+            //vh1.mFbShareButton.setVisibility(View.VISIBLE);
             vh1.mFbShareDescriptionEditText.setVisibility(View.VISIBLE);
             vh1.mFbShareTitleEditText.setVisibility(View.VISIBLE);
             vh1.mFbShareUrlEditText.setVisibility(View.VISIBLE);
             vh1.mFbGetFeedButton.setVisibility(View.VISIBLE);
         }else{
-            vh1.mFbPageHeaderTextView.setVisibility(View.GONE);
-            vh1.mFbShareButton.setVisibility(View.GONE);
+            //vh1.mFbPageHeaderTextView.setVisibility(View.GONE);
+            //vh1.mFbShareButton.setVisibility(View.GONE);
             vh1.mFbShareDescriptionEditText.setVisibility(View.GONE);
             vh1.mFbShareTitleEditText.setVisibility(View.GONE);
             vh1.mFbShareUrlEditText.setVisibility(View.GONE);
@@ -126,6 +127,47 @@ public class FacebookViewHolderConfigurer {
                             }
                         }
                 );
+            }
+        });
+    }
+
+
+    public void setFbPostShareWidgetButtonListener(){
+        final ShareDialog shareDialog = new ShareDialog(mainActivity);
+        vh1.mFbShareWidgetButton.setEnabled(true);
+        vh1.mFbShareWidgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = vh1.mFbShareTitleEditText.getText().toString();
+                String description = vh1.mFbShareDescriptionEditText.getText().toString();
+                String url = vh1.mFbShareUrlEditText.getText().toString();
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    ShareLinkContent content = new ShareLinkContent.Builder()
+                            .setContentTitle(title)
+                            .setContentDescription(description)
+                            .setContentUrl(Uri.parse(url))
+                            .build();
+                    shareDialog.show(content);
+                    shareDialog.registerCallback(MainActivity.callbackManager, new FacebookCallback<Sharer.Result>() {
+                        @Override
+                        public void onSuccess(Sharer.Result result) {
+                            getFbFeed();
+                            vh1.mFbShareTitleEditText.setText("");
+                            vh1.mFbShareDescriptionEditText.setText("");
+                            vh1.mFbShareUrlEditText.setText("");
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            getFbFeed();
+                        }
+
+                        @Override
+                        public void onError(FacebookException error) {
+                            getFbFeed();
+                        }
+                    });
+                }
             }
         });
     }

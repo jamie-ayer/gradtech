@@ -8,6 +8,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.widget.SendButton;
+import com.facebook.share.widget.ShareButton;
 import com.ga.gradtech.R;
 
 /**
@@ -16,6 +18,8 @@ import com.ga.gradtech.R;
 public class FacebookCardViewHolder extends RecyclerView.ViewHolder {
     public TextView mFbPageHeaderTextView;
     public LoginButton mFbLoginButton;
+    public ShareButton mFbShareWidgetButton;
+    public SendButton mFbSendButton;
     public Button mFbShareButton;
     public Button mFbGetFeedButton;
     public Button mFbGetPageFeedButton;
@@ -29,6 +33,8 @@ public class FacebookCardViewHolder extends RecyclerView.ViewHolder {
         this.mFbPageHeaderTextView = (TextView)itemView.findViewById(R.id.card_fb_page_header_textView);
         this.mFbLoginButton = (LoginButton)itemView.findViewById(R.id.card_fb_login_button);
         this.mFbShareButton = (Button)itemView.findViewById(R.id.card_fb_share_button);
+        this.mFbShareWidgetButton = (ShareButton)itemView.findViewById(R.id.card_fb_shareWidget_button);
+        this.mFbSendButton = (SendButton)itemView.findViewById(R.id.card_fb_send_button);
         this.mFbGetFeedButton = (Button)itemView.findViewById(R.id.card_fb_get_feed_button);
         this.mFbGetPageFeedButton = (Button)itemView.findViewById(R.id.card_fb_get_page_feed_button);
         this.mFbFeedListView = (ListView)itemView.findViewById(R.id.card_fb_feed_listView);
