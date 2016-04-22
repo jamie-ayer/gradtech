@@ -11,12 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-
-import com.ga.gradtech.Cards.Calendar.CalendarCardViewHolder;
-import com.ga.gradtech.Cards.Calendar.CalendarViewHolderConfigurer;
-
-
+import com.ga.gradtech.Cards.CalendarProvider.CalendarProviderCardViewHolder;
+import com.ga.gradtech.Cards.CalendarProvider.CalendarViewHolderConfigurer;
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
 
@@ -56,20 +52,20 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, SOUNDCLOUD = 3, CALENDAR = 4;
-    private final int GLASSDOOR = 9, LINKEDIN = 6, YELP = 8, NOTEPAD = 5, CALENDAR2 = 6;
+    private final int GLASSDOOR = 9, LINKEDIN = 7, YELP = 8, NOTEPAD = 5, CALENDAR2 = 6;
 
 
-    int cards;
+    int numCards;
     Activity mainActivity;
     AppCompatActivity appCompatActivityMeetup;
 
     android.support.v4.app.FragmentManager fragmentManagerTwitter;
     android.support.v4.app.FragmentManager meetupFragmentManager;
 
-    RVAdapter(int cards, Activity activity, AppCompatActivity appCompatActivity, android.support.v4.app.FragmentManager fragmentManager2, android.support.v4.app.FragmentManager fragmentManager1) {
+    RVAdapter(int numCards, Activity activity, AppCompatActivity appCompatActivity, android.support.v4.app.FragmentManager fragmentManager2, android.support.v4.app.FragmentManager fragmentManager1) {
         this.mainActivity = activity;
         this.appCompatActivityMeetup = appCompatActivity;
-        this.cards = cards;
+        this.numCards = numCards;
         this.fragmentManagerTwitter = fragmentManager2;
         this.meetupFragmentManager = fragmentManager1;
     }
@@ -102,12 +98,13 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder = new CalenderCardViewHolder(v5);
                 break;
             case NOTEPAD:
-                View v9 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
-                viewHolder = new NotePadCardViewHolder(v9);
+                View v6 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
+                viewHolder = new NotePadCardViewHolder(v6);
                 break;
             case CALENDAR2:
-                View v10 = inflater.inflate(R.layout.card_calendar_layout, viewGroup, false);
-                viewHolder = new CalendarCardViewHolder(v10);
+                Log.d(TAG, "onCreateViewHolder: CALENDARPROVIDER ViewHolder");
+                View v7 = inflater.inflate(R.layout.card_calendar_layout, viewGroup, false);
+                viewHolder = new CalendarProviderCardViewHolder(v7);
                 break;
             default:
                 View v = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
@@ -159,8 +156,9 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 configureNotePadViewHolder(vh6);
                 break;
             case CALENDAR2:
-                CalendarCardViewHolder vh10 = (CalendarCardViewHolder) viewHolder;
-                CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh10, position, mainActivity);
+                Log.d(TAG, "onBindViewHolder: CALENDARPROVIDER Binder");
+                CalendarProviderCardViewHolder vh7 = (CalendarProviderCardViewHolder) viewHolder;
+                CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh7, position, mainActivity);
 
 
                 calendarConfigurer.setCalendarTouchListener();
@@ -171,10 +169,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 calendarConfigurer.setShowEventButtonListener();
                 break;
 
-//            default:
-//                CardViewHolder vh = (CardViewHolder) viewHolder;
-//                configureDefaultViewHolder(vh, position);
-//                break;
+            default:
+                CardViewHolder vh = (CardViewHolder) viewHolder;
+                configureDefaultViewHolder(vh, position);
+                break;
 
         }
     }
@@ -247,7 +245,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return cards;
+        return numCards;
     }
 
     /**

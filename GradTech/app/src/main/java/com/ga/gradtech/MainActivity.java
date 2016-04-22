@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
 
     FragmentManager fragmentManagerTwitter = getSupportFragmentManager();
     RVAdapter adapter;
+    int numberCards = 7;
 
 
     @Override
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
     }
 
     private void initializeAdapter() {
-        adapter = new RVAdapter(6, this, this, fragmentManagerTwitter, meetupFragmentManager);
+        adapter = new RVAdapter(numberCards, this, this, fragmentManagerTwitter, meetupFragmentManager);
         recyclerView.setAdapter(adapter);
     }
 
