@@ -1,14 +1,18 @@
 package com.ga.gradtech.Cards.Facebook;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
+import com.facebook.FacebookDialog;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -16,7 +20,10 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.Sharer;
+import com.facebook.share.internal.ShareFeedContent;
+import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.MessageDialog;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.MainActivity;
 import com.google.gson.Gson;
@@ -52,6 +59,7 @@ public class FacebookViewHolderConfigurer {
         setFbUpdateFeedButtonListener();
         setFbUpdatePageFeedButtonListener();
         setFbPostShareWidgetButtonListener();
+        setFbSendMessageButtonListener();
         getFbFeed();
     }
 
@@ -83,6 +91,9 @@ public class FacebookViewHolderConfigurer {
             vh1.mFbShareTitleEditText.setVisibility(View.VISIBLE);
             vh1.mFbShareUrlEditText.setVisibility(View.VISIBLE);
             vh1.mFbGetFeedButton.setVisibility(View.VISIBLE);
+            vh1.mFbGetPageFeedButton.setVisibility(View.VISIBLE);
+            vh1.mFbShareWidgetButton.setVisibility(View.VISIBLE);
+//            vh1.mFbSendButton.setVisibility(View.VISIBLE);
         }else{
             //vh1.mFbPageHeaderTextView.setVisibility(View.GONE);
             //vh1.mFbShareButton.setVisibility(View.GONE);
@@ -90,6 +101,9 @@ public class FacebookViewHolderConfigurer {
             vh1.mFbShareTitleEditText.setVisibility(View.GONE);
             vh1.mFbShareUrlEditText.setVisibility(View.GONE);
             vh1.mFbGetFeedButton.setVisibility(View.GONE);
+            vh1.mFbGetPageFeedButton.setVisibility(View.GONE);
+            vh1.mFbShareWidgetButton.setVisibility(View.GONE);
+//            vh1.mFbSendButton.setVisibility(View.GONE);
         }
     }
 
@@ -131,6 +145,38 @@ public class FacebookViewHolderConfigurer {
         });
     }
 
+    public void setFbSendMessageButtonListener(){
+
+
+//        ShareContent shareContent = new ShareContent() {
+//            @Nullable
+//            @Override
+//            public Uri getContentUrl() {
+//                return super.getContentUrl();
+//            }
+//        };
+//        vh1.mFbSendButton.setShareContent(shareContent);
+        vh1.mFbSendButton.registerCallback(MainActivity.callbackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                Log.d(TAG, "onSuccess: ++>> FB Send Button Successful Message Sent");
+                getFbFeed();
+                vh1.mFbShareTitleEditText.setText("");
+                vh1.mFbShareDescriptionEditText.setText("");
+                vh1.mFbShareUrlEditText.setText("");
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+    }
 
     public void setFbPostShareWidgetButtonListener(){
         final ShareDialog shareDialog = new ShareDialog(mainActivity);
