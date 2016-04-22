@@ -1,7 +1,6 @@
 package com.ga.gradtech.Cards.Facebook;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by samsiu on 4/20/16.
+ * Created by samsiu on 4/21/16.
  */
-public class FacebookFeedAdapter extends ArrayAdapter<FacebookFeedObject.FbData> {
-    private static final String TAG = "FacebookFeedAdapter";
-    List<FacebookFeedObject.FbData> data;
+public class FacebookPageAdapter extends ArrayAdapter<FacebookPageObject.FbPageData> {
+    private static final String TAG = "FacebookPageAdapter";
+    List<FacebookPageObject.FbPageData> data;
 
-    public FacebookFeedAdapter(Context context, ArrayList<FacebookFeedObject.FbData> objects){
+    public FacebookPageAdapter(Context context, ArrayList<FacebookPageObject.FbPageData> objects){
         super(context, -1, objects);
         this.data = objects;
     }
@@ -30,7 +29,7 @@ public class FacebookFeedAdapter extends ArrayAdapter<FacebookFeedObject.FbData>
         View fbFeedItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_facebook_feed_layout, parent, false);
         TextView feedItemTextView = (TextView)fbFeedItemView.findViewById(R.id.card_facebook_feed_adapter_textView);
 
-        FacebookFeedObject.FbData feedItem = data.get(position);
+        FacebookPageObject.FbPageData feedItem = data.get(position);
         String feedMessage = feedItem.getMessage();
 
         feedItemTextView.setText(feedMessage);
