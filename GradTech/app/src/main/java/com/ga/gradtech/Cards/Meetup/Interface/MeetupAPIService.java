@@ -1,4 +1,4 @@
-package com.ga.gradtech.Cards.Meetup;
+package com.ga.gradtech.Cards.Meetup.Interface;
 
 import com.ga.gradtech.Cards.Meetup.Model.ActivityFeed;
 
