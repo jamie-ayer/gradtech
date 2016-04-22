@@ -60,11 +60,11 @@ public class MeetupAdapter extends ArrayAdapter {
 //        Date time= new java.util.Date((long)timeStamp*1000);
         long unixSecodes = event.getTime();
         Date date = new Date(unixSecodes*1000L);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mma z");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d h:mm");
         sdf.setTimeZone(TimeZone.getTimeZone("PST"));
         String realDateTime = sdf.format(date);
         Log.i(TAG, "real date and time is " + realDateTime);
-        timeTextView.setText("When: " + realDateTime);// was timeTextView.setText(event.getTime() + "");
+        timeTextView.setText("When: " + realDateTime + " PM");// was timeTextView.setText(event.getTime() + "");
         addressTextView.setText("Where: " + event.getVenue().getAddress_1() + ", " + event.getVenue().getCity());
         descriptionTextView.setText(event.getDescription());
         eventImage.setImageResource(R.drawable.meetup_icon);

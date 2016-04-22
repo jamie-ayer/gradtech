@@ -69,7 +69,6 @@ public class MeetupLoginFragment extends Fragment {
                 Log.i(TAG, "The access token is " + accessToken);
             } else {
                 String crapToken = "crap";
-//                mListener.onSuccessfulLogin(crapToken);
                 Log.i(TAG, "The access token is " + crapToken);
             }
         }
@@ -79,14 +78,11 @@ public class MeetupLoginFragment extends Fragment {
             Uri uri = Uri.parse(url);
             String code = uri.getQueryParameter("code");
             String error = uri.getQueryParameter("error");
-
             if (code != null){
                 new MeetupRetrieveAccessTokenTask().execute(uri);
                 Log.i(TAG, "The redirect uri contained the code " + code);
-//                setResult(RESULT_OK, getIntent());
             } else if (error != null) {
                 Log.e(TAG, "The redirect uri contained error");
-//                setResult(RESULT_CANCELLED, getIntent());
             }
 
 
@@ -130,7 +126,7 @@ public class MeetupLoginFragment extends Fragment {
     }
 
     /**
-     * Instance of the OnSuccessfulLoginListener interface is attached to the
+     *
      * @param context
      */
 

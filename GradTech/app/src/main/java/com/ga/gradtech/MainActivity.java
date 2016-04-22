@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new RVSpaceDecoration(22));
     }
 
     @Override
