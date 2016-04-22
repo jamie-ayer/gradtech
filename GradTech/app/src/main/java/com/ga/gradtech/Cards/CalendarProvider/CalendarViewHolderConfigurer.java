@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -164,7 +165,11 @@ public class CalendarViewHolderConfigurer {
 
         // Get the field values
         cur.moveToFirst();
-        //for(int i = 0; i < cur.getCount(); i++){
+
+        if(cur.getCount() == 0){
+            userCalendarId = "1";
+            Toast.makeText(mainActivity, "Please Sync Your Google Account", Toast.LENGTH_LONG).show();
+        }else{
             String calendarId = cur.getString(PROJECTION_ID_INDEX);
             String displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX);
             String accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
@@ -175,10 +180,10 @@ public class CalendarViewHolderConfigurer {
             Log.d(TAG, "onCreate: ===>>> AccountName: " + accountName);
             Log.d(TAG, "onCreate: ===>>> OwnerName: " + ownerName);
             Log.d(TAG, "onCreate: \n");
-            //cur.moveToNext();
-        cur.close();
-        //}
-        userCalendarId = calendarId;
+            cur.close();
+
+            userCalendarId = calendarId;
+        }
 
         return userCalendarId;
     }
