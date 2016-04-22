@@ -1,33 +1,38 @@
 package com.ga.gradtech;
 
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.FragmentManager;
+import android.app.Activity;
+
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.CardView;
+
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
-import com.ga.gradtech.Cards.Meetup.MeetupCard;
+
 import com.ga.gradtech.Cards.Meetup.Fragment.MeetupLoginFragment;
-import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
+
+import com.ga.gradtech.Cards.Calander.CalenderCardViewHolder;
+
+
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
+import com.ga.gradtech.Cards.Twitter.TwitterFragment;
+import com.ga.gradtech.Cards.Twitter.TwitterViewHolder;
 
+import com.ga.gradtech.Cards.SoundCloud.SoundCloudCardViewHolder;
+import com.ga.gradtech.Cards.SoundCloud.SoundCloudConfigurer;
 
-import java.util.List;
 
 /**
  * Created by JamieAyer on 4/18/16.
  */
 
-public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static String TAG = RVAdapter.class.getCanonicalName();
 
@@ -35,45 +40,34 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
      * PlaceHolder for now
      */
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        CardView mCardView;
-        TextView mCompanyName;
-        TextView mCompanyLocation;
-        ImageView mCompanyIcon;
-
 
         CardViewHolder(View itemView) {
             super(itemView);
 
-            mCardView = (CardView)itemView.findViewById(R.id.cv);
-            mCompanyName = (TextView)itemView.findViewById(R.id.company_name);
-            mCompanyLocation = (TextView)itemView.findViewById(R.id.company_location);
-            mCompanyIcon = (ImageView)itemView.findViewById(R.id.company_photo);
 
         }
     }
 
-    private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, TRELLO = 3, GITHUB = 4;
-    private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
+    private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, SOUNDCLOUD = 3, CALENDAR = 4;
+    private final int GLASSDOOR = 9, LINKEDIN = 6, YELP = 8, NOTEPAD = 5;
 
-    List<Object> cards;
-    AppCompatActivity mainActivity;
-    FragmentManager meetupFragmentManager;
+    int cards;
+    Activity mainActivity;
+    AppCompatActivity appCompatActivityMeetup;
 
-    RVAdapter(List<Object> cards, AppCompatActivity activity, FragmentManager fragmentManager1) {
+    android.support.v4.app.FragmentManager fragmentManagerTwitter;
+    android.support.v4.app.FragmentManager meetupFragmentManager;
+
+    RVAdapter(int cards, Activity activity, AppCompatActivity appCompatActivity, android.support.v4.app.FragmentManager fragmentManager2, android.support.v4.app.FragmentManager fragmentManager1) {
         this.mainActivity = activity;
+        this.appCompatActivityMeetup = appCompatActivity;
         this.cards = cards;
+        this.fragmentManagerTwitter = fragmentManager2;
         this.meetupFragmentManager = fragmentManager1;
     }
 
-    /**
-     *
-     * @param viewGroup
-     * @param viewType
-     * @return
-     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
@@ -81,35 +75,23 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         switch (viewType) {
             case FACEBOOK:
                 View v1 = inflater.inflate(R.layout.card_facebook_layout, viewGroup, false);
-                viewHolder = new FacebookCardViewHolder(v1); ///WHERE THE VIEW HOLDER FIRST COMES INTO PLAY
+                viewHolder = new FacebookCardViewHolder(v1);
                 break;
             case TWITTER:
-                View v2 = inflater.inflate(R.layout.card_view_layout, viewGroup, false);
-                viewHolder = new CardViewHolder(v2);
+                View v2 = inflater.inflate(R.layout.twitter_card_layout, viewGroup, false);
+                viewHolder = new TwitterViewHolder(v2);
                 break;
             case MEETUP:
                 View v3 = inflater.inflate(R.layout.card_meetup_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v3);
                 break;
-            case TRELLO:
-                View v4 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new CardViewHolder(v4);
+            case SOUNDCLOUD:
+                View v4 = inflater.inflate(R.layout.card_sound_cloud_layout, viewGroup, false);
+                viewHolder = new SoundCloudCardViewHolder(v4);
                 break;
-            case GITHUB:
-                View v5 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new CardViewHolder(v5);
-                break;
-            case GLASSDOOR:
-                View v6 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new CardViewHolder(v6);
-                break;
-            case LINKEDIN:
-                View v7 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new CardViewHolder(v7);
-                break;
-            case YELP:
-                View v8 = inflater.inflate(R.layout.card_view_layout_2, viewGroup, false);
-                viewHolder = new CardViewHolder(v8);
+            case CALENDAR:
+                View v5 = inflater.inflate(R.layout.calender_card_layout, viewGroup, false);
+                viewHolder = new CalenderCardViewHolder(v5);
                 break;
             case NOTEPAD:
                 View v9 = inflater.inflate(R.layout.card_notepad_layout, viewGroup, false);
@@ -139,45 +121,41 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        switch (viewHolder.getItemViewType()) {
+        switch (position) {
             case FACEBOOK:
                 Log.d(TAG, "onBindViewHolder: ===>>> inOnBindViewHolder");
                 FacebookCardViewHolder vh1 = (FacebookCardViewHolder) viewHolder;
                 FacebookViewHolderConfigurer fbConfigurer = new FacebookViewHolderConfigurer(vh1, position, mainActivity);
-                if(!fbConfigurer.isFacebookLoggedIn()){
+                if (!fbConfigurer.isFacebookLoggedIn()) {
                     Log.d(TAG, "onBindViewHolder: ====>>> Facebook logged in");
-                    fbConfigurer.initFacebookLogin();
+                    fbConfigurer.initFbLogin();
+                    fbConfigurer.setFbLoginButtonVisibility();
+                    fbConfigurer.setFbListViewVisibility();
+
+                    if (!fbConfigurer.isFacebookLoggedIn()) {
+                        Log.d(TAG, "onBindViewHolder: ====>>> Facebook Not logged in");
+                        fbConfigurer.initFbLogin();
+                    }
+                    fbConfigurer.setFbPostShareButtonListener();
+                    fbConfigurer.setFbUpdateFeedButtonListener();
+                    fbConfigurer.getFbFeed();
                 }
-                fbConfigurer.facebookShare();
-                fbConfigurer.facebookGetFeed();
                 break;
             case TWITTER:
-                CardViewHolder vh2 = (CardViewHolder) viewHolder;
+                TwitterViewHolder vh2 = (TwitterViewHolder) viewHolder;
                 configureTwitterViewHolder2(vh2, position);
                 break;
             case MEETUP:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
                 configureMeetupViewHolder2(vh3, position);
                 break;
-            case TRELLO:
-                CardViewHolder vh4 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh4, position);
+            case SOUNDCLOUD:
+                SoundCloudCardViewHolder vh4 = (SoundCloudCardViewHolder) viewHolder;
+                configureSoundCloudViewHolder(vh4);
                 break;
-            case GITHUB:
-                CardViewHolder vh5 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh5, position);
-                break;
-            case GLASSDOOR:
-                CardViewHolder vh6 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh6, position);
-                break;
-            case LINKEDIN:
-                CardViewHolder vh7 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh7, position);
-                break;
-            case YELP:
-                CardViewHolder vh8 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh8, position);
+            case CALENDAR:
+                CalenderCardViewHolder vh5 = (CalenderCardViewHolder) viewHolder;
+                configureCalendarViewHolder(vh5);
                 break;
             case NOTEPAD:
                 NotePadCardViewHolder vh9 = (NotePadCardViewHolder) viewHolder;
@@ -185,19 +163,22 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 notePadConfigurer.initNotePad();
                 notePadConfigurer.setNotePadEditButtonListener();
                 notePadConfigurer.setNotePadSaveButtonListener();
+                notePadConfigurer.setNotePadClearButtonListener();
                 break;
-            default:
-                CardViewHolder vh = (CardViewHolder) viewHolder;
-                configureDefaultViewHolder(vh, position);
-                break;
+//            default:
+//                CardViewHolder vh = (CardViewHolder) viewHolder;
+//                configureDefaultViewHolder(vh, position);
+//                break;
         }
     }
+
 
     /**
      *
      * @param vh
      * @param position
      */
+
     private void configureDefaultViewHolder(CardViewHolder vh, int position) {
     }
 
@@ -206,12 +187,12 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
      * @param vh2
      * @param position
      */
-    private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
-        Card2 card = (Card2) cards.get(position);
+    private void configureTwitterViewHolder2(TwitterViewHolder vh2, int position) {
+    }
 
-//        vh2.mCompanyName.setText("Twitter");
-//        vh2.mCompanyLocation.setText("Somewhere");
-//        vh2.mCompanyIcon.setImageResource(R.drawable.twitter_icon);
+
+    public TwitterFragment getTwitterFragment() {
+        return (TwitterFragment) fragmentManagerTwitter.findFragmentById(R.id.twitter_fragment_id);
     }
 
     /**
@@ -221,20 +202,19 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
      */
     private void configureMeetupViewHolder2(CardViewHolder vh3, int position) {
         Log.d(TAG, "configureMeetupViewHolder2: inside damn holder");
-        MeetupCard card = (MeetupCard) cards.get(position);
-
         MeetupLoginFragment meetupLoginFragment = new MeetupLoginFragment();
-        FragmentTransaction fragmentTransaction = mainActivity.getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = appCompatActivityMeetup.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.meetup_container_id, meetupLoginFragment);
         fragmentTransaction.commit();
+    }
 
+    private void configureSoundCloudViewHolder(SoundCloudCardViewHolder vh) {
+        SoundCloudConfigurer SC = new SoundCloudConfigurer(vh);
+        SC.initSoundCloud();
 
+    }
 
-
-        /*
-        MeetupResultsFragment meetupResultsFragment = new MeetupResultsFragment();
-
-        */
+    private void configureCalendarViewHolder(CalenderCardViewHolder vh) {
 
     }
 
@@ -244,7 +224,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
      */
     @Override
     public int getItemCount() {
-        return cards.size();
+        return cards;
     }
 
     /**
@@ -255,19 +235,20 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemViewType(int position) {
 
-        return position;
-        /*
-        if (cards.get(position) instanceof FacebookCard) {
+        if (position == 0) {
             return FACEBOOK;
-        } else if (cards.get(position) instanceof Card2) {
+        } else if (position == 1) {
             return TWITTER;
-        }else if (cards.get(position) instanceof NotePadCard){
-            return NOTEPAD;
-        } else if (cards.get(position) instanceof MeetupCard){
+        } else if (position == 2) {
             return MEETUP;
+        } else if (position == 3) {
+            return SOUNDCLOUD;
+        } else if (position == 4) {
+            return CALENDAR;
+        } else if (position == 5) {
+            return NOTEPAD;
         }
         return super.getItemViewType(position);
-        */
     }
 }
 

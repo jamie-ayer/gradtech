@@ -12,6 +12,7 @@ import com.ga.gradtech.Cards.Meetup.Model.Event;
 import com.ga.gradtech.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,6 +55,7 @@ public class MeetupAdapter extends ArrayAdapter {
 
     private void setViews(){
         nameTextView.setText(event.getName());
+//        Date time= new java.util.Date((long)timeStamp*1000);
         timeTextView.setText(event.getTime() + "");
         addressTextView.setText(event.getVenue().getAddress_1());
         cityTextView.setText(event.getVenue().getCity());
