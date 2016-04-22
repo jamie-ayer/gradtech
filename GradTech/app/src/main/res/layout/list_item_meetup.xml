@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="160dp"
     >
 
     <ImageView
@@ -46,7 +46,7 @@
         <TextView
             android:id="@+id/meetup_listItem_description_textView_id"
             android:layout_width="match_parent"
-            android:layout_height="40sp"
+            android:layout_height="50sp"
             android:ellipsize="end"
             android:textStyle="normal"
             android:text="Event Description"/>
