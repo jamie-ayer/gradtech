@@ -1,23 +1,23 @@
 package com.ga.gradtech;
 
+import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
-import android.support.v4.app.FragmentManager;
+
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.CardView;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-
-import com.ga.gradtech.Cards.Calander.CalenderCardViewHolder;
 
 import com.ga.gradtech.Cards.Facebook.FacebookCardViewHolder;
 import com.ga.gradtech.Cards.Facebook.FacebookViewHolderConfigurer;
+
+import com.ga.gradtech.Cards.Meetup.Fragment.MeetupLoginFragment;
+
+import com.ga.gradtech.Cards.Calander.CalenderCardViewHolder;
+
 
 import com.ga.gradtech.Cards.NotePad.NotePadCardViewHolder;
 import com.ga.gradtech.Cards.NotePad.NotepadViewHolderConfigurer;
@@ -27,7 +27,6 @@ import com.ga.gradtech.Cards.Twitter.TwitterViewHolder;
 import com.ga.gradtech.Cards.SoundCloud.SoundCloudCardViewHolder;
 import com.ga.gradtech.Cards.SoundCloud.SoundCloudConfigurer;
 
-import java.util.List;
 
 /**
  * Created by JamieAyer on 4/18/16.
@@ -50,23 +49,28 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, SOUNDCLOUD = 3, CALENDAR = 4;
-    private final int GLASSDOOR = 5, LINKEDIN = 6, YELP = 8, NOTEPAD = 9;
+    private final int GLASSDOOR = 9, LINKEDIN = 6, YELP = 8, NOTEPAD = 5;
 
     int cards;
     Activity mainActivity;
-    FragmentManager fragmentManagerTwitter;
+    AppCompatActivity appCompatActivityMeetup;
 
-    RVAdapter(int cards, Activity activity, FragmentManager fragmentManager2) {
+    android.support.v4.app.FragmentManager fragmentManagerTwitter;
+    android.support.v4.app.FragmentManager meetupFragmentManager;
+
+    RVAdapter(int cards, Activity activity, AppCompatActivity appCompatActivity, android.support.v4.app.FragmentManager fragmentManager2, android.support.v4.app.FragmentManager fragmentManager1) {
         this.mainActivity = activity;
+        this.appCompatActivityMeetup = appCompatActivity;
         this.cards = cards;
         this.fragmentManagerTwitter = fragmentManager2;
+        this.meetupFragmentManager = fragmentManager1;
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+
 
         switch (viewType) {
             case FACEBOOK:
@@ -78,7 +82,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder = new TwitterViewHolder(v2);
                 break;
             case MEETUP:
-                View v3 = inflater.inflate(R.layout.card_sound_cloud_layout, viewGroup, false);
+                View v3 = inflater.inflate(R.layout.card_meetup_layout, viewGroup, false);
                 viewHolder = new CardViewHolder(v3);
                 break;
             case SOUNDCLOUD:
@@ -101,11 +105,20 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return viewHolder;
     }
 
+    /**
+     *
+     * @param recyclerView
+     */
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    /**
+     *
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (position) {
@@ -134,7 +147,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case MEETUP:
                 CardViewHolder vh3 = (CardViewHolder) viewHolder;
-                configureTwitterViewHolder2(vh3, position);
+                configureMeetupViewHolder2(vh3, position);
                 break;
             case SOUNDCLOUD:
                 SoundCloudCardViewHolder vh4 = (SoundCloudCardViewHolder) viewHolder;
@@ -152,19 +165,28 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 notePadConfigurer.setNotePadSaveButtonListener();
                 notePadConfigurer.setNotePadClearButtonListener();
                 break;
-            default:
-                CardViewHolder vh = (CardViewHolder) viewHolder;
-                configureDefaultViewHolder(vh, position);
-                break;
+//            default:
+//                CardViewHolder vh = (CardViewHolder) viewHolder;
+//                configureDefaultViewHolder(vh, position);
+//                break;
         }
     }
 
 
+    /**
+     *
+     * @param vh
+     * @param position
+     */
+
     private void configureDefaultViewHolder(CardViewHolder vh, int position) {
-
-
     }
 
+    /**
+     *
+     * @param vh2
+     * @param position
+     */
     private void configureTwitterViewHolder2(TwitterViewHolder vh2, int position) {
     }
 
@@ -173,8 +195,17 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return (TwitterFragment) fragmentManagerTwitter.findFragmentById(R.id.twitter_fragment_id);
     }
 
-    private void configureTwitterViewHolder2(CardViewHolder vh2, int position) {
-
+    /**
+     *
+     * @param vh3
+     * @param position
+     */
+    private void configureMeetupViewHolder2(CardViewHolder vh3, int position) {
+        Log.d(TAG, "configureMeetupViewHolder2: inside damn holder");
+        MeetupLoginFragment meetupLoginFragment = new MeetupLoginFragment();
+        FragmentTransaction fragmentTransaction = appCompatActivityMeetup.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.meetup_container_id, meetupLoginFragment);
+        fragmentTransaction.commit();
     }
 
     private void configureSoundCloudViewHolder(SoundCloudCardViewHolder vh) {
@@ -187,11 +218,20 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return cards;
     }
 
+    /**
+     *
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
 
@@ -200,11 +240,13 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (position == 1) {
             return TWITTER;
         } else if (position == 2) {
-            return NOTEPAD;
+            return MEETUP;
         } else if (position == 3) {
             return SOUNDCLOUD;
         } else if (position == 4) {
             return CALENDAR;
+        } else if (position == 5) {
+            return NOTEPAD;
         }
         return super.getItemViewType(position);
     }
