@@ -32,7 +32,7 @@
             android:layout_height="100dp"
             android:textAlignment="center"
             android:visibility="visible"
-            android:text="Brilliant Ideas"
+            android:text="Any Thoughts?"
             android:layout_marginTop="15dp"
             android:background="@color/tw__transparent"/>
 
