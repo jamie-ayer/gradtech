@@ -102,7 +102,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder = new NotePadCardViewHolder(v6);
                 break;
             case CALENDAR2:
-                Log.d(TAG, "onCreateViewHolder: CALENDARPROVIDER ViewHolder");
                 View v7 = inflater.inflate(R.layout.card_calendar_layout, viewGroup, false);
                 viewHolder = new CalendarProviderCardViewHolder(v7);
                 break;
@@ -156,17 +155,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 configureNotePadViewHolder(vh6);
                 break;
             case CALENDAR2:
-                Log.d(TAG, "onBindViewHolder: CALENDARPROVIDER Binder");
                 CalendarProviderCardViewHolder vh7 = (CalendarProviderCardViewHolder) viewHolder;
-                CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh7, position, mainActivity);
-
-
-                calendarConfigurer.setCalendarTouchListener();
-
-                calendarConfigurer.setDeleteButtonEventListener();
-                calendarConfigurer.setShareCalendarButtonListener();
-                calendarConfigurer.setAddEventButtonListener();
-                calendarConfigurer.setShowEventButtonListener();
+                configureCalendarProviderViewHolder(vh7);
                 break;
 
             default:
@@ -227,6 +217,11 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Log.d(TAG, "onBindViewHolder: ====>>> Facebook Not logged in");
             fbConfigurer.initFbLoginButton();
         }
+    }
+
+    private void configureCalendarProviderViewHolder(CalendarProviderCardViewHolder vh7){
+        CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh7, mainActivity);
+        calendarConfigurer.initCalendarProvider();
     }
 
     private void configureNotePadViewHolder(NotePadCardViewHolder vh6){

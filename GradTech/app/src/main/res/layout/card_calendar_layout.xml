@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="1000dp"
+    android:layout_height="700dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
     android:padding="10dp"
@@ -14,7 +14,6 @@
 
         <CalendarView
             android:id="@+id/card_calendar_calendarView"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -49,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="HH:MM"/>
+                android:hint="Hour"/>
 
         </LinearLayout>
 
