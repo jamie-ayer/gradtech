@@ -37,23 +37,17 @@ import com.ga.gradtech.Cards.SoundCloud.SoundCloudConfigurer;
 public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static String TAG = RVAdapter.class.getCanonicalName();
-
     /**
      * PlaceHolder for now
      */
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-
         CardViewHolder(View itemView) {
             super(itemView);
-
-
         }
     }
 
-
     private final int FACEBOOK = 0, TWITTER = 1, MEETUP = 2, SOUNDCLOUD = 3, CALENDAR = 4;
     private final int GLASSDOOR = 9, LINKEDIN = 7, YELP = 8, NOTEPAD = 5, CALENDAR2 = 6;
-
 
     int numCards;
     Activity mainActivity;
@@ -74,7 +68,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-
 
         switch (viewType) {
             case FACEBOOK:
