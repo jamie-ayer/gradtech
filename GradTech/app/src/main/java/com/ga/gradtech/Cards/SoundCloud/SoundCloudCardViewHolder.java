@@ -27,7 +27,7 @@ public class SoundCloudCardViewHolder extends RecyclerView.ViewHolder {
     EditText mSearchBar;
     ImageButton mSearchButton;
 
-    public SoundCloudCardViewHolder(View itemView){
+    public SoundCloudCardViewHolder(View itemView) {
         super(itemView);
         mListView = (ListView)itemView.findViewById(R.id.track_list_view);
         mSelectedTrackImage = (ImageView)itemView.findViewById(R.id.selected_track_image);

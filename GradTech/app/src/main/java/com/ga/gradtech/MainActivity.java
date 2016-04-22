@@ -1,9 +1,10 @@
 package com.ga.gradtech;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.support.v4.app.FragmentActivity;
+
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,23 +18,22 @@ import butterknife.ButterKnife;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 
-import com.ga.gradtech.Cards.Facebook.FacebookCard;
-import com.ga.gradtech.Cards.NotePad.NotePadCard;
+
+import com.ga.gradtech.Cards.Meetup.Fragment.MeetupResultsFragment;
+import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
+
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
-import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
 
-
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnSuccessfulLoginListener{
 
     private static final String TAG = MainActivity.class.getCanonicalName();
     public static CallbackManager callbackManager;
-
+    FragmentManager meetupFragmentManager;
 
 
     private static final String TWITTER_KEY = ApiKeys.TWITTER_KEY;
@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
 
-
         Log.d(TAG, "onCreate: ==>>> Before callbackManager");
         callbackManager = CallbackManager.Factory.create();
         Log.d(TAG, "onCreate: =====>>> After Callback Manager");
@@ -67,29 +66,12 @@ public class MainActivity extends AppCompatActivity {
 
         initializeAdapter();
 
+        meetupFragmentManager = getSupportFragmentManager();
+
     }
 
-    private ArrayList<Object> getSampleArrayList() {
-        ArrayList<Object> items = new ArrayList<>();
-        //Facebook Card
-        items.add(new FacebookCard());
-        //Twitter Card
-        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-//        items.add(new Card2());
-        items.add(new NotePadCard());
-
-
-        return items;
-    }
-
-
-
-    private void initializeAdapter(){
-        adapter = new RVAdapter(5,this, fragmentManagerTwitter);
+    private void initializeAdapter() {
+        adapter = new RVAdapter(6, this, this, fragmentManagerTwitter, meetupFragmentManager);
         recyclerView.setAdapter(adapter);
     }
 
@@ -106,8 +88,18 @@ public class MainActivity extends AppCompatActivity {
 
         // only call this when request code is for twitter.
 
-        if (adapter != null && adapter.getTwitterFragment() != null){
+        if (adapter != null && adapter.getTwitterFragment() != null) {
             adapter.getTwitterFragment().onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    @Override
+    public void onSuccessfulLogin(String tokenAccess) {
+        MeetupResultsFragment meetupResultsFragment = new MeetupResultsFragment();
+        FragmentTransaction fragmentTransaction = meetupFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.meetup_container_id, meetupResultsFragment);
+        fragmentTransaction.commitAllowingStateLoss();
+        meetupResultsFragment.setAccessToken(tokenAccess);
+    }
 }
+
