@@ -1,4 +1,4 @@
-package com.ga.gradtech.Cards.Meetup;
+package com.ga.gradtech.Cards.Meetup.Interface;
 
 /**
  * Created by leisforkokomo on 4/21/16.

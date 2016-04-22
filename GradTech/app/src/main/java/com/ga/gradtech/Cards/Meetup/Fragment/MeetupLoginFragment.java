@@ -11,13 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewFragment;
-import android.widget.Toast;
 
 import com.ga.gradtech.ApiKeys;
-import com.ga.gradtech.Cards.Meetup.OnSuccessfulLoginListener;
+import com.ga.gradtech.Cards.Meetup.Interface.OnSuccessfulLoginListener;
 import com.ga.gradtech.R;
-import com.ga.gradtech.RVAdapter;
 
 import net.smartam.leeloo.client.OAuthClient;
 import net.smartam.leeloo.client.URLConnectionClient;
@@ -28,6 +25,7 @@ import net.smartam.leeloo.common.exception.OAuthSystemException;
 import net.smartam.leeloo.common.message.types.GrantType;
 
 /**
+ * The webview login for
  * Created by leisforkokomo on 4/20/16.
  */
 public class MeetupLoginFragment extends Fragment {
@@ -131,9 +129,10 @@ public class MeetupLoginFragment extends Fragment {
         }
     }
 
-//    public interface OnSuccessfulLoginListener{
-//        void onSuccessfulLogin(String tokenAccess);
-//    }
+    /**
+     * Instance of the OnSuccessfulLoginListener interface is attached to the
+     * @param context
+     */
 
     @Override
     public void onAttach(Context context) {
