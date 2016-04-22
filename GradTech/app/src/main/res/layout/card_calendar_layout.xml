@@ -14,6 +14,7 @@
 
         <CalendarView
             android:id="@+id/card_calendar_calendarView"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -41,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Date"/>
+                android:hint="MM/DD/YYYY"/>
 
             <EditText
                 android:id="@+id/card_calendar_time_editText"
@@ -65,34 +66,40 @@
 
             <Button
                 android:id="@+id/card_calendar_add_event_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Add event" />
 
             <Button
-                android:id="@+id/card_calendar_delete_event_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delete event"/>
-
-            <Button
                 android:id="@+id/card_calendar_update_event_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Update event"
+                android:layout_weight="1"
+                android:visibility="gone"
                 android:layout_below="@+id/delete_event"/>
 
             <Button
                 android:id="@+id/card_calendar_get_events_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Show events" />
 
             <Button
                 android:id="@+id/card_calendar_share_events_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Share"/>
+                android:layout_weight="1"
+                android:text="Share Event"/>
+
+            <Button
+                android:id="@+id/card_calendar_delete_event_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delete event"/>
 
         </LinearLayout>
 

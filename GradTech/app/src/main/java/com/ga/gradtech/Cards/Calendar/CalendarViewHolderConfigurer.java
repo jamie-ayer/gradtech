@@ -3,6 +3,7 @@ package com.ga.gradtech.Cards.Calendar;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -49,21 +50,12 @@ public class CalendarViewHolderConfigurer {
     int position;
     Activity mainActivity;
     ListAdapter listAdapter;
+    long mSelectedEventDate;
 
     public CalendarViewHolderConfigurer(CalendarCardViewHolder vh10, int position, Activity mainActivity) {
         this.vh10 = vh10;
         this.position = position;
         this.mainActivity = mainActivity;
-    }
-
-
-    public void setCalendarTouchListener(){
-        vh10.mCalendarCaledarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                vh10.mCalendarDateEditText.setText(month + "/" + dayOfMonth + "/" + year);
-            }
-        });
     }
 
 
@@ -90,11 +82,21 @@ public class CalendarViewHolderConfigurer {
     }
 
 
-    public void updateEvent(){
-        vh10.mCalendarUpdateEventsButton.setOnClickListener(new View.OnClickListener() {
+    public void setDeleteButtonEventListener(){
+        vh10.mCalendarDeleteEventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
+                String WHERE = CalendarContract.Events._ID + " = ? ";
+                String[] args = new String[]{"400"};
+
+
+                //Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, 397);
+                Uri uri = CalendarContract.Events.CONTENT_URI;
+                //mainActivity.getContentResolver().delete(uri, null, null);
+                mainActivity.getContentResolver().delete(uri, WHERE, args);
+                Log.d(TAG, "onClick:==>>> Delete Button Clicked " + uri);
             }
         });
     }
@@ -151,12 +153,21 @@ public class CalendarViewHolderConfigurer {
 
     }
 
-
     public void setAddEventButtonListener(){
         vh10.mCalendarAddEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 insertEventInCalendar();
+            }
+        });
+    }
+
+    public void setCalendarTouchListener(){
+        vh10.mCalendarCaledarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                mSelectedEventDate = view.getDate();
+                vh10.mCalendarDateEditText.setText(month + "/" + dayOfMonth + "/" + year);
             }
         });
     }
@@ -175,13 +186,25 @@ public class CalendarViewHolderConfigurer {
         description = description.isEmpty() ? "Description" : description;
 
 
+        String date = vh10.mCalendarDateEditText.getText().toString();
+//        String[] time = date.split("/");
+//        int month = Integer.parseInt(time[0]);
+//        int day = Integer.parseInt(time[1]);
+//        int year = Integer.parseInt(time[2]);
+//
+//
+//        Log.d(TAG, "insertEventInCalendar: Year" + year);
+//        Log.d(TAG, "insertEventInCalendar: Month" + month);
+//        Log.d(TAG, "insertEventInCalendar: Day" + day);
+
         Calendar beginTime = Calendar.getInstance();
-        beginTime.set(2016, Calendar.APRIL, 10, 19, 0);
+        beginTime.set(2016, Calendar.APRIL, 20, 19, 0);
         long startMillis = beginTime.getTimeInMillis();
 
         Calendar endTime = Calendar.getInstance();
-        endTime.set(2016, Calendar.APRIL, 10, 22, 0);
+        endTime.set(2016, Calendar.APRIL, 20, 22, 0);
         long endMillis = endTime.getTimeInMillis();
+
 
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Events.DTSTART, startMillis);
@@ -192,13 +215,16 @@ public class CalendarViewHolderConfigurer {
         values.put(CalendarContract.Events.EVENT_TIMEZONE, location);
 
         Uri uri = mainActivity.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
-        Log.d(TAG, "insertEventInCalendar: CONTENT_URI ===>>>" + uri);
+        Log.d(TAG, "insertEventInCalendar: Insert Event Clicked ===>>>" + uri);
         // returns the ID of the row so that you can use it when updating the event
         long eventId = Long.parseLong(uri.getLastPathSegment());
         Log.d(TAG, "add id = " + eventId);
 
 
     }
+
+
+
 
     public void setShowEventButtonListener(){
         vh10.mCalendarGetEventsButton.setOnClickListener(new View.OnClickListener() {
@@ -233,7 +259,8 @@ public class CalendarViewHolderConfigurer {
         MAY_1_2016 = calendar2.getTimeInMillis();
 
         String filter = CalendarContract.Events.DTSTART + " > ? AND " +
-                CalendarContract.Events.DTEND + " < ? AND " + CalendarContract.Events.CALENDAR_ID + " = " + CALENDAR_ID;
+                CalendarContract.Events.DTEND + " < ? AND " + CalendarContract.Events.CALENDAR_ID + " = " + CALENDAR_ID + " AND " +
+                CalendarContract.Events._ID + " > 399";
 
         String[] filterArgs = new String[] {String.valueOf(APRIL_1_2016), String.valueOf(MAY_1_2016)};
 
@@ -255,7 +282,7 @@ public class CalendarViewHolderConfigurer {
                 mainActivity,
                 android.R.layout.simple_expandable_list_item_2,
                 cursor,
-                new String[] {CalendarContract.Events.TITLE, CalendarContract.Events.DESCRIPTION},
+                new String[] {CalendarContract.Events.TITLE, CalendarContract.Events._ID },
                 new int[] {android.R.id.text1, android.R.id.text2},
                 0
         );

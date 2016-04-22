@@ -184,7 +184,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 
                 calendarConfigurer.setCalendarTouchListener();
-                calendarConfigurer.updateEvent();
+
+                calendarConfigurer.setDeleteButtonEventListener();
                 calendarConfigurer.setShareCalendarButtonListener();
                 calendarConfigurer.setAddEventButtonListener();
                 calendarConfigurer.setShowEventButtonListener();
