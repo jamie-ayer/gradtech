@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 
 import butterknife.Bind;
@@ -24,6 +25,7 @@ import com.ga.gradtech.Cards.Meetup.Fragment.MeetupResultsFragment;
 import com.ga.gradtech.Cards.Meetup.Interface.OnSuccessfulLoginListener;
 
 
+import com.ga.gradtech.Cards.Twitter.TwitterFragment;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
 
         meetupFragmentManager = getSupportFragmentManager();
 
+
     }
 
     private void initializeAdapter() {
@@ -104,5 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
         fragmentTransaction.commitAllowingStateLoss(); //was fragmentTransaction.commit()
         meetupResultsFragment.setAccessToken(tokenAccess);
     }
+
+
 }
 

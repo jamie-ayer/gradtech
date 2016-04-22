@@ -30,24 +30,34 @@ import java.io.File;
  */
 public class TwitterFragment extends Fragment {
 
-    TwitterLoginButton loginButton;
-    Button tweet;
+    public static TwitterLoginButton loginButton;
+    public static Button tweet;
     File myImageFile = new File(String.valueOf(R.drawable.tigger));
     final Uri myImageUri = Uri.fromFile(myImageFile);
 
-    ListView twitter_listview;
+    Boolean loggedIn =false;
+
+    public static ListView twitter_listview;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.twitter_fragment_layout, container, false);
 
+
         setRetainInstance(true);
 
         tweet = (Button) v.findViewById(R.id.tweet);
-        tweet.setVisibility(View.INVISIBLE);
+
         twitter_listview = (ListView) v.findViewById(R.id.twitter_list_view);
-        twitter_listview.setVisibility(View.INVISIBLE);
+
+        if(!loggedIn){
+            twitter_listview.setVisibility(View.INVISIBLE);
+            tweet.setVisibility(View.INVISIBLE);
+        } else {
+            keepTwitterSignedIn();
+        }
+
 
         loginButton = (TwitterLoginButton) v.findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new com.twitter.sdk.android.core.Callback<TwitterSession>() {
@@ -56,7 +66,8 @@ public class TwitterFragment extends Fragment {
                 TwitterSession session = result.data;
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Log.i("TwitterFragment", "Signed in");
-                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show(); // getContext might not be right
+                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                loggedIn = true;
 
                 loginButton.setVisibility(View.INVISIBLE);
                 tweet.setVisibility(View.VISIBLE);
@@ -77,7 +88,7 @@ public class TwitterFragment extends Fragment {
         tweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TweetComposer.Builder builder = new TweetComposer.Builder(getContext()) // might be getActivity
+                TweetComposer.Builder builder = new TweetComposer.Builder(getContext())
                         .text("")
                         .image(myImageUri);
                 builder.show();
@@ -88,7 +99,7 @@ public class TwitterFragment extends Fragment {
         final UserTimeline userTimeline = new UserTimeline.Builder()
                 .screenName("fabric")
                 .build();
-        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getContext()) // getContext might be wrong
+        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getContext())
                 .setTimeline(userTimeline)
                 .build();
         twitter_listview.setAdapter(adapter);
@@ -101,13 +112,18 @@ public class TwitterFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
-        if (loginButton != null){
+        if (loginButton != null) {
             Log.i("TwitterFragment", "getting twitter data ");
             loginButton.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-
+    
+    public void keepTwitterSignedIn(){
+            Log.i("MainActivity", "Kept Twitter Signed IN");
+            loginButton.setVisibility(View.INVISIBLE);
+            tweet.setVisibility(View.VISIBLE);
+            twitter_listview.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void onAttach(Context context) {
