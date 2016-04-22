@@ -50,9 +50,6 @@ public class MeetupResultsFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //get the token from the main activity! and name it tokenFromLogin
-
-        //may need to remove / in base URL
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.meetup.com")
                 .addConverterFactory(GsonConverterFactory.create())
