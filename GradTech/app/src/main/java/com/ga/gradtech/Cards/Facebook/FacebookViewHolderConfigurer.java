@@ -202,15 +202,14 @@ public class FacebookViewHolderConfigurer {
                             vh1.mFbShareDescriptionEditText.setText("");
                             vh1.mFbShareUrlEditText.setText("");
                         }
-
                         @Override
                         public void onCancel() {
-                            getFbFeed();
+                            Toast.makeText(mainActivity, "FB Share Canceled", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onError(FacebookException error) {
-                            getFbFeed();
+                            error.printStackTrace();
                         }
                     });
                 }
