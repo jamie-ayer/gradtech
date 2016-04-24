@@ -1,7 +1,7 @@
 <html>
 <body>
   <p>Prioritization of Features</p>
-  <img src="http://imgur.com/psdCz5z" width="300" height="150">
+  <img src="http://imgur.com/psdCz5z.png" width="300" height="150">
   <p>User Stories</p>
   <ul>
     <li>As a user I would like to access Facebook to share any job posting with friends.Why? During my job search, I may find positions which my friends are interested in.</li>
