@@ -1,18 +1,13 @@
 package com.ga.gradtech.Cards.Facebook;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
-import com.facebook.FacebookDialog;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -20,10 +15,7 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.Sharer;
-import com.facebook.share.internal.ShareFeedContent;
-import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.MessageDialog;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.MainActivity;
 import com.google.gson.Gson;
@@ -119,7 +111,7 @@ public class FacebookViewHolderConfigurer {
                         "user_managed_groups",
                         "publish_actions");
                 //LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
-                LoginManager.getInstance().registerCallback(MainActivity.callbackManager,
+                LoginManager.getInstance().registerCallback(MainActivity.fbCallbackManager,
                         new FacebookCallback<LoginResult>() {
                             @Override
                             public void onSuccess(LoginResult loginResult) {
@@ -156,7 +148,7 @@ public class FacebookViewHolderConfigurer {
 //            }
 //        };
 //        vh1.mFbSendButton.setShareContent(shareContent);
-        vh1.mFbSendButton.registerCallback(MainActivity.callbackManager, new FacebookCallback<Sharer.Result>() {
+        vh1.mFbSendButton.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
                 Log.d(TAG, "onSuccess: ++>> FB Send Button Successful Message Sent");
@@ -194,7 +186,7 @@ public class FacebookViewHolderConfigurer {
                             .setContentUrl(Uri.parse(url))
                             .build();
                     shareDialog.show(content);
-                    shareDialog.registerCallback(MainActivity.callbackManager, new FacebookCallback<Sharer.Result>() {
+                    shareDialog.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
                         @Override
                         public void onSuccess(Sharer.Result result) {
                             getFbFeed();
@@ -234,7 +226,7 @@ public class FacebookViewHolderConfigurer {
                                 .setContentUrl(Uri.parse(url))
                                 .build();
                         shareDialog.show(content);
-                        shareDialog.registerCallback(MainActivity.callbackManager, new FacebookCallback<Sharer.Result>() {
+                        shareDialog.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
                             @Override
                             public void onSuccess(Sharer.Result result) {
                                 getFbFeed();
