@@ -178,7 +178,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     *
+     * This method configures the Meetup card ViewHolder.
      * @param vh3
      * @param position
      */

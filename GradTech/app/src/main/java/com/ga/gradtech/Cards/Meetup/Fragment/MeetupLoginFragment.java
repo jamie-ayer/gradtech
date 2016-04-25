@@ -25,18 +25,32 @@ import net.smartam.leeloo.common.exception.OAuthSystemException;
 import net.smartam.leeloo.common.message.types.GrantType;
 
 /**
- * The webview login for
+ * Creates the login webview frament for the Meetup card.
  * Created by leisforkokomo on 4/20/16.
  */
 public class MeetupLoginFragment extends Fragment {
+    //region Private Variables
     private final String TAG = getClass().getName();
     public final String AUTH_URL = "https://secure.meetup.com/oauth2/authorize";
     public final String TOKEN_URL = "https://secure.meetup.com/oauth2/access";
-    OnSuccessfulLoginListener mListener;
-    WebView loginWebView;
-    String accessToken;
-    MyWebViewClient myWebViewClient;
+    private WebView loginWebView;
+    private MyWebViewClient myWebViewClient;
+    //endregion
+    //region Public Variables
+    public OnSuccessfulLoginListener mListener;
+    public String accessToken;
+    //endregion
 
+    /**
+     * This method inflates the views of the fragment and creates a new instance of the webViewClient
+     * so websites are loaded inside the fragment instead of an internet browser window.
+     * This method also makes an instance of the OauthClientRequest to authenticate users of the app.
+     * This method calls the listener of the OnSuccessfulLoginLister interface.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_meetup_webview, container, false);
@@ -59,7 +73,11 @@ public class MeetupLoginFragment extends Fragment {
         return v;
     }
 
-
+    /**
+     * This method creates an innerclass for a subclass of the WebViewClient. When the specific page
+     * is finished loading, the mListener is called to send the accessToken to the MainActivity.
+     * shouldOverrideUrlLoading verifies if the redirect uri contains an error or code.
+     */
     private class MyWebViewClient extends WebViewClient{
         @Override
         public void onPageFinished(WebView view, String url) {
@@ -72,8 +90,6 @@ public class MeetupLoginFragment extends Fragment {
                 Log.i(TAG, "The access token is " + crapToken);
             }
         }
-
-
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Uri uri = Uri.parse(url);
@@ -89,6 +105,10 @@ public class MeetupLoginFragment extends Fragment {
         }
     }
 
+    /**
+     * This method creates an AsyncTask to handle user authentication.
+     * It can return the accessToken, expiration time, and refresh token.
+     */
     private class MeetupRetrieveAccessTokenTask extends AsyncTask<Uri, Void, Void>{
         @Override
         protected Void doInBackground(Uri... params) {
@@ -125,10 +145,9 @@ public class MeetupLoginFragment extends Fragment {
     }
 
     /**
-     *
+     * This method instantiates an instance of the OnSuccessfulLoginListener and connects it to an activity.
      * @param context
      */
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -1,16 +1,21 @@
 package com.ga.gradtech.Cards.Meetup.Model;
 
 /**
+ * This class models the JSON object returned by the Meetup API call.
  * Created by leisforkokomo on 4/21/16.
  */
 public class Event {
-    Venue venue;
-    String description;
-    String event_url;
-    String name;
-    long time;
-    Group group;
+    private Venue venue;
+    private String description;
+    private String event_url;
+    private String name;
+    private long time;
+    private Group group;
 
+    /**
+     * These methods are getters and setters for the class's private variables.
+     * @return
+     */
     public Venue getVenue() {
         return venue;
     }

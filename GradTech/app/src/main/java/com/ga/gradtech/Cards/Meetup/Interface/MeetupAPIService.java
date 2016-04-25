@@ -8,6 +8,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 /**
+ * This interface defines the retrofit call(s) that will be made to the MeetupAPI.
  * Created by leisforkokomo on 4/21/16.
  */
 public interface MeetupAPIService {
@@ -16,11 +17,3 @@ public interface MeetupAPIService {
     Call<ActivityFeed> listFeed(@Header("Authorization") String auth, @Query("zip") int zip, @Query("topic") String topic, @Query("category") int category, @Query("page") int count);
 }
 
-
-// https://api.meetup.com/ BASE_URL
-// 2/open_events
-// ?&sign=true&photo-host=public
-// &zip=94104
-// &topic=android
-// &category=34
-// &page=6

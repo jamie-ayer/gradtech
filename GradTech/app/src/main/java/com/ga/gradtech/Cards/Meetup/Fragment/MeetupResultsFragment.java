@@ -26,25 +26,40 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * Creates the fragment that displays tge results of the Meetup API call.
  * Created by leisforkokomo on 4/20/16.
  */
 public class MeetupResultsFragment extends Fragment{
+    //region Private Variables
     private final static String TAG = "MeetupResultsFragment";
-    String accessToken;
-    ListView listView;
-    ArrayList activityFeedArrayList;
-    MeetupAdapter meetupAdapter;
-    Retrofit retrofit;
-    MeetupAPIService service;
+    private String accessToken;
+    private ListView listView;
+    private ArrayList activityFeedArrayList;
+    private MeetupAdapter meetupAdapter;
+    private Retrofit retrofit;
+    private MeetupAPIService service;
+    //endregion
 
+    /**
+     * This method gets and returns the accessToken.
+     * @return
+     */
     public String getAccessToken() {
         return accessToken;
     }
 
+    /**
+     * This method sets the accessToken.
+     * @param accessToken
+     */
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
 
+    /**
+     * Instances of the Retrofit object and MeetupAPIService are instantiated in this method. The base URL is also defined here.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +71,16 @@ public class MeetupResultsFragment extends Fragment{
         service = retrofit.create(MeetupAPIService.class);
     }
 
+    /**
+     * This method makes the retrofit call that authenticates the user via Oauth2 on a background thread
+     * and sets up what should happen upon success or failure.
+     * This method also inflates the views of the fragment.
+     * The listView is initialized here.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the inflated view.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,8 +102,6 @@ public class MeetupResultsFragment extends Fragment{
                 } else{
                     activityFeedArrayList = new ArrayList();
                     Log.i(TAG, "activityFeedArrayList is empty");
-//            meetupAdapter = new MeetupAdapter(getContext(), activityFeedArrayList);
-//            listView.setAdapter(meetupAdapter);
                 }
             }
             @Override
