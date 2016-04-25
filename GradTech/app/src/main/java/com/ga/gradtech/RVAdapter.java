@@ -208,7 +208,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void configureCalendarProviderViewHolder(CalendarProviderCardViewHolder vh7){
         CalendarViewHolderConfigurer calendarConfigurer = new CalendarViewHolderConfigurer(vh7, mainActivity);
-        calendarConfigurer.initCalendarProvider();
+        calendarConfigurer.initCalendarProviderCardView();
     }
 
     private void configureNotePadViewHolder(NotePadCardViewHolder vh6){

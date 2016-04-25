@@ -1,15 +1,12 @@
 package com.ga.gradtech.Cards.CalendarProvider;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
@@ -18,7 +15,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Contains all methods for CalendarProvider Card
@@ -60,11 +56,10 @@ public class CalendarViewHolderConfigurer {
     /**
      * Initializes the CalendarProvider
      */
-    public void initCalendarProvider(){
+    public void initCalendarProviderCardView(){
 
         mUserCalendarId = fetchCalendars();
         Log.d(TAG, "onBindViewHolder: ===>>>>> UserCalendarId: " + mUserCalendarId);
-
         setCalendarTouchListener();
         setShowEventButtonListener();
         setAddEventButtonListener();

@@ -19,28 +19,34 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.ga.gradtech.MainActivity;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
+ * Configures Facebook Card
  * Created by samsiu on 4/20/16.
  */
 public class FacebookViewHolderConfigurer {
     private static final String TAG = FacebookViewHolderConfigurer.class.getCanonicalName();
 
+    private String mPostId;
+    private String mPageId =  "649188628486342";
+    private String mPageName=  "Android Page";
+    protected FacebookCardViewHolder mVh1;
+    protected Activity mMainActivity;
 
-    String mPostId;
-
-    FacebookCardViewHolder vh1;
-    Activity mainActivity;
-
+    /**
+     * FacebookViewHolderConfigurer Constructor
+     * @param vh1
+     * @param mainActivity
+     */
     public FacebookViewHolderConfigurer(FacebookCardViewHolder vh1, Activity mainActivity) {
-        this.vh1 = vh1;
-        this.mainActivity = mainActivity;
+        this.mVh1 = vh1;
+        this.mMainActivity = mainActivity;
     }
 
+    /**
+     * Initialize facebook card
+     */
     public void initFacebookCardView(){
         Log.d(TAG, "initFacebookCardView: ==>>> Initializing Facebook");
         setFbLoginButtonVisibility();
@@ -55,62 +61,33 @@ public class FacebookViewHolderConfigurer {
         getFbFeed();
     }
 
+    /**
+     * Check if user is logged into facebook
+     * @return boolean
+     */
     public boolean isFacebookLoggedIn(){
         return AccessToken.getCurrentAccessToken() != null;
     }
 
-    public void setFbLoginButtonVisibility(){
-        if(isFacebookLoggedIn()){
-            vh1.mFbLoginButton.setVisibility(View.GONE);
-        }else{
-            vh1.mFbLoginButton.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void setFbListViewVisibility(){
-        if(isFacebookLoggedIn()){
-            vh1.mFbFeedListView.setVisibility(View.VISIBLE);
-        }else{
-            vh1.mFbFeedListView.setVisibility(View.GONE);
-        }
-    }
-
-    public void setFbShareViewVisibility(){
-        if(isFacebookLoggedIn()){
-            //vh1.mFbPageHeaderTextView.setVisibility(View.VISIBLE);
-            //vh1.mFbShareButton.setVisibility(View.VISIBLE);
-            vh1.mFbShareDescriptionEditText.setVisibility(View.VISIBLE);
-            vh1.mFbShareTitleEditText.setVisibility(View.VISIBLE);
-            vh1.mFbShareUrlEditText.setVisibility(View.VISIBLE);
-            vh1.mFbGetFeedButton.setVisibility(View.VISIBLE);
-            vh1.mFbGetPageFeedButton.setVisibility(View.VISIBLE);
-            vh1.mFbShareWidgetButton.setVisibility(View.VISIBLE);
-//            vh1.mFbSendButton.setVisibility(View.VISIBLE);
-        }else{
-            //vh1.mFbPageHeaderTextView.setVisibility(View.GONE);
-            //vh1.mFbShareButton.setVisibility(View.GONE);
-            vh1.mFbShareDescriptionEditText.setVisibility(View.GONE);
-            vh1.mFbShareTitleEditText.setVisibility(View.GONE);
-            vh1.mFbShareUrlEditText.setVisibility(View.GONE);
-            vh1.mFbGetFeedButton.setVisibility(View.GONE);
-            vh1.mFbGetPageFeedButton.setVisibility(View.GONE);
-            vh1.mFbShareWidgetButton.setVisibility(View.GONE);
-//            vh1.mFbSendButton.setVisibility(View.GONE);
-        }
-    }
-
+    /**
+     * Initialize facebook login button
+     */
     public void initFbLoginButton(){
-        vh1.mFbLoginButton.setOnClickListener(new View.OnClickListener() {
+        mVh1.mFbLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: ===>>> Facebook Button Clicked");
+                /*
+                // Setting permissions on login
                 Collection<String> permissions = Arrays.asList("public_profile",
                         "user_friends",
                         "user_status",
                         "user_posts",
                         "user_managed_groups",
                         "publish_actions");
-                //LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
+                LoginManager.getInstance().logInWithReadPermissions(mainActivity, permissions);
+                */
+                // Callback after login attempt
                 LoginManager.getInstance().registerCallback(MainActivity.fbCallbackManager,
                         new FacebookCallback<LoginResult>() {
                             @Override
@@ -118,7 +95,7 @@ public class FacebookViewHolderConfigurer {
                                 Log.d(TAG, "onSuccess: ====>>> FBLogin Successful");
                                 initFacebookCardView();
 
-                                Toast toast = Toast.makeText(mainActivity.getApplicationContext(), "Successful FB Login", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(mMainActivity.getApplicationContext(), "Successful FB Login", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
 
@@ -130,6 +107,7 @@ public class FacebookViewHolderConfigurer {
                             @Override
                             public void onError(FacebookException exception) {
                                 Log.d(TAG, "onError: ======>>>> FBlogin Error");
+                                exception.printStackTrace();
                             }
                         }
                 );
@@ -137,143 +115,180 @@ public class FacebookViewHolderConfigurer {
         });
     }
 
-    public void setFbSendMessageButtonListener(){
-
-
-//        ShareContent shareContent = new ShareContent() {
-//            @Nullable
-//            @Override
-//            public Uri getContentUrl() {
-//                return super.getContentUrl();
-//            }
-//        };
-//        vh1.mFbSendButton.setShareContent(shareContent);
-        vh1.mFbSendButton.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
-            @Override
-            public void onSuccess(Sharer.Result result) {
-                Log.d(TAG, "onSuccess: ++>> FB Send Button Successful Message Sent");
-                getFbFeed();
-                vh1.mFbShareTitleEditText.setText("");
-                vh1.mFbShareDescriptionEditText.setText("");
-                vh1.mFbShareUrlEditText.setText("");
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
+    /**
+     * Show login button when not logged in, hide when logged in
+     */
+    private void setFbLoginButtonVisibility(){
+        if(isFacebookLoggedIn()){
+            mVh1.mFbLoginButton.setVisibility(View.GONE);
+        }else{
+            mVh1.mFbLoginButton.setVisibility(View.VISIBLE);
+        }
     }
 
-    public void setFbPostShareWidgetButtonListener(){
-        final ShareDialog shareDialog = new ShareDialog(mainActivity);
-        vh1.mFbShareWidgetButton.setEnabled(true);
-        vh1.mFbShareWidgetButton.setOnClickListener(new View.OnClickListener() {
+    /**
+     * Show feed when logged in, hide when logged out
+     */
+    private void setFbListViewVisibility(){
+        if(isFacebookLoggedIn()){
+            mVh1.mFbFeedListView.setVisibility(View.VISIBLE);
+        }else{
+            mVh1.mFbFeedListView.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Show views when logged in, hide when logged out
+     */
+    private void setFbShareViewVisibility(){
+        if(isFacebookLoggedIn()){
+            /*
+            // Currently not using feature
+            vh1.mFbPageHeaderTextView.setVisibility(View.VISIBLE);
+            vh1.mFbShareButton.setVisibility(View.VISIBLE);
+            */
+            mVh1.mFbShareDescriptionEditText.setVisibility(View.VISIBLE);
+            mVh1.mFbShareTitleEditText.setVisibility(View.VISIBLE);
+            mVh1.mFbShareUrlEditText.setVisibility(View.VISIBLE);
+            mVh1.mFbGetFeedButton.setVisibility(View.VISIBLE);
+            mVh1.mFbGetPageFeedButton.setVisibility(View.VISIBLE);
+            mVh1.mFbShareWidgetButton.setVisibility(View.VISIBLE);
+//            vh1.mFbSendButton.setVisibility(View.VISIBLE);
+        }else{
+            /*
+            // Currently not using feature
+            vh1.mFbPageHeaderTextView.setVisibility(View.GONE);
+            vh1.mFbShareButton.setVisibility(View.GONE);
+            */
+            mVh1.mFbShareDescriptionEditText.setVisibility(View.GONE);
+            mVh1.mFbShareTitleEditText.setVisibility(View.GONE);
+            mVh1.mFbShareUrlEditText.setVisibility(View.GONE);
+            mVh1.mFbGetFeedButton.setVisibility(View.GONE);
+            mVh1.mFbGetPageFeedButton.setVisibility(View.GONE);
+            mVh1.mFbShareWidgetButton.setVisibility(View.GONE);
+//            vh1.mFbSendButton.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Gets title EditText input and returns default if empty
+     * @param defaultTitle
+     * @return String title
+     */
+    private String getTitleEditText(String defaultTitle){
+        String title = mVh1.mFbShareTitleEditText.getText().toString();
+        title = title.isEmpty() ? defaultTitle : title;
+        return title;
+    }
+
+    /**
+     * Gets description EditText input and returns default if empty
+     * @param defaultDescription
+     * @return String description
+     */
+    private String getDescriptionEditText(String defaultDescription){
+        String description = mVh1.mFbShareDescriptionEditText.getText().toString();
+        description = description.isEmpty() ? defaultDescription : description;
+        return description;
+    }
+
+    /**
+     * Gets url EditText input and returns default if empty
+     * @param defaultUrl
+     * @return String url
+     */
+    private String getUrlEditText(String defaultUrl){
+        String url = mVh1.mFbShareUrlEditText.getText().toString();
+        url = url.isEmpty() ? defaultUrl : url;
+        return url;
+    }
+
+
+    /**
+     * Set the Share button listener to send messages from editText
+     */
+    private void setFbPostShareWidgetButtonListener(){
+        mVh1.mFbShareWidgetButton.setEnabled(true);
+        mVh1.mFbShareWidgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = vh1.mFbShareTitleEditText.getText().toString();
-                String description = vh1.mFbShareDescriptionEditText.getText().toString();
-                String url = vh1.mFbShareUrlEditText.getText().toString();
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
-                    ShareLinkContent content = new ShareLinkContent.Builder()
-                            .setContentTitle(title)
-                            .setContentDescription(description)
-                            .setContentUrl(Uri.parse(url))
-                            .build();
-                    shareDialog.show(content);
-                    shareDialog.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
-                        @Override
-                        public void onSuccess(Sharer.Result result) {
-                            getFbFeed();
-                            vh1.mFbShareTitleEditText.setText("");
-                            vh1.mFbShareDescriptionEditText.setText("");
-                            vh1.mFbShareUrlEditText.setText("");
-                        }
-                        @Override
-                        public void onCancel() {
-                            Toast.makeText(mainActivity, "FB Share Canceled", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onError(FacebookException error) {
-                            error.printStackTrace();
-                        }
-                    });
-                }
+                String title = getTitleEditText("");
+                String description = getDescriptionEditText("");
+                String url = getUrlEditText("");
+                setupShareDialog(title, description, url);
             }
         });
     }
 
-    public void setFbPostShareButtonListener(){
-        Log.d(TAG, "setFbPostShareButtonListener: ShareButtonClicked");
-        final ShareDialog shareDialog = new ShareDialog(mainActivity);
-        if(vh1.mFbShareButton != null){
-            vh1.mFbShareButton.setOnClickListener(new View.OnClickListener() {
+    /**
+     * Creates a share link facebook dialog box and handles callbacks
+     * @param title
+     * @param description
+     * @param url
+     */
+    private void setupShareDialog(String title, String description, String url){
+        ShareDialog shareDialog = new ShareDialog(mMainActivity);
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            // Share Link Parameters
+            ShareLinkContent content = new ShareLinkContent.Builder()
+                    .setContentTitle(title)
+                    .setContentDescription(description)
+                    .setContentUrl(Uri.parse(url))
+                    .build();
+            // Inject content to share dialog
+            shareDialog.show(content);
+            // Handle Callback
+            shareDialog.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
                 @Override
-                public void onClick(View v) {
-                    String title = vh1.mFbShareTitleEditText.getText().toString();
-                    String description = vh1.mFbShareDescriptionEditText.getText().toString();
-                    String url = vh1.mFbShareUrlEditText.getText().toString();
-                    if (ShareDialog.canShow(ShareLinkContent.class)) {
-                        ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentTitle(title)
-                                .setContentDescription(description)
-                                .setContentUrl(Uri.parse(url))
-                                .build();
-                        shareDialog.show(content);
-                        shareDialog.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
-                            @Override
-                            public void onSuccess(Sharer.Result result) {
-                                getFbFeed();
-                                vh1.mFbShareTitleEditText.setText("");
-                                vh1.mFbShareDescriptionEditText.setText("");
-                                vh1.mFbShareUrlEditText.setText("");
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                getFbFeed();
-                            }
-
-                            @Override
-                            public void onError(FacebookException error) {
-                                getFbFeed();
-                            }
-                        });
-                    }
+                public void onSuccess(Sharer.Result result) {
+                    getFbFeed();
+                    mVh1.mFbShareTitleEditText.setText("");
+                    mVh1.mFbShareDescriptionEditText.setText("");
+                    mVh1.mFbShareUrlEditText.setText("");
+                }
+                @Override
+                public void onCancel() {
+                    Toast.makeText(mMainActivity, "FB Share Canceled", Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onError(FacebookException error) {
+                    error.printStackTrace();
                 }
             });
         }
     }
 
-    public void setFbUpdateFeedButtonListener(){
-        vh1.mFbGetFeedButton.setOnClickListener(new View.OnClickListener() {
+
+    /**
+     * Update feed button will populate user's feed messages to app
+     */
+    private void setFbUpdateFeedButtonListener(){
+        mVh1.mFbGetFeedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: UpdateFeedClicked");
-                vh1.mFbPageHeaderTextView.setText("Facebook Feed");
+                mVh1.mFbPageHeaderTextView.setText("Facebook Feed");
                 getFbFeed();
-                //getFbPost();
             }
         });
     }
 
-    public void setFbUpdatePageFeedButtonListener(){
-        vh1.mFbGetPageFeedButton.setOnClickListener(new View.OnClickListener() {
+    /**
+     * Populate app with messages from Android Page
+     */
+    private void setFbUpdatePageFeedButtonListener(){
+        mVh1.mFbGetPageFeedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vh1.mFbPageHeaderTextView.setText("Android Page");
+                mVh1.mFbPageHeaderTextView.setText(mPageName);
                 getFbPageFeed();
             }
         });
     }
 
-    public void getFbFeed() {
+    /**
+     * Get messages from user's feed
+     */
+    private void getFbFeed() {
         if(isFacebookLoggedIn()){
             new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
@@ -286,23 +301,58 @@ public class FacebookViewHolderConfigurer {
                             String fbFeedJson = response.getJSONObject().toString();
                             FacebookFeedObject fbFeed = gson.fromJson(fbFeedJson, FacebookFeedObject.class);
 
+                            /*
+                            //
                             Log.d(TAG, "onCompleted: FeedJson " + fbFeedJson);
                             Log.d(TAG, "onCompleted: " + fbFeed.getData().toString());
-
-
                             mPostId = fbFeed.getData().get(0).getId();
-
-
                             Log.d(TAG, "onCompleted: ID<><><><" + mPostId);
-                            FacebookFeedAdapter fbAdapter = new FacebookFeedAdapter(mainActivity, (ArrayList)fbFeed.getData());
-                            vh1.mFbFeedListView.setAdapter(fbAdapter);
+                            */
+
+                            FacebookFeedAdapter fbAdapter = new FacebookFeedAdapter(mMainActivity, (ArrayList)fbFeed.getData());
+                            mVh1.mFbFeedListView.setAdapter(fbAdapter);
                         }
                     }
             ).executeAsync();
         }
     }
 
-    public void getFbPost(){
+    /**
+     * Get messages from facebook Page
+     */
+    private void getFbPageFeed(){
+        //String mPageId = "155608091155587";
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/"+mPageId+"/posts",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Gson gson = new Gson();
+                        String fbSearchJson = response.getJSONObject().toString();
+                        FacebookPageObject fbPage = gson.fromJson(fbSearchJson, FacebookPageObject.class);
+
+                        /*
+                        // Message Id in page
+                        Log.d(TAG, "onCompleted: SearchJson " + fbSearchJson);
+                        Log.d(TAG, "onCompleted: " + fbPage.getData().toString());
+                        mPostId = fbPage.getData().get(0).getId();
+                        Log.d(TAG, "onCompleted: ID<><><><" + mPostId);
+                        */
+
+                        FacebookPageAdapter fbAdapter = new FacebookPageAdapter(mMainActivity, (ArrayList)fbPage.getData());
+                        mVh1.mFbFeedListView.setAdapter(fbAdapter);
+                    }
+                }
+        ).executeAsync();
+
+    }
+
+    /**
+     * Get data from individual post
+     */
+    private void getFbPost(){
         mPostId = "111114815960703_117726661966185";
         //mPostId = "111114815960703_117550011983850";
         new GraphRequest(
@@ -320,54 +370,59 @@ public class FacebookViewHolderConfigurer {
 
     }
 
-
-    public void getFbPageFeed(){
-        String mPageId = "649188628486342"; // Official Page
-        //String mPageId = "155608091155587";
-        /* make the API call */
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/"+mPageId+"/posts",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Gson gson = new Gson();
-                        String fbSearchJson = response.getJSONObject().toString();
-                        FacebookPageObject fbPage = gson.fromJson(fbSearchJson, FacebookPageObject.class);
-
-                        Log.d(TAG, "onCompleted: SearchJson " + fbSearchJson);
-                        Log.d(TAG, "onCompleted: " + fbPage.getData().toString());
+    /**
+     * Set listener for send button
+     */
+    private void setFbSendMessageButtonListener(){
 
 
-                        mPostId = fbPage.getData().get(0).getId();
+//        ShareContent shareContent = new ShareContent() {
+//            @Nullable
+//            @Override
+//            public Uri getContentUrl() {
+//                return super.getContentUrl();
+//            }
+//        };
+//        vh1.mFbSendButton.setShareContent(shareContent);
+        mVh1.mFbSendButton.registerCallback(MainActivity.fbCallbackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                Log.d(TAG, "onSuccess: ++>> FB Send Button Successful Message Sent");
+                getFbFeed();
+                mVh1.mFbShareTitleEditText.setText("");
+                mVh1.mFbShareDescriptionEditText.setText("");
+                mVh1.mFbShareUrlEditText.setText("");
+            }
 
+            @Override
+            public void onCancel() {
 
-                        Log.d(TAG, "onCompleted: ID<><><><" + mPostId);
-                        FacebookPageAdapter fbAdapter = new FacebookPageAdapter(mainActivity, (ArrayList)fbPage.getData());
-                        vh1.mFbFeedListView.setAdapter(fbAdapter);
-                    }
-                }
-        ).executeAsync();
+            }
 
-//
-//        Bundle params = new Bundle();
-//        params.putString("q", mSearchTerm);
-//        /* make the API call */
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/search?",
-//                params,
-//                HttpMethod.GET,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//
-//                    }
-//                }
-//        ).executeAsync();
+            @Override
+            public void onError(FacebookException error) {
 
+            }
+        });
     }
 
-
+    /**
+     * Share button that shares content to facebook
+     * ------>>> Currently not in use
+     */
+    private void setFbPostShareButtonListener(){
+        Log.d(TAG, "setFbPostShareButtonListener: ShareButtonClicked");
+        if(mVh1.mFbShareButton != null){
+            mVh1.mFbShareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String title = getTitleEditText("");
+                    String description = getDescriptionEditText("");
+                    String url = getUrlEditText("");
+                    setupShareDialog(title, description, url);
+                }
+            });
+        }
+    }
 }
 
