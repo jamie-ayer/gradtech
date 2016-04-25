@@ -250,7 +250,6 @@ public class FacebookViewHolderConfigurer {
                 public void onCancel() {
                     Toast.makeText(mMainActivity, "FB Share Canceled", Toast.LENGTH_SHORT).show();
                 }
-
                 @Override
                 public void onError(FacebookException error) {
                     error.printStackTrace();

@@ -60,7 +60,6 @@ public class CalendarViewHolderConfigurer {
 
         mUserCalendarId = fetchCalendars();
         Log.d(TAG, "onBindViewHolder: ===>>>>> UserCalendarId: " + mUserCalendarId);
-
         setCalendarTouchListener();
         setShowEventButtonListener();
         setAddEventButtonListener();

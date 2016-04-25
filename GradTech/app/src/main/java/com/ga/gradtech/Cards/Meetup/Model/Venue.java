@@ -1,12 +1,17 @@
 package com.ga.gradtech.Cards.Meetup.Model;
 
 /**
+ * Creates the login webview frament for the Meetup card.
  * Created by leisforkokomo on 4/21/16.
  */
 public class Venue {
     String city;
     String address_1;
 
+    /**
+     * The following methods are getters and setters for the class's private variables.
+     * @return
+     */
     public String getCity() {
         return city;
     }
