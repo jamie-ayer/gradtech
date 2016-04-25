@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 
 
 import butterknife.Bind;
@@ -25,7 +23,6 @@ import com.ga.gradtech.Cards.Meetup.Fragment.MeetupResultsFragment;
 import com.ga.gradtech.Cards.Meetup.Interface.OnSuccessfulLoginListener;
 
 
-import com.ga.gradtech.Cards.Twitter.TwitterFragment;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -36,7 +33,7 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity implements OnSuccessfulLoginListener{
 
     private static final String TAG = MainActivity.class.getCanonicalName();
-    public static CallbackManager callbackManager;
+    public static CallbackManager fbCallbackManager;
     FragmentManager meetupFragmentManager;
 
 
@@ -61,9 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "onCreate: ==>>> Before callbackManager");
-        callbackManager = CallbackManager.Factory.create();
-        Log.d(TAG, "onCreate: =====>>> After Callback Manager");
+        fbCallbackManager = CallbackManager.Factory.create();
 
         ButterKnife.bind(this);
 
@@ -91,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnSuccessfulLogin
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        fbCallbackManager.onActivityResult(requestCode, resultCode, data);
 
         // only call this when request code is for twitter.
 
